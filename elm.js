@@ -8377,6 +8377,14 @@ var _elm_lang$svg$Svg_Attributes$accumulate = _elm_lang$virtual_dom$VirtualDom$a
 var _elm_lang$svg$Svg_Attributes$accelerate = _elm_lang$virtual_dom$VirtualDom$attribute('accelerate');
 var _elm_lang$svg$Svg_Attributes$accentHeight = _elm_lang$virtual_dom$VirtualDom$attribute('accent-height');
 
+var _user$project$CmdHelper$cmdFromMsg = function (msg) {
+	return A3(
+		_elm_lang$core$Task$perform,
+		_elm_lang$core$Basics$identity,
+		_elm_lang$core$Basics$identity,
+		_elm_lang$core$Task$succeed(msg));
+};
+
 
 var _user$project$Line2D$asString = function (theLine) {
 	var _p0 = theLine.end;
@@ -8437,7 +8445,68 @@ var _user$project$Rect2D$Rect2D = F4(
 		return {minX: a, maxX: b, minY: c, maxY: d};
 	});
 
-var _user$project$WebDisplay$drawLine = function (theLine) {
+var _user$project$Object2D$Object2D = function (a) {
+	return {geometry: a};
+};
+
+var _user$project$Readout$lineView = function (theline) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html$text(
+				_user$project$Line2D$asString(theline))
+			]));
+};
+var _user$project$Readout$lineGroupView = F2(
+	function (label, lines) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$div,
+					_elm_lang$core$Native_List.fromArray(
+						[]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text(label)
+						])),
+					A2(
+					_elm_lang$html$Html$div,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$class('line-list')
+						]),
+					A2(_elm_lang$core$List$map, _user$project$Readout$lineView, lines))
+				]));
+	});
+var _user$project$Readout$view = F3(
+	function (inBoundary, outBoundary, lines) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$class('readout')
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(_user$project$Readout$lineGroupView, 'Lines in scene:', lines),
+					A2(
+					_user$project$Readout$lineGroupView,
+					'Normalized output:',
+					A2(
+						_elm_lang$core$List$map,
+						A2(_user$project$Rect2D$normalize, inBoundary, outBoundary),
+						lines))
+				]));
+	});
+
+var _user$project$WebVectorDisplay$drawLine = function (theLine) {
 	var _p0 = theLine.end;
 	var x2$ = _p0._0;
 	var y2$ = _p0._1;
@@ -8462,69 +8531,14 @@ var _user$project$WebDisplay$drawLine = function (theLine) {
 		_elm_lang$core$Native_List.fromArray(
 			[]));
 };
-var _user$project$WebDisplay$view = function (lines) {
+var _user$project$WebVectorDisplay$view = function (lines) {
 	return A2(
 		_elm_lang$svg$Svg$svg,
 		_elm_lang$core$Native_List.fromArray(
 			[]),
-		A2(_elm_lang$core$List$map, _user$project$WebDisplay$drawLine, lines));
+		A2(_elm_lang$core$List$map, _user$project$WebVectorDisplay$drawLine, lines));
 };
 
-var _user$project$Main$lineView = function (theline) {
-	return A2(
-		_elm_lang$html$Html$div,
-		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				_elm_lang$html$Html$text(
-				_user$project$Line2D$asString(theline))
-			]));
-};
-var _user$project$Main$lineGroupView = F2(
-	function (label, lines) {
-		return A2(
-			_elm_lang$html$Html$div,
-			_elm_lang$core$Native_List.fromArray(
-				[]),
-			_elm_lang$core$Native_List.fromArray(
-				[
-					A2(
-					_elm_lang$html$Html$div,
-					_elm_lang$core$Native_List.fromArray(
-						[]),
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html$text(label)
-						])),
-					A2(
-					_elm_lang$html$Html$div,
-					_elm_lang$core$Native_List.fromArray(
-						[
-							_elm_lang$html$Html_Attributes$class('line-list')
-						]),
-					A2(_elm_lang$core$List$map, _user$project$Main$lineView, lines))
-				]));
-	});
-var _user$project$Main$readoutView = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		_elm_lang$core$Native_List.fromArray(
-			[
-				_elm_lang$html$Html_Attributes$class('readout')
-			]),
-		_elm_lang$core$Native_List.fromArray(
-			[
-				A2(_user$project$Main$lineGroupView, 'Lines in scene:', model.lines),
-				A2(
-				_user$project$Main$lineGroupView,
-				'Normalized output:',
-				A2(
-					_elm_lang$core$List$map,
-					A2(_user$project$Rect2D$normalize, model.inBoundary, model.outBoundary),
-					model.lines))
-			]));
-};
 var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -8534,19 +8548,47 @@ var _user$project$Main$view = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_user$project$Main$readoutView(model),
-				_user$project$WebDisplay$view(model.lines)
+				A3(_user$project$Readout$view, model.inBoundary, model.outBoundary, model.renderedLines),
+				_user$project$WebVectorDisplay$view(model.renderedLines)
 			]));
+};
+var _user$project$Main$renderObjects = function (objects) {
+	return _elm_lang$core$List$concat(
+		A2(
+			_elm_lang$core$List$map,
+			function (_) {
+				return _.geometry;
+			},
+			objects));
 };
 var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
-		return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		if (_p0.ctor === 'NoOp') {
+			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+		} else {
+			return {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						renderedLines: _user$project$Main$renderObjects(model.objects)
+					}),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		}
 	});
-var _user$project$Main$init = {
-	ctor: '_Tuple2',
-	_0: {
-		lines: _elm_lang$core$Native_List.fromArray(
+var _user$project$Main$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$none;
+};
+var _user$project$Main$Model = F4(
+	function (a, b, c, d) {
+		return {objects: a, renderedLines: b, inBoundary: c, outBoundary: d};
+	});
+var _user$project$Main$RenderObjects = {ctor: 'RenderObjects'};
+var _user$project$Main$init = function () {
+	var bigX = {
+		geometry: _elm_lang$core$Native_List.fromArray(
 			[
 				A2(
 				_user$project$Line2D$Line2D,
@@ -8556,30 +8598,25 @@ var _user$project$Main$init = {
 				_user$project$Line2D$Line2D,
 				{ctor: '_Tuple2', _0: 550, _1: 0},
 				{ctor: '_Tuple2', _0: 0, _1: 400})
-			]),
-		inBoundary: A4(_user$project$Rect2D$Rect2D, 0, 550, 0, 400),
-		outBoundary: A4(_user$project$Rect2D$Rect2D, 0, 2048, 0, 2048)
-	},
-	_1: _elm_lang$core$Platform_Cmd$none
-};
-var _user$project$Main$cmdFromMsg = function (msg) {
-	return A3(
-		_elm_lang$core$Task$perform,
-		_elm_lang$core$Basics$identity,
-		_elm_lang$core$Basics$identity,
-		_elm_lang$core$Task$succeed(msg));
-};
-var _user$project$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$none;
-};
+			])
+	};
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			renderedLines: _elm_lang$core$Native_List.fromArray(
+				[]),
+			objects: _elm_lang$core$Native_List.fromArray(
+				[bigX]),
+			inBoundary: A4(_user$project$Rect2D$Rect2D, 0, 550, 0, 400),
+			outBoundary: A4(_user$project$Rect2D$Rect2D, 0, 2048, 0, 2048)
+		},
+		_1: _user$project$CmdHelper$cmdFromMsg(_user$project$Main$RenderObjects)
+	};
+}();
 var _user$project$Main$main = {
 	main: _elm_lang$html$Html_App$program(
 		{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})
 };
-var _user$project$Main$Model = F3(
-	function (a, b, c) {
-		return {lines: a, inBoundary: b, outBoundary: c};
-	});
 var _user$project$Main$NoOp = {ctor: 'NoOp'};
 
 var Elm = {};

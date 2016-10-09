@@ -1,4 +1,4 @@
-module WebDisplay exposing (..)
+module WebVectorDisplay exposing (..)
 
 import Line2D exposing (Line2D)
 import Html exposing (Html)
