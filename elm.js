@@ -8481,7 +8481,7 @@ var _user$project$Main$lineView = function (theline) {
 				_user$project$Line2D$asString(theline))
 			]));
 };
-var _user$project$Main$lineTextView = F2(
+var _user$project$Main$lineGroupView = F2(
 	function (label, lines) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -8506,6 +8506,25 @@ var _user$project$Main$lineTextView = F2(
 					A2(_elm_lang$core$List$map, _user$project$Main$lineView, lines))
 				]));
 	});
+var _user$project$Main$readoutView = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$class('readout')
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(_user$project$Main$lineGroupView, 'Lines in scene:', model.lines),
+				A2(
+				_user$project$Main$lineGroupView,
+				'Normalized output:',
+				A2(
+					_elm_lang$core$List$map,
+					A2(_user$project$Rect2D$normalize, model.inBoundary, model.outBoundary),
+					model.lines))
+			]));
+};
 var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -8515,23 +8534,7 @@ var _user$project$Main$view = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$class('readout')
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(_user$project$Main$lineTextView, 'Lines in scene:', model.lines),
-						A2(
-						_user$project$Main$lineTextView,
-						'Normalized output:',
-						A2(
-							_elm_lang$core$List$map,
-							A2(_user$project$Rect2D$normalize, model.inBoundary, model.outBoundary),
-							model.lines))
-					])),
+				_user$project$Main$readoutView(model),
 				_user$project$WebDisplay$view(model.lines)
 			]));
 };
@@ -8558,6 +8561,13 @@ var _user$project$Main$init = {
 		outBoundary: A4(_user$project$Rect2D$Rect2D, 0, 2048, 0, 2048)
 	},
 	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _user$project$Main$cmdFromMsg = function (msg) {
+	return A3(
+		_elm_lang$core$Task$perform,
+		_elm_lang$core$Basics$identity,
+		_elm_lang$core$Basics$identity,
+		_elm_lang$core$Task$succeed(msg));
 };
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;

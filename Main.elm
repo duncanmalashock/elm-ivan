@@ -31,6 +31,11 @@ type alias Model =
     }
 
 
+cmdFromMsg : Msg -> Cmd Msg
+cmdFromMsg msg =
+    Task.perform identity identity <| Task.succeed msg
+
+
 init : ( Model, Cmd Msg )
 init =
     ( { lines =
@@ -60,8 +65,8 @@ lineView theline =
     div [] [ text <| Line2D.asString theline ]
 
 
-lineTextView : String -> List Line2D -> Html Msg
-lineTextView label lines =
+lineGroupView : String -> List Line2D -> Html Msg
+lineGroupView label lines =
     div []
         [ div [] [ text label ]
         , div [ class "line-list" ]
@@ -72,12 +77,17 @@ lineTextView label lines =
         ]
 
 
+readoutView : Model -> Html Msg
+readoutView model =
+    div [ class "readout" ]
+        [ lineGroupView "Lines in scene:" model.lines
+        , lineGroupView "Normalized output:" (List.map (Rect2D.normalize model.inBoundary model.outBoundary) model.lines)
+        ]
+
+
 view : Model -> Html Msg
 view model =
     div [ class "app" ]
-        [ div [ class "readout" ]
-            [ lineTextView "Lines in scene:" model.lines
-            , lineTextView "Normalized output:" (List.map (Rect2D.normalize model.inBoundary model.outBoundary) model.lines)
-            ]
+        [ readoutView model
         , WebDisplay.view model.lines
         ]
