@@ -8385,7 +8385,26 @@ var _user$project$CmdHelper$cmdFromMsg = function (msg) {
 		_elm_lang$core$Task$succeed(msg));
 };
 
+var _user$project$Vector2D$translate = F2(
+	function (delta, point) {
+		var _p0 = delta;
+		var dx = _p0._0;
+		var dy = _p0._1;
+		var _p1 = point;
+		var x = _p1._0;
+		var y = _p1._1;
+		return {ctor: '_Tuple2', _0: x + dx, _1: y + dy};
+	});
 
+var _user$project$Line2D$translate = F2(
+	function (delta, theLine) {
+		return _elm_lang$core$Native_Utils.update(
+			theLine,
+			{
+				start: A2(_user$project$Vector2D$translate, delta, theLine.start),
+				end: A2(_user$project$Vector2D$translate, delta, theLine.end)
+			});
+	});
 var _user$project$Line2D$asString = function (theLine) {
 	var _p0 = theLine.end;
 	var x2 = _p0._0;
@@ -8445,9 +8464,16 @@ var _user$project$Rect2D$Rect2D = F4(
 		return {minX: a, maxX: b, minY: c, maxY: d};
 	});
 
-var _user$project$Object2D$Object2D = function (a) {
-	return {geometry: a};
+var _user$project$Object2D$render = function (object) {
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$Line2D$translate(object.position),
+		object.geometry);
 };
+var _user$project$Object2D$Object2D = F2(
+	function (a, b) {
+		return {geometry: a, position: b};
+	});
 
 var _user$project$Readout$lineView = function (theline) {
 	return A2(
@@ -8554,12 +8580,7 @@ var _user$project$Main$view = function (model) {
 };
 var _user$project$Main$renderObjects = function (objects) {
 	return _elm_lang$core$List$concat(
-		A2(
-			_elm_lang$core$List$map,
-			function (_) {
-				return _.geometry;
-			},
-			objects));
+		A2(_elm_lang$core$List$map, _user$project$Object2D$render, objects));
 };
 var _user$project$Main$update = F2(
 	function (msg, model) {
@@ -8587,26 +8608,45 @@ var _user$project$Main$Model = F4(
 	});
 var _user$project$Main$RenderObjects = {ctor: 'RenderObjects'};
 var _user$project$Main$init = function () {
-	var bigX = {
-		geometry: _elm_lang$core$Native_List.fromArray(
-			[
-				A2(
-				_user$project$Line2D$Line2D,
-				{ctor: '_Tuple2', _0: 0, _1: 0},
-				{ctor: '_Tuple2', _0: 550, _1: 400}),
-				A2(
-				_user$project$Line2D$Line2D,
-				{ctor: '_Tuple2', _0: 550, _1: 0},
-				{ctor: '_Tuple2', _0: 0, _1: 400})
-			])
-	};
+	var square = _elm_lang$core$Native_List.fromArray(
+		[
+			A2(
+			_user$project$Line2D$Line2D,
+			{ctor: '_Tuple2', _0: 0, _1: 0},
+			{ctor: '_Tuple2', _0: 100, _1: 0}),
+			A2(
+			_user$project$Line2D$Line2D,
+			{ctor: '_Tuple2', _0: 100, _1: 0},
+			{ctor: '_Tuple2', _0: 100, _1: 100}),
+			A2(
+			_user$project$Line2D$Line2D,
+			{ctor: '_Tuple2', _0: 100, _1: 100},
+			{ctor: '_Tuple2', _0: 0, _1: 100}),
+			A2(
+			_user$project$Line2D$Line2D,
+			{ctor: '_Tuple2', _0: 0, _1: 100},
+			{ctor: '_Tuple2', _0: 0, _1: 0})
+		]);
 	return {
 		ctor: '_Tuple2',
 		_0: {
 			renderedLines: _elm_lang$core$Native_List.fromArray(
 				[]),
 			objects: _elm_lang$core$Native_List.fromArray(
-				[bigX]),
+				[
+					A2(
+					_user$project$Object2D$Object2D,
+					square,
+					{ctor: '_Tuple2', _0: 100, _1: 100}),
+					A2(
+					_user$project$Object2D$Object2D,
+					square,
+					{ctor: '_Tuple2', _0: 125, _1: 125}),
+					A2(
+					_user$project$Object2D$Object2D,
+					square,
+					{ctor: '_Tuple2', _0: 150, _1: 150})
+				]),
 			inBoundary: A4(_user$project$Rect2D$Rect2D, 0, 550, 0, 400),
 			outBoundary: A4(_user$project$Rect2D$Rect2D, 0, 2048, 0, 2048)
 		},

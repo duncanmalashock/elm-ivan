@@ -37,15 +37,19 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     let
-        bigX =
-            { geometry =
-                [ Line2D ( 0, 0 ) ( 550, 400 )
-                , Line2D ( 550, 0 ) ( 0, 400 )
-                ]
-            }
+        square =
+            [ Line2D ( 0, 0 ) ( 100, 0 )
+            , Line2D ( 100, 0 ) ( 100, 100 )
+            , Line2D ( 100, 100 ) ( 0, 100 )
+            , Line2D ( 0, 100 ) ( 0, 0 )
+            ]
     in
         ( { renderedLines = []
-          , objects = [ bigX ]
+          , objects =
+                [ Object2D square ( 100, 100 )
+                , Object2D square ( 125, 125 )
+                , Object2D square ( 150, 150 )
+                ]
           , inBoundary = Rect2D 0 550 0 400
           , outBoundary = Rect2D 0 2048 0 2048
           }
@@ -60,7 +64,7 @@ type Msg
 
 renderObjects : List Object2D -> List Line2D
 renderObjects objects =
-    List.concat (List.map .geometry objects)
+    List.concat (List.map Object2D.render objects)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

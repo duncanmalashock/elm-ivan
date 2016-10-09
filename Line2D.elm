@@ -20,3 +20,8 @@ asString theLine =
             theLine.end
     in
         String.join " " (List.map toString [ x1, y1, x2, y2 ])
+
+
+translate : Vector2D -> Line2D -> Line2D
+translate delta theLine =
+    { theLine | start = Vector2D.translate delta theLine.start, end = Vector2D.translate delta theLine.end }
