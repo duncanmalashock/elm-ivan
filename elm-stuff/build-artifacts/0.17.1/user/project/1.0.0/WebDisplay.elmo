@@ -1,0 +1,32 @@
+var _user$project$WebDisplay$drawLine = function (theLine) {
+	var _p0 = theLine.end;
+	var x2$ = _p0._0;
+	var y2$ = _p0._1;
+	var _p1 = theLine.start;
+	var x1$ = _p1._0;
+	var y1$ = _p1._1;
+	return A2(
+		_elm_lang$svg$Svg$line,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$svg$Svg_Attributes$stroke('black'),
+				_elm_lang$svg$Svg_Attributes$strokeWidth('2'),
+				_elm_lang$svg$Svg_Attributes$x1(
+				_elm_lang$core$Basics$toString(x1$)),
+				_elm_lang$svg$Svg_Attributes$x2(
+				_elm_lang$core$Basics$toString(x2$)),
+				_elm_lang$svg$Svg_Attributes$y1(
+				_elm_lang$core$Basics$toString(y1$)),
+				_elm_lang$svg$Svg_Attributes$y2(
+				_elm_lang$core$Basics$toString(y2$))
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[]));
+};
+var _user$project$WebDisplay$view = function (lines) {
+	return A2(
+		_elm_lang$svg$Svg$svg,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		A2(_elm_lang$core$List$map, _user$project$WebDisplay$drawLine, lines));
+};

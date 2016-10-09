@@ -1,0 +1,10 @@
+var _user$project$Line2D$asString = function (theLine) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(theLine.start),
+		_elm_lang$core$Basics$toString(theLine.end));
+};
+var _user$project$Line2D$Line2D = F2(
+	function (a, b) {
+		return {start: a, end: b};
+	});
