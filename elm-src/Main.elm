@@ -46,9 +46,9 @@ init =
     in
         ( { renderedLines = []
           , objects =
-                [ Object2D square ( 100, 100 )
-                , Object2D square ( 125, 125 )
-                , Object2D square ( 150, 150 )
+                [ Object2D square ( 100, 100 ) 1.0
+                , Object2D square ( 125, 125 ) 0.8
+                , Object2D square ( 150, 150 ) 0.6
                 ]
           , inBoundary = Rect2D 0 550 0 400
           , outBoundary = Rect2D 0 2048 0 2048

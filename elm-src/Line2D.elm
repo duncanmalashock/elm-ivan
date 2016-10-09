@@ -25,3 +25,8 @@ asString theLine =
 translate : Vector2D -> Line2D -> Line2D
 translate delta theLine =
     { theLine | start = Vector2D.translate delta theLine.start, end = Vector2D.translate delta theLine.end }
+
+
+scale : Float -> Line2D -> Line2D
+scale amount theLine =
+    { theLine | start = Vector2D.scale amount theLine.start, end = Vector2D.scale amount theLine.end }

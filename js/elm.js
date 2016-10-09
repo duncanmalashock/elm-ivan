@@ -8385,17 +8385,33 @@ var _user$project$CmdHelper$cmdFromMsg = function (msg) {
 		_elm_lang$core$Task$succeed(msg));
 };
 
+var _user$project$Vector2D$scale = F2(
+	function (amount, point) {
+		var _p0 = point;
+		var x = _p0._0;
+		var y = _p0._1;
+		return {ctor: '_Tuple2', _0: x * amount, _1: y * amount};
+	});
 var _user$project$Vector2D$translate = F2(
 	function (delta, point) {
-		var _p0 = delta;
-		var dx = _p0._0;
-		var dy = _p0._1;
-		var _p1 = point;
-		var x = _p1._0;
-		var y = _p1._1;
+		var _p1 = delta;
+		var dx = _p1._0;
+		var dy = _p1._1;
+		var _p2 = point;
+		var x = _p2._0;
+		var y = _p2._1;
 		return {ctor: '_Tuple2', _0: x + dx, _1: y + dy};
 	});
 
+var _user$project$Line2D$scale = F2(
+	function (amount, theLine) {
+		return _elm_lang$core$Native_Utils.update(
+			theLine,
+			{
+				start: A2(_user$project$Vector2D$scale, amount, theLine.start),
+				end: A2(_user$project$Vector2D$scale, amount, theLine.end)
+			});
+	});
 var _user$project$Line2D$translate = F2(
 	function (delta, theLine) {
 		return _elm_lang$core$Native_Utils.update(
@@ -8434,17 +8450,15 @@ var _user$project$Rect2D$normalize = F3(
 		var _p1 = theLine.start;
 		var x1$ = _p1._0;
 		var y1$ = _p1._1;
-		var xScale = _elm_lang$core$Basics$toFloat(outBoundary.maxX - outBoundary.minX) / _elm_lang$core$Basics$toFloat(inBoundary.maxX - inBoundary.minX);
+		var xScale = (outBoundary.maxX - outBoundary.minX) / (inBoundary.maxX - inBoundary.minX);
 		var xTranslate = outBoundary.minX - inBoundary.minX;
 		var xTransform = function (x) {
-			return _elm_lang$core$Basics$floor(
-				((_elm_lang$core$Basics$toFloat(x - inBoundary.minX) * xScale) + _elm_lang$core$Basics$toFloat(inBoundary.minX)) + _elm_lang$core$Basics$toFloat(xTranslate));
+			return (((x - inBoundary.minX) * xScale) + inBoundary.minX) + xTranslate;
 		};
-		var yScale = _elm_lang$core$Basics$toFloat(outBoundary.maxY - outBoundary.minY) / _elm_lang$core$Basics$toFloat(inBoundary.maxY - inBoundary.minY);
+		var yScale = (outBoundary.maxY - outBoundary.minY) / (inBoundary.maxY - inBoundary.minY);
 		var yTranslate = outBoundary.minY - inBoundary.minY;
 		var yTransform = function (y) {
-			return _elm_lang$core$Basics$floor(
-				((_elm_lang$core$Basics$toFloat(y - inBoundary.minY) * yScale) + _elm_lang$core$Basics$toFloat(inBoundary.minY)) + _elm_lang$core$Basics$toFloat(yTranslate));
+			return (((y - inBoundary.minY) * yScale) + inBoundary.minY) + yTranslate;
 		};
 		return A2(
 			_user$project$Line2D$Line2D,
@@ -8465,14 +8479,18 @@ var _user$project$Rect2D$Rect2D = F4(
 	});
 
 var _user$project$Object2D$render = function (object) {
+	var scaledGeometry = A2(
+		_elm_lang$core$List$map,
+		_user$project$Line2D$scale(object.scale),
+		object.geometry);
 	return A2(
 		_elm_lang$core$List$map,
 		_user$project$Line2D$translate(object.position),
-		object.geometry);
+		scaledGeometry);
 };
-var _user$project$Object2D$Object2D = F2(
-	function (a, b) {
-		return {geometry: a, position: b};
+var _user$project$Object2D$Object2D = F3(
+	function (a, b, c) {
+		return {geometry: a, position: b, scale: c};
 	});
 
 var _user$project$Readout$lineView = function (theline) {
@@ -8634,18 +8652,21 @@ var _user$project$Main$init = function () {
 				[]),
 			objects: _elm_lang$core$Native_List.fromArray(
 				[
-					A2(
+					A3(
 					_user$project$Object2D$Object2D,
 					square,
-					{ctor: '_Tuple2', _0: 100, _1: 100}),
-					A2(
+					{ctor: '_Tuple2', _0: 100, _1: 100},
+					1.0),
+					A3(
 					_user$project$Object2D$Object2D,
 					square,
-					{ctor: '_Tuple2', _0: 125, _1: 125}),
-					A2(
+					{ctor: '_Tuple2', _0: 125, _1: 125},
+					0.8),
+					A3(
 					_user$project$Object2D$Object2D,
 					square,
-					{ctor: '_Tuple2', _0: 150, _1: 150})
+					{ctor: '_Tuple2', _0: 150, _1: 150},
+					0.6)
 				]),
 			inBoundary: A4(_user$project$Rect2D$Rect2D, 0, 550, 0, 400),
 			outBoundary: A4(_user$project$Rect2D$Rect2D, 0, 2048, 0, 2048)

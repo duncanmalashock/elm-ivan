@@ -4,10 +4,10 @@ import Line2D exposing (Line2D)
 
 
 type alias Rect2D =
-    { minX : Int
-    , maxX : Int
-    , minY : Int
-    , maxY : Int
+    { minX : Float
+    , maxX : Float
+    , minY : Float
+    , maxY : Float
     }
 
 
@@ -18,21 +18,21 @@ normalize inBoundary outBoundary theLine =
             outBoundary.minY - inBoundary.minY
 
         yScale =
-            toFloat (outBoundary.maxY - outBoundary.minY) / toFloat (inBoundary.maxY - inBoundary.minY)
+            (outBoundary.maxY - outBoundary.minY) / (inBoundary.maxY - inBoundary.minY)
 
         xTranslate =
             outBoundary.minX - inBoundary.minX
 
         xScale =
-            toFloat (outBoundary.maxX - outBoundary.minX) / toFloat (inBoundary.maxX - inBoundary.minX)
+            (outBoundary.maxX - outBoundary.minX) / (inBoundary.maxX - inBoundary.minX)
 
-        xTransform : Int -> Int
+        xTransform : Float -> Float
         xTransform x =
-            floor (toFloat (x - inBoundary.minX) * xScale + (toFloat inBoundary.minX) + toFloat xTranslate)
+            (x - inBoundary.minX) * xScale + (inBoundary.minX) + xTranslate
 
-        yTransform : Int -> Int
+        yTransform : Float -> Float
         yTransform y =
-            floor (toFloat (y - inBoundary.minY) * yScale + (toFloat inBoundary.minY) + toFloat yTranslate)
+            (y - inBoundary.minY) * yScale + (inBoundary.minY) + yTranslate
 
         ( x1', y1' ) =
             theLine.start

@@ -7,9 +7,14 @@ import Vector2D exposing (Vector2D)
 type alias Object2D =
     { geometry : List Line2D
     , position : Vector2D
+    , scale : Float
     }
 
 
 render : Object2D -> List Line2D
 render object =
-    (List.map (Line2D.translate object.position) object.geometry)
+    let
+        scaledGeometry =
+            (List.map (Line2D.scale object.scale) object.geometry)
+    in
+        (List.map (Line2D.translate object.position) scaledGeometry)
