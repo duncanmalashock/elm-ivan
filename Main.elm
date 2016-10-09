@@ -62,7 +62,8 @@ lineView theline =
 lineTextView : List Line2D -> Html Msg
 lineTextView lines =
     div [ class "readout" ]
-        [ div [ class "vertex-list" ]
+        [ div [] [ text "Lines:" ]
+        , div [ class "line-list" ]
             (List.map
                 lineView
                 lines

@@ -8250,8 +8250,16 @@ var _user$project$Main$lineTextView = function (lines) {
 				A2(
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$class('vertex-list')
+						_elm_lang$html$Html$text('Lines:')
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$class('line-list')
 					]),
 				A2(_elm_lang$core$List$map, _user$project$Main$lineView, lines))
 			]));
