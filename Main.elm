@@ -7,6 +7,7 @@ import WebDisplay
 import Html exposing (Html, text, div)
 import Html.App as Html
 import Html.Attributes exposing (class)
+import Task
 
 
 main =
@@ -59,10 +60,10 @@ lineView theline =
     div [] [ text <| Line2D.asString theline ]
 
 
-lineTextView : List Line2D -> Html Msg
-lineTextView lines =
-    div [ class "readout" ]
-        [ div [] [ text "Lines:" ]
+lineTextView : String -> List Line2D -> Html Msg
+lineTextView label lines =
+    div []
+        [ div [] [ text label ]
         , div [ class "line-list" ]
             (List.map
                 lineView
@@ -74,6 +75,9 @@ lineTextView lines =
 view : Model -> Html Msg
 view model =
     div [ class "app" ]
-        [ lineTextView model.lines
+        [ div [ class "readout" ]
+            [ lineTextView "Lines in scene:" model.lines
+            , lineTextView "Normalized output:" (List.map (Rect2D.normalize model.inBoundary model.outBoundary) model.lines)
+            ]
         , WebDisplay.view model.lines
         ]
