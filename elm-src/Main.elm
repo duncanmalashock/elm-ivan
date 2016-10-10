@@ -39,9 +39,9 @@ init : ( Model, Cmd Msg )
 init =
     ( { renderedLines = []
       , objects =
-            [ Object2D Geometry2D.square ( 100, 100 ) 1.0
-            , Object2D Geometry2D.square ( 100, 100 ) 0.7
-            , Object2D Geometry2D.square ( 100, 100 ) 0.4
+            [ Object2D Geometry2D.square ( 100, 100 ) 1.0 30
+            , Object2D Geometry2D.square ( 120, 100 ) 0.7 40
+            , Object2D Geometry2D.square ( 140, 100 ) 0.4 50
             ]
       , inBoundary = Rect2D 0 550 0 400
       , outBoundary = Rect2D 0 2048 0 2048

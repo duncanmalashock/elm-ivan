@@ -8,6 +8,7 @@ type alias Object2D =
     { geometry : List Line2D
     , position : Vector2D
     , scale : Float
+    , rotation : Float
     }
 
 
@@ -17,4 +18,4 @@ render object =
         scaledGeometry =
             (List.map (Line2D.scale object.scale) object.geometry)
     in
-        (List.map (Line2D.translate object.position) scaledGeometry)
+        (List.map ((Line2D.translate object.position) << (Line2D.rotateZ object.rotation)) scaledGeometry)
