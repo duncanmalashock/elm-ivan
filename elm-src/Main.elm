@@ -3,6 +3,7 @@ module Main exposing (..)
 import Vector2D exposing (Vector2D)
 import Line2D exposing (Line2D)
 import Rect2D exposing (Rect2D)
+import Geometry2D exposing (Geometry2D)
 import Object2D exposing (Object2D)
 import Readout
 import WebVectorDisplay
@@ -36,25 +37,17 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    let
-        square =
-            [ Line2D ( 0, 0 ) ( 100, 0 )
-            , Line2D ( 100, 0 ) ( 100, 100 )
-            , Line2D ( 100, 100 ) ( 0, 100 )
-            , Line2D ( 0, 100 ) ( 0, 0 )
+    ( { renderedLines = []
+      , objects =
+            [ Object2D Geometry2D.square ( 100, 100 ) 1.0
+            , Object2D Geometry2D.square ( 100, 100 ) 0.7
+            , Object2D Geometry2D.square ( 100, 100 ) 0.4
             ]
-    in
-        ( { renderedLines = []
-          , objects =
-                [ Object2D square ( 100, 100 ) 1.0
-                , Object2D square ( 125, 125 ) 0.8
-                , Object2D square ( 150, 150 ) 0.6
-                ]
-          , inBoundary = Rect2D 0 550 0 400
-          , outBoundary = Rect2D 0 2048 0 2048
-          }
-        , cmdFromMsg RenderObjects
-        )
+      , inBoundary = Rect2D 0 550 0 400
+      , outBoundary = Rect2D 0 2048 0 2048
+      }
+    , cmdFromMsg RenderObjects
+    )
 
 
 type Msg
