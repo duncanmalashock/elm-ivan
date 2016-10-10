@@ -27,5 +27,5 @@ view : Rect2D -> Rect2D -> List Line2D -> Html msg
 view inBoundary outBoundary lines =
     div [ class "readout" ]
         [ lineGroupView "Lines in scene:" lines
-        , lineGroupView "Normalized output:" (List.map (Rect2D.normalize inBoundary outBoundary) lines)
+        , lineGroupView "Normalized for scope:" (List.map (Rect2D.normalize inBoundary outBoundary) lines)
         ]
