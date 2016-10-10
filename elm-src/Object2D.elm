@@ -14,8 +14,9 @@ type alias Object2D =
 
 render : Object2D -> List Line2D
 render object =
-    let
-        scaledGeometry =
-            (List.map (Line2D.scale object.scale) object.geometry)
-    in
-        (List.map ((Line2D.translate object.position) << (Line2D.rotateZ object.rotation)) scaledGeometry)
+    List.map
+        ((Line2D.scale object.scale)
+            >> (Line2D.rotateZ object.rotation)
+            >> (Line2D.translate object.position)
+        )
+        object.geometry

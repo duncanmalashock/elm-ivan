@@ -19,7 +19,7 @@ asString theLine =
         ( x2, y2 ) =
             theLine.end
     in
-        String.join " " <| List.map (toString << floor) [ x1, y1, x2, y2 ]
+        String.join " " <| List.map (floor >> toString) [ x1, y1, x2, y2 ]
 
 
 translate : Vector2D -> Line2D -> Line2D

@@ -8526,19 +8526,18 @@ var _user$project$Rect2D$Rect2D = F4(
 	});
 
 var _user$project$Object2D$render = function (object) {
-	var scaledGeometry = A2(
-		_elm_lang$core$List$map,
-		_user$project$Line2D$scale(object.scale),
-		object.geometry);
 	return A2(
 		_elm_lang$core$List$map,
 		function (_p0) {
 			return A2(
 				_user$project$Line2D$translate,
 				object.position,
-				A2(_user$project$Line2D$rotateZ, object.rotation, _p0));
+				A2(
+					_user$project$Line2D$rotateZ,
+					object.rotation,
+					A2(_user$project$Line2D$scale, object.scale, _p0)));
 		},
-		scaledGeometry);
+		object.geometry);
 };
 var _user$project$Object2D$Object2D = F4(
 	function (a, b, c, d) {
