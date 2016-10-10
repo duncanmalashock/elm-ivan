@@ -8593,7 +8593,7 @@ var _user$project$Readout$view = F3(
 					A2(_user$project$Readout$lineGroupView, 'Lines in scene:', lines),
 					A2(
 					_user$project$Readout$lineGroupView,
-					'Normalized output:',
+					'Normalized for scope:',
 					A2(
 						_elm_lang$core$List$map,
 						A2(_user$project$Rect2D$normalize, inBoundary, outBoundary),
