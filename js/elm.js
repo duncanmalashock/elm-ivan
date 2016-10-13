@@ -8385,7 +8385,7 @@ var _user$project$CmdHelper$cmdFromMsg = function (msg) {
 		_elm_lang$core$Task$succeed(msg));
 };
 
-var _user$project$Vector2D$rotateZ = F2(
+var _user$project$Renderables2D_Vector2D$rotateZ = F2(
 	function (theta, point) {
 		var _p0 = point;
 		var x = _p0._0;
@@ -8400,14 +8400,14 @@ var _user$project$Vector2D$rotateZ = F2(
 				_elm_lang$core$Basics$degrees(theta)))
 		};
 	});
-var _user$project$Vector2D$scale = F2(
+var _user$project$Renderables2D_Vector2D$scale = F2(
 	function (amount, point) {
 		var _p1 = point;
 		var x = _p1._0;
 		var y = _p1._1;
 		return {ctor: '_Tuple2', _0: x * amount, _1: y * amount};
 	});
-var _user$project$Vector2D$translate = F2(
+var _user$project$Renderables2D_Vector2D$translate = F2(
 	function (delta, point) {
 		var _p2 = delta;
 		var dx = _p2._0;
@@ -8418,34 +8418,34 @@ var _user$project$Vector2D$translate = F2(
 		return {ctor: '_Tuple2', _0: x + dx, _1: y + dy};
 	});
 
-var _user$project$Line2D$rotateZ = F2(
+var _user$project$Renderables2D_Line2D$rotateZ = F2(
 	function (theta, theLine) {
 		return _elm_lang$core$Native_Utils.update(
 			theLine,
 			{
-				start: A2(_user$project$Vector2D$rotateZ, theta, theLine.start),
-				end: A2(_user$project$Vector2D$rotateZ, theta, theLine.end)
+				start: A2(_user$project$Renderables2D_Vector2D$rotateZ, theta, theLine.start),
+				end: A2(_user$project$Renderables2D_Vector2D$rotateZ, theta, theLine.end)
 			});
 	});
-var _user$project$Line2D$scale = F2(
+var _user$project$Renderables2D_Line2D$scale = F2(
 	function (amount, theLine) {
 		return _elm_lang$core$Native_Utils.update(
 			theLine,
 			{
-				start: A2(_user$project$Vector2D$scale, amount, theLine.start),
-				end: A2(_user$project$Vector2D$scale, amount, theLine.end)
+				start: A2(_user$project$Renderables2D_Vector2D$scale, amount, theLine.start),
+				end: A2(_user$project$Renderables2D_Vector2D$scale, amount, theLine.end)
 			});
 	});
-var _user$project$Line2D$translate = F2(
+var _user$project$Renderables2D_Line2D$translate = F2(
 	function (delta, theLine) {
 		return _elm_lang$core$Native_Utils.update(
 			theLine,
 			{
-				start: A2(_user$project$Vector2D$translate, delta, theLine.start),
-				end: A2(_user$project$Vector2D$translate, delta, theLine.end)
+				start: A2(_user$project$Renderables2D_Vector2D$translate, delta, theLine.start),
+				end: A2(_user$project$Renderables2D_Vector2D$translate, delta, theLine.end)
 			});
 	});
-var _user$project$Line2D$asString = function (theLine) {
+var _user$project$Renderables2D_Line2D$asString = function (theLine) {
 	var _p0 = theLine.end;
 	var x2 = _p0._0;
 	var y2 = _p0._1;
@@ -8464,32 +8464,12 @@ var _user$project$Line2D$asString = function (theLine) {
 			_elm_lang$core$Native_List.fromArray(
 				[x1, y1, x2, y2])));
 };
-var _user$project$Line2D$Line2D = F2(
+var _user$project$Renderables2D_Line2D$Line2D = F2(
 	function (a, b) {
 		return {start: a, end: b};
 	});
 
-var _user$project$Geometry2D$square = _elm_lang$core$Native_List.fromArray(
-	[
-		A2(
-		_user$project$Line2D$Line2D,
-		{ctor: '_Tuple2', _0: -50, _1: -50},
-		{ctor: '_Tuple2', _0: 50, _1: -50}),
-		A2(
-		_user$project$Line2D$Line2D,
-		{ctor: '_Tuple2', _0: 50, _1: -50},
-		{ctor: '_Tuple2', _0: 50, _1: 50}),
-		A2(
-		_user$project$Line2D$Line2D,
-		{ctor: '_Tuple2', _0: 50, _1: 50},
-		{ctor: '_Tuple2', _0: -50, _1: 50}),
-		A2(
-		_user$project$Line2D$Line2D,
-		{ctor: '_Tuple2', _0: -50, _1: 50},
-		{ctor: '_Tuple2', _0: -50, _1: -50})
-	]);
-
-var _user$project$Rect2D$normalize = F3(
+var _user$project$Renderables2D_Rect2D$normalize = F3(
 	function (inBoundary, outBoundary, theLine) {
 		var _p0 = theLine.end;
 		var x2$ = _p0._0;
@@ -8508,7 +8488,7 @@ var _user$project$Rect2D$normalize = F3(
 			return (((y - inBoundary.minY) * yScale) + inBoundary.minY) + yTranslate;
 		};
 		return A2(
-			_user$project$Line2D$Line2D,
+			_user$project$Renderables2D_Line2D$Line2D,
 			{
 				ctor: '_Tuple2',
 				_0: xTransform(x1$),
@@ -8520,29 +8500,183 @@ var _user$project$Rect2D$normalize = F3(
 				_1: yTransform(y2$)
 			});
 	});
-var _user$project$Rect2D$Rect2D = F4(
+var _user$project$Renderables2D_Rect2D$Rect2D = F4(
 	function (a, b, c, d) {
 		return {minX: a, maxX: b, minY: c, maxY: d};
 	});
 
-var _user$project$Object2D$render = function (object) {
+var _user$project$Renderables2D_Geometry2D$square = _elm_lang$core$Native_List.fromArray(
+	[
+		A2(
+		_user$project$Renderables2D_Line2D$Line2D,
+		{ctor: '_Tuple2', _0: -50, _1: -50},
+		{ctor: '_Tuple2', _0: 50, _1: -50}),
+		A2(
+		_user$project$Renderables2D_Line2D$Line2D,
+		{ctor: '_Tuple2', _0: 50, _1: -50},
+		{ctor: '_Tuple2', _0: 50, _1: 50}),
+		A2(
+		_user$project$Renderables2D_Line2D$Line2D,
+		{ctor: '_Tuple2', _0: 50, _1: 50},
+		{ctor: '_Tuple2', _0: -50, _1: 50}),
+		A2(
+		_user$project$Renderables2D_Line2D$Line2D,
+		{ctor: '_Tuple2', _0: -50, _1: 50},
+		{ctor: '_Tuple2', _0: -50, _1: -50})
+	]);
+
+var _user$project$Renderables2D_Object2D$render = function (object) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (_p0) {
 			return A2(
-				_user$project$Line2D$translate,
+				_user$project$Renderables2D_Line2D$translate,
 				object.position,
 				A2(
-					_user$project$Line2D$rotateZ,
+					_user$project$Renderables2D_Line2D$rotateZ,
 					object.rotation,
-					A2(_user$project$Line2D$scale, object.scale, _p0)));
+					A2(_user$project$Renderables2D_Line2D$scale, object.scale, _p0)));
 		},
 		object.geometry);
 };
-var _user$project$Object2D$Object2D = F4(
+var _user$project$Renderables2D_Object2D$Object2D = F4(
 	function (a, b, c, d) {
 		return {geometry: a, position: b, scale: c, rotation: d};
 	});
+
+var _user$project$Renderables3D_Vector3D$scale = F2(
+	function (amount, point) {
+		var _p0 = point;
+		var x = _p0._0;
+		var y = _p0._1;
+		var z = _p0._2;
+		return {ctor: '_Tuple3', _0: x * amount, _1: y * amount, _2: z * amount};
+	});
+var _user$project$Renderables3D_Vector3D$translate = F2(
+	function (delta, point) {
+		var _p1 = delta;
+		var dx = _p1._0;
+		var dy = _p1._1;
+		var dz = _p1._2;
+		var _p2 = point;
+		var x = _p2._0;
+		var y = _p2._1;
+		var z = _p2._2;
+		return {ctor: '_Tuple3', _0: x + dx, _1: y + dy, _2: z + dz};
+	});
+
+var _user$project$Renderables3D_Line3D$scale = F2(
+	function (amount, theLine) {
+		return _elm_lang$core$Native_Utils.update(
+			theLine,
+			{
+				start: A2(_user$project$Renderables3D_Vector3D$scale, amount, theLine.start),
+				end: A2(_user$project$Renderables3D_Vector3D$scale, amount, theLine.end)
+			});
+	});
+var _user$project$Renderables3D_Line3D$translate = F2(
+	function (delta, theLine) {
+		return _elm_lang$core$Native_Utils.update(
+			theLine,
+			{
+				start: A2(_user$project$Renderables3D_Vector3D$translate, delta, theLine.start),
+				end: A2(_user$project$Renderables3D_Vector3D$translate, delta, theLine.end)
+			});
+	});
+var _user$project$Renderables3D_Line3D$Line3D = F2(
+	function (a, b) {
+		return {start: a, end: b};
+	});
+
+var _user$project$Renderables3D_Geometry3D$cube = _elm_lang$core$Native_List.fromArray(
+	[
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: -50, _1: -50, _2: -50},
+		{ctor: '_Tuple3', _0: 50, _1: -50, _2: -50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: 50, _1: -50, _2: -50},
+		{ctor: '_Tuple3', _0: 50, _1: 50, _2: -50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: 50, _1: 50, _2: -50},
+		{ctor: '_Tuple3', _0: -50, _1: 50, _2: -50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: -50, _1: 50, _2: -50},
+		{ctor: '_Tuple3', _0: -50, _1: -50, _2: -50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: -50, _1: -50, _2: 50},
+		{ctor: '_Tuple3', _0: 50, _1: -50, _2: 50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: 50, _1: -50, _2: 50},
+		{ctor: '_Tuple3', _0: 50, _1: 50, _2: 50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: 50, _1: 50, _2: 50},
+		{ctor: '_Tuple3', _0: -50, _1: 50, _2: 50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: -50, _1: 50, _2: 50},
+		{ctor: '_Tuple3', _0: -50, _1: -50, _2: 50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: -50, _1: -50, _2: 50},
+		{ctor: '_Tuple3', _0: -50, _1: -50, _2: -50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: 50, _1: -50, _2: 50},
+		{ctor: '_Tuple3', _0: 50, _1: -50, _2: -50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: 50, _1: 50, _2: 50},
+		{ctor: '_Tuple3', _0: 50, _1: 50, _2: -50}),
+		A2(
+		_user$project$Renderables3D_Line3D$Line3D,
+		{ctor: '_Tuple3', _0: -50, _1: 50, _2: 50},
+		{ctor: '_Tuple3', _0: -50, _1: 50, _2: -50})
+	]);
+
+var _user$project$Renderables3D_Object3D$render = function (object) {
+	return A2(
+		_elm_lang$core$List$map,
+		function (_p0) {
+			return A2(
+				_user$project$Renderables3D_Line3D$translate,
+				object.position,
+				A2(_user$project$Renderables3D_Line3D$scale, object.scale, _p0));
+		},
+		object.geometry);
+};
+var _user$project$Renderables3D_Object3D$Object3D = F3(
+	function (a, b, c) {
+		return {geometry: a, position: b, scale: c};
+	});
+
+var _user$project$Projection$projectLine = function (line) {
+	var zScale = 0.4;
+	var _p0 = line.end;
+	var x2 = _p0._0;
+	var y2 = _p0._1;
+	var z2 = _p0._2;
+	var _p1 = line.start;
+	var x1 = _p1._0;
+	var y1 = _p1._1;
+	var z1 = _p1._2;
+	return {
+		start: {ctor: '_Tuple2', _0: x1 + (z1 * zScale), _1: y1 + (z1 * zScale)},
+		end: {ctor: '_Tuple2', _0: x2 + (z2 * zScale), _1: y2 + (z2 * zScale)}
+	};
+};
+var _user$project$Projection$projectObject = function (object) {
+	return A2(
+		_elm_lang$core$List$map,
+		_user$project$Projection$projectLine,
+		_user$project$Renderables3D_Object3D$render(object));
+};
 
 var _user$project$Readout$lineView = function (theline) {
 	return A2(
@@ -8552,7 +8686,7 @@ var _user$project$Readout$lineView = function (theline) {
 		_elm_lang$core$Native_List.fromArray(
 			[
 				_elm_lang$html$Html$text(
-				_user$project$Line2D$asString(theline))
+				_user$project$Renderables2D_Line2D$asString(theline))
 			]));
 };
 var _user$project$Readout$lineGroupView = F2(
@@ -8596,7 +8730,7 @@ var _user$project$Readout$view = F3(
 					'Normalized for scope:',
 					A2(
 						_elm_lang$core$List$map,
-						A2(_user$project$Rect2D$normalize, inBoundary, outBoundary),
+						A2(_user$project$Renderables2D_Rect2D$normalize, inBoundary, outBoundary),
 						lines))
 				]));
 	});
@@ -8647,9 +8781,13 @@ var _user$project$Main$view = function (model) {
 				_user$project$WebVectorDisplay$view(model.renderedLines)
 			]));
 };
-var _user$project$Main$renderObjects = function (objects) {
+var _user$project$Main$renderObjects3D = function (objects3D) {
 	return _elm_lang$core$List$concat(
-		A2(_elm_lang$core$List$map, _user$project$Object2D$render, objects));
+		A2(_elm_lang$core$List$map, _user$project$Projection$projectObject, objects3D));
+};
+var _user$project$Main$renderObjects2D = function (objects2D) {
+	return _elm_lang$core$List$concat(
+		A2(_elm_lang$core$List$map, _user$project$Renderables2D_Object2D$render, objects2D));
 };
 var _user$project$Main$update = F2(
 	function (msg, model) {
@@ -8662,7 +8800,12 @@ var _user$project$Main$update = F2(
 				_0: _elm_lang$core$Native_Utils.update(
 					model,
 					{
-						renderedLines: _user$project$Main$renderObjects(model.objects)
+						renderedLines: _elm_lang$core$List$concat(
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_user$project$Main$renderObjects2D(model.objects2D),
+									_user$project$Main$renderObjects3D(model.objects3D)
+								]))
 					}),
 				_1: _elm_lang$core$Platform_Cmd$none
 			};
@@ -8671,9 +8814,9 @@ var _user$project$Main$update = F2(
 var _user$project$Main$subscriptions = function (model) {
 	return _elm_lang$core$Platform_Sub$none;
 };
-var _user$project$Main$Model = F4(
-	function (a, b, c, d) {
-		return {objects: a, renderedLines: b, inBoundary: c, outBoundary: d};
+var _user$project$Main$Model = F5(
+	function (a, b, c, d, e) {
+		return {objects2D: a, objects3D: b, renderedLines: c, inBoundary: d, outBoundary: e};
 	});
 var _user$project$Main$RenderObjects = {ctor: 'RenderObjects'};
 var _user$project$Main$init = {
@@ -8681,29 +8824,42 @@ var _user$project$Main$init = {
 	_0: {
 		renderedLines: _elm_lang$core$Native_List.fromArray(
 			[]),
-		objects: _elm_lang$core$Native_List.fromArray(
+		objects2D: _elm_lang$core$Native_List.fromArray(
 			[
 				A4(
-				_user$project$Object2D$Object2D,
-				_user$project$Geometry2D$square,
+				_user$project$Renderables2D_Object2D$Object2D,
+				_user$project$Renderables2D_Geometry2D$square,
 				{ctor: '_Tuple2', _0: 100, _1: 100},
 				1.0,
 				30),
 				A4(
-				_user$project$Object2D$Object2D,
-				_user$project$Geometry2D$square,
+				_user$project$Renderables2D_Object2D$Object2D,
+				_user$project$Renderables2D_Geometry2D$square,
 				{ctor: '_Tuple2', _0: 120, _1: 100},
 				0.7,
-				40),
+				50),
 				A4(
-				_user$project$Object2D$Object2D,
-				_user$project$Geometry2D$square,
+				_user$project$Renderables2D_Object2D$Object2D,
+				_user$project$Renderables2D_Geometry2D$square,
 				{ctor: '_Tuple2', _0: 140, _1: 100},
 				0.4,
-				50)
+				70)
 			]),
-		inBoundary: A4(_user$project$Rect2D$Rect2D, 0, 550, 0, 400),
-		outBoundary: A4(_user$project$Rect2D$Rect2D, 0, 2048, 0, 2048)
+		objects3D: _elm_lang$core$Native_List.fromArray(
+			[
+				A3(
+				_user$project$Renderables3D_Object3D$Object3D,
+				_user$project$Renderables3D_Geometry3D$cube,
+				{ctor: '_Tuple3', _0: 200, _1: 100, _2: 100},
+				1.0),
+				A3(
+				_user$project$Renderables3D_Object3D$Object3D,
+				_user$project$Renderables3D_Geometry3D$cube,
+				{ctor: '_Tuple3', _0: 150, _1: 150, _2: 100},
+				1.0)
+			]),
+		inBoundary: A4(_user$project$Renderables2D_Rect2D$Rect2D, 0, 550, 0, 400),
+		outBoundary: A4(_user$project$Renderables2D_Rect2D$Rect2D, 0, 2048, 0, 2048)
 	},
 	_1: _user$project$CmdHelper$cmdFromMsg(_user$project$Main$RenderObjects)
 };
