@@ -1,7 +1,7 @@
 module Readout exposing (..)
 
-import Line2D exposing (Line2D)
-import Rect2D exposing (Rect2D)
+import Renderables2D.Line2D as Line2D exposing (Line2D)
+import Renderables2D.Rect2D as Rect2D exposing (Rect2D)
 import Html exposing (Html, text, div)
 import Html.Attributes exposing (class)
 

@@ -1,4 +1,4 @@
-module Vector2D exposing (..)
+module Renderables2D.Vector2D exposing (..)
 
 
 type alias Vector2D =

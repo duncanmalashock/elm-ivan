@@ -1,6 +1,6 @@
 module WebVectorDisplay exposing (..)
 
-import Line2D exposing (Line2D)
+import Renderables2D.Line2D exposing (Line2D)
 import Html exposing (Html)
 import Html.App as Html
 import Svg exposing (Svg, svg, line)

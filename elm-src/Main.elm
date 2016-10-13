@@ -1,10 +1,10 @@
 module Main exposing (..)
 
-import Vector2D exposing (Vector2D)
-import Line2D exposing (Line2D)
-import Rect2D exposing (Rect2D)
-import Geometry2D exposing (Geometry2D)
-import Object2D exposing (Object2D)
+import Renderables2D.Vector2D as Vector2D exposing (Vector2D)
+import Renderables2D.Line2D as Line2D exposing (Line2D)
+import Renderables2D.Rect2D as Rect2D exposing (Rect2D)
+import Renderables2D.Geometry2D as Geometry2D exposing (Geometry2D)
+import Renderables2D.Object2D as Object2D exposing (Object2D)
 import Readout
 import WebVectorDisplay
 import CmdHelper exposing (cmdFromMsg)
@@ -40,8 +40,8 @@ init =
     ( { renderedLines = []
       , objects =
             [ Object2D Geometry2D.square ( 100, 100 ) 1.0 30
-            , Object2D Geometry2D.square ( 120, 100 ) 0.7 40
-            , Object2D Geometry2D.square ( 140, 100 ) 0.4 50
+            , Object2D Geometry2D.square ( 120, 100 ) 0.7 50
+            , Object2D Geometry2D.square ( 140, 100 ) 0.4 70
             ]
       , inBoundary = Rect2D 0 550 0 400
       , outBoundary = Rect2D 0 2048 0 2048
