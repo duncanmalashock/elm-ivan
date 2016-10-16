@@ -23,3 +23,11 @@ scale amount theLine =
         | start = Vector3D.scale amount theLine.start
         , end = Vector3D.scale amount theLine.end
     }
+
+
+rotate : ( Float, Float, Float ) -> Line3D -> Line3D
+rotate theta theLine =
+    { theLine
+        | start = Vector3D.rotate theta theLine.start
+        , end = Vector3D.rotate theta theLine.end
+    }

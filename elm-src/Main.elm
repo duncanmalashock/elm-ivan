@@ -50,8 +50,9 @@ init =
             , Object2D Geometry2D.square ( 140, 100 ) 0.4 70
             ]
       , objects3D =
-            [ Object3D Geometry3D.cube ( 200, 100, 100 ) 1.0
-            , Object3D Geometry3D.cube ( 150, 150, 100 ) 1.0
+            [ Object3D Geometry3D.cube ( 200, 100, 100 ) 1.0 ( 0, 0, 0 )
+            , Object3D Geometry3D.cube ( 325, 100, 100 ) 0.5 ( 60, 70, 80 )
+            , Object3D Geometry3D.cube ( 400, 100, 100 ) 0.25 ( 20, 30, 40 )
             ]
       , inBoundary = Rect2D 0 550 0 400
       , outBoundary = Rect2D 0 2048 0 2048

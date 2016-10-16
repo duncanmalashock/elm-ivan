@@ -8,6 +8,7 @@ type alias Object3D =
     { geometry : List Line3D
     , position : Vector3D
     , scale : Float
+    , rotation : ( Float, Float, Float )
     }
 
 
@@ -15,6 +16,7 @@ render : Object3D -> List Line3D
 render object =
     List.map
         ((Line3D.scale object.scale)
+            >> (Line3D.rotate object.rotation)
             >> (Line3D.translate object.position)
         )
         object.geometry
