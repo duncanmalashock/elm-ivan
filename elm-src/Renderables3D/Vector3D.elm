@@ -37,16 +37,6 @@ rotate theta point =
                 rotateZ thetaZ point
 
 
-
--- def rotate_x(theta)
---   return Point.new(
---     @x,
---     @y * cos(theta) - @z * sin(theta),
---     @y * sin(theta) + @z * cos(theta) )
--- end
---
-
-
 rotateX : Float -> Vector3D -> Vector3D
 rotateX theta point =
     let
