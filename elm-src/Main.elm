@@ -45,14 +45,14 @@ init : ( Model, Cmd Msg )
 init =
     ( { renderedLines = []
       , objects2D =
-            [ Object2D Geometry2D.square ( 100, 100 ) 1.0 30
-            , Object2D Geometry2D.square ( 120, 100 ) 0.7 50
-            , Object2D Geometry2D.square ( 140, 100 ) 0.4 70
+            [ Object2D Geometry2D.square ( 150, 100 ) 1.0 0
+            , Object2D Geometry2D.square ( 280, 100 ) 0.6 10
+            , Object2D Geometry2D.square ( 370, 100 ) 0.3 20
             ]
       , objects3D =
-            [ Object3D Geometry3D.cube ( 200, 100, 100 ) 1.0 ( 0, 0, 0 )
-            , Object3D Geometry3D.cube ( 325, 100, 100 ) 0.5 ( 60, 70, 80 )
-            , Object3D Geometry3D.cube ( 400, 100, 100 ) 0.25 ( 20, 30, 40 )
+            [ Object3D Geometry3D.cube ( 150, 275, 100 ) 1.0 ( 0, 0, 0 )
+            , Object3D Geometry3D.cube ( 275, 275, 100 ) 0.5 ( 10, 10, 10 )
+            , Object3D Geometry3D.cube ( 350, 275, 100 ) 0.25 ( 20, 20, 20 )
             ]
       , inBoundary = Rect2D 0 550 0 400
       , outBoundary = Rect2D 0 2048 0 2048
