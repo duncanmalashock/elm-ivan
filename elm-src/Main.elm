@@ -16,6 +16,7 @@ import CmdHelper exposing (cmdFromMsg)
 import Html exposing (Html, text, div)
 import Html.App as Html
 import Html.Attributes exposing (class)
+import Mouse
 
 
 main =
@@ -29,7 +30,7 @@ main =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.none
+    Mouse.moves MoveMouse
 
 
 type alias Model =
@@ -38,6 +39,7 @@ type alias Model =
     , renderedLines : List Line2D
     , inBoundary : Rect2D
     , outBoundary : Rect2D
+    , rotateAmount : Float
     }
 
 
@@ -45,17 +47,18 @@ init : ( Model, Cmd Msg )
 init =
     ( { renderedLines = []
       , objects2D =
-            [ Object2D Geometry2D.square ( 150, 100 ) 1.0 0
-            , Object2D Geometry2D.square ( 280, 100 ) 0.6 10
-            , Object2D Geometry2D.square ( 370, 100 ) 0.3 20
+            [ Object2D Geometry2D.square ( 170, 100 ) 1.0 0
+            , Object2D Geometry2D.square ( 280, 100 ) 0.5 0
+            , Object2D Geometry2D.square ( 350, 100 ) 0.25 0
             ]
       , objects3D =
-            [ Object3D Geometry3D.cube ( 150, 275, 100 ) 1.0 ( 0, 0, 0 )
-            , Object3D Geometry3D.cube ( 275, 275, 100 ) 0.5 ( 10, 10, 10 )
-            , Object3D Geometry3D.cube ( 350, 275, 100 ) 0.25 ( 20, 20, 20 )
+            [ Object3D Geometry3D.cube ( 170, 275, 100 ) 1.0 ( 0, 0, 0 )
+            , Object3D Geometry3D.cube ( 280, 275, 100 ) 0.5 ( 0, 0, 0 )
+            , Object3D Geometry3D.cube ( 350, 275, 100 ) 0.25 ( 0, 0, 0 )
             ]
       , inBoundary = Rect2D 0 550 0 400
       , outBoundary = Rect2D 0 2048 0 2048
+      , rotateAmount = 0.0
       }
     , cmdFromMsg RenderObjects
     )
@@ -63,6 +66,7 @@ init =
 
 type Msg
     = NoOp
+    | MoveMouse Mouse.Position
     | RenderObjects
 
 
@@ -82,6 +86,36 @@ update msg model =
         NoOp ->
             ( model, Cmd.none )
 
+        MoveMouse newMousePosition ->
+            let
+                theta =
+                    toFloat newMousePosition.x / 20
+            in
+                ( { model
+                    | objects2D =
+                        List.map
+                            (\obj ->
+                                { obj
+                                    | rotation = theta
+                                }
+                            )
+                            model.objects2D
+                    , objects3D =
+                        List.map
+                            (\obj ->
+                                { obj
+                                    | rotation =
+                                        ( theta
+                                        , theta
+                                        , theta
+                                        )
+                                }
+                            )
+                            model.objects3D
+                  }
+                , cmdFromMsg RenderObjects
+                )
+
         RenderObjects ->
             ( { model
                 | renderedLines =
@@ -97,6 +131,6 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div [ class "app" ]
-        [ Readout.view model.inBoundary model.outBoundary model.renderedLines
-        , WebVectorDisplay.view model.renderedLines
+        [ WebVectorDisplay.view model.renderedLines
+        , Readout.view model.inBoundary model.outBoundary model.renderedLines
         ]
