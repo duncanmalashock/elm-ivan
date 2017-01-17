@@ -34,10 +34,10 @@ normalize inBoundary outBoundary theLine =
         yTransform y =
             (y - inBoundary.minY) * yScale + (inBoundary.minY) + yTranslate
 
-        ( x1', y1' ) =
+        ( x1_, y1_ ) =
             theLine.start
 
-        ( x2', y2' ) =
+        ( x2_, y2_ ) =
             theLine.end
     in
-        Line2D ( xTransform x1', yTransform y1' ) ( xTransform x2', yTransform y2' )
+        Line2D ( xTransform x1_, yTransform y1_ ) ( xTransform x2_, yTransform y2_ )

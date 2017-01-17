@@ -14,7 +14,6 @@ import Readout
 import WebVectorDisplay
 import CmdHelper exposing (cmdFromMsg)
 import Html exposing (Html, text, div)
-import Html.App as Html
 import Html.Attributes exposing (class)
 import Mouse
 

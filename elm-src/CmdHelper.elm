@@ -5,4 +5,4 @@ import Task
 
 cmdFromMsg : msg -> Cmd msg
 cmdFromMsg msg =
-    Task.perform identity identity <| Task.succeed msg
+    Task.perform (\x -> msg) (Task.succeed Nothing)
