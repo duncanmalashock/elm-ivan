@@ -2,3 +2,4 @@ elm-src/elm-stuff/**
 style/.bundle/**
 style/.sass-cache/**
 .DS_Store
+node_modules/*
