@@ -2,22 +2,22 @@
 Vector graphics for oscilloscope in Elm
 
 ## Usage
-Node:
-Install [Node](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/)
-Install the connect, serve-static, and [serialport](https://github.com/EmergingTechnologyAdvisors/node-serialport/) modules:
-`npm install serialport`
-`npm install connect`
-`npm install serve-static`
-Run test.js with node, passing a serial port name, i.e.
+Node:  
+Install [Node](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/)  
+Install the connect, serve-static, and [serialport](https://github.com/EmergingTechnologyAdvisors/node-serialport/) modules:  
+`npm install serialport`  
+`npm install connect`  
+`npm install serve-static`  
+Run test.js with node, passing a serial port name, i.e.  
 `node test.js /dev/tty.usbmodem2752111`
 
 ## Notes for working on this repo:
-Elm:
-Install [Elm](http://elm-lang.org/)
-Compile the Elm source:
-`cd elm-src`
+Elm:  
+Install [Elm](http://elm-lang.org/)  
+Compile the Elm source:  
+`cd elm-src`  
 `elm-make Main.elm --output=../js/elm.js`
 
-SCSS:
-`cd style`
+SCSS:  
+`cd style`  
 `sass --watch scss:css`
