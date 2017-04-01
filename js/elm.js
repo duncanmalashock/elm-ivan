@@ -9336,21 +9336,62 @@ var _user$project$Renderables2D_Line2D$translate = F2(
 				end: A2(_user$project$Renderables2D_Vector2D$translate, delta, theLine.end)
 			});
 	});
-var _user$project$Renderables2D_Line2D$asString = function (theLine) {
+var _user$project$Renderables2D_Line2D$asInts = function (theLine) {
 	var _p0 = theLine.end;
 	var x2 = _p0._0;
 	var y2 = _p0._1;
 	var _p1 = theLine.start;
 	var x1 = _p1._0;
 	var y1 = _p1._1;
+	return {
+		ctor: '::',
+		_0: {
+			ctor: '::',
+			_0: _elm_lang$core$Basics$truncate(x1),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$core$Basics$truncate(y1),
+				_1: {
+					ctor: '::',
+					_0: 0,
+					_1: {ctor: '[]'}
+				}
+			}
+		},
+		_1: {
+			ctor: '::',
+			_0: {
+				ctor: '::',
+				_0: _elm_lang$core$Basics$truncate(x2),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$core$Basics$truncate(y2),
+					_1: {
+						ctor: '::',
+						_0: 63,
+						_1: {ctor: '[]'}
+					}
+				}
+			},
+			_1: {ctor: '[]'}
+		}
+	};
+};
+var _user$project$Renderables2D_Line2D$asString = function (theLine) {
+	var _p2 = theLine.end;
+	var x2 = _p2._0;
+	var y2 = _p2._1;
+	var _p3 = theLine.start;
+	var x1 = _p3._0;
+	var y1 = _p3._1;
 	return A2(
 		_elm_lang$core$String$join,
 		' ',
 		A2(
 			_elm_lang$core$List$map,
-			function (_p2) {
+			function (_p4) {
 				return _elm_lang$core$Basics$toString(
-					_elm_lang$core$Basics$floor(_p2));
+					_elm_lang$core$Basics$floor(_p4));
 			},
 			{
 				ctor: '::',
@@ -9707,72 +9748,6 @@ var _user$project$Projection$projectObject = function (object) {
 		_user$project$Renderables3D_Object3D$render(object));
 };
 
-var _user$project$Readout$lineView = function (theline) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(
-				_user$project$Renderables2D_Line2D$asString(theline)),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$Readout$lineGroupView = F2(
-	function (label, lines) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$div,
-					{ctor: '[]'},
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(label),
-						_1: {ctor: '[]'}
-					}),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('line-list'),
-							_1: {ctor: '[]'}
-						},
-						A2(_elm_lang$core$List$map, _user$project$Readout$lineView, lines)),
-					_1: {ctor: '[]'}
-				}
-			});
-	});
-var _user$project$Readout$view = F3(
-	function (inBoundary, outBoundary, lines) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$class('readout'),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: A2(_user$project$Readout$lineGroupView, 'Lines in scene:', lines),
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_user$project$Readout$lineGroupView,
-						'Normalized for scope:',
-						A2(
-							_elm_lang$core$List$map,
-							A2(_user$project$Renderables2D_Rect2D$normalize, inBoundary, outBoundary),
-							lines)),
-					_1: {ctor: '[]'}
-				}
-			});
-	});
-
 var _user$project$WebVectorDisplay$drawLine = function (theLine) {
 	var _p0 = theLine.end;
 	var x2_ = _p0._0;
@@ -9781,37 +9756,52 @@ var _user$project$WebVectorDisplay$drawLine = function (theLine) {
 	var x1_ = _p1._0;
 	var y1_ = _p1._1;
 	return A2(
-		_elm_lang$svg$Svg$line,
+		_elm_lang$svg$Svg$g,
 		{
 			ctor: '::',
-			_0: _elm_lang$svg$Svg_Attributes$stroke('black'),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$svg$Svg_Attributes$strokeWidth('2'),
-				_1: {
+			_0: _elm_lang$svg$Svg_Attributes$transform('translate(0 450)'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$svg$Svg$line,
+				{
 					ctor: '::',
-					_0: _elm_lang$svg$Svg_Attributes$x1(
-						_elm_lang$core$Basics$toString(x1_)),
+					_0: _elm_lang$svg$Svg_Attributes$stroke('black'),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$svg$Svg_Attributes$x2(
-							_elm_lang$core$Basics$toString(x2_)),
+						_0: _elm_lang$svg$Svg_Attributes$strokeWidth('2'),
 						_1: {
 							ctor: '::',
-							_0: _elm_lang$svg$Svg_Attributes$y1(
-								_elm_lang$core$Basics$toString(y1_)),
+							_0: _elm_lang$svg$Svg_Attributes$x1(
+								_elm_lang$core$Basics$toString(x1_)),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$svg$Svg_Attributes$y2(
-									_elm_lang$core$Basics$toString(y2_)),
-								_1: {ctor: '[]'}
+								_0: _elm_lang$svg$Svg_Attributes$x2(
+									_elm_lang$core$Basics$toString(x2_)),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$svg$Svg_Attributes$y1(
+										_elm_lang$core$Basics$toString(y1_)),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$svg$Svg_Attributes$y2(
+											_elm_lang$core$Basics$toString(y2_)),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$svg$Svg_Attributes$transform('rotate(-90 0 0)'),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
 							}
 						}
 					}
-				}
-			}
-		},
-		{ctor: '[]'});
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
 };
 var _user$project$WebVectorDisplay$view = function (lines) {
 	return A2(
@@ -9831,12 +9821,12 @@ var _user$project$Main$view = function (model) {
 		{
 			ctor: '::',
 			_0: _user$project$WebVectorDisplay$view(model.renderedLines),
-			_1: {
-				ctor: '::',
-				_0: A3(_user$project$Readout$view, model.inBoundary, model.outBoundary, model.renderedLines),
-				_1: {ctor: '[]'}
-			}
+			_1: {ctor: '[]'}
 		});
+};
+var _user$project$Main$linesToArraysOfInts = function (lines) {
+	return _elm_lang$core$List$concat(
+		A2(_elm_lang$core$List$map, _user$project$Renderables2D_Line2D$asInts, lines));
 };
 var _user$project$Main$renderObjects3D = function (objects3D) {
 	return _elm_lang$core$List$concat(
@@ -9846,6 +9836,17 @@ var _user$project$Main$renderObjects2D = function (objects2D) {
 	return _elm_lang$core$List$concat(
 		A2(_elm_lang$core$List$map, _user$project$Renderables2D_Object2D$render, objects2D));
 };
+var _user$project$Main$sendDrawingInstructions = _elm_lang$core$Native_Platform.outgoingPort(
+	'sendDrawingInstructions',
+	function (v) {
+		return _elm_lang$core$Native_List.toArray(v).map(
+			function (v) {
+				return _elm_lang$core$Native_List.toArray(v).map(
+					function (v) {
+						return v;
+					});
+			});
+	});
 var _user$project$Main$Model = F6(
 	function (a, b, c, d, e, f) {
 		return {objects2D: a, objects3D: b, renderedLines: c, inBoundary: d, outBoundary: e, rotateAmount: f};
@@ -9855,64 +9856,19 @@ var _user$project$Main$init = {
 	ctor: '_Tuple2',
 	_0: {
 		renderedLines: {ctor: '[]'},
-		objects2D: {
-			ctor: '::',
-			_0: A4(
-				_user$project$Renderables2D_Object2D$Object2D,
-				_user$project$Renderables2D_Geometry2D$square,
-				{ctor: '_Tuple2', _0: 170, _1: 100},
-				1.0,
-				0),
-			_1: {
-				ctor: '::',
-				_0: A4(
-					_user$project$Renderables2D_Object2D$Object2D,
-					_user$project$Renderables2D_Geometry2D$square,
-					{ctor: '_Tuple2', _0: 280, _1: 100},
-					0.5,
-					0),
-				_1: {
-					ctor: '::',
-					_0: A4(
-						_user$project$Renderables2D_Object2D$Object2D,
-						_user$project$Renderables2D_Geometry2D$square,
-						{ctor: '_Tuple2', _0: 350, _1: 100},
-						0.25,
-						0),
-					_1: {ctor: '[]'}
-				}
-			}
-		},
+		objects2D: {ctor: '[]'},
 		objects3D: {
 			ctor: '::',
 			_0: A4(
 				_user$project$Renderables3D_Object3D$Object3D,
 				_user$project$Renderables3D_Geometry3D$cube,
-				{ctor: '_Tuple3', _0: 170, _1: 275, _2: 100},
+				{ctor: '_Tuple3', _0: 250, _1: 200, _2: 100},
 				1.0,
 				{ctor: '_Tuple3', _0: 0, _1: 0, _2: 0}),
-			_1: {
-				ctor: '::',
-				_0: A4(
-					_user$project$Renderables3D_Object3D$Object3D,
-					_user$project$Renderables3D_Geometry3D$cube,
-					{ctor: '_Tuple3', _0: 280, _1: 275, _2: 100},
-					0.5,
-					{ctor: '_Tuple3', _0: 0, _1: 0, _2: 0}),
-				_1: {
-					ctor: '::',
-					_0: A4(
-						_user$project$Renderables3D_Object3D$Object3D,
-						_user$project$Renderables3D_Geometry3D$cube,
-						{ctor: '_Tuple3', _0: 350, _1: 275, _2: 100},
-						0.25,
-						{ctor: '_Tuple3', _0: 0, _1: 0, _2: 0}),
-					_1: {ctor: '[]'}
-				}
-			}
+			_1: {ctor: '[]'}
 		},
 		inBoundary: A4(_user$project$Renderables2D_Rect2D$Rect2D, 0, 550, 0, 400),
-		outBoundary: A4(_user$project$Renderables2D_Rect2D$Rect2D, 0, 2048, 0, 2048),
+		outBoundary: A4(_user$project$Renderables2D_Rect2D$Rect2D, 0, 4095, 0, 4095),
 		rotateAmount: 0.0
 	},
 	_1: _user$project$CmdHelper$cmdFromMsg(_user$project$Main$RenderObjects)
@@ -9968,7 +9924,12 @@ var _user$project$Main$update = F2(
 									}
 								})
 						}),
-					_1: _elm_lang$core$Platform_Cmd$none
+					_1: _user$project$Main$sendDrawingInstructions(
+						_user$project$Main$linesToArraysOfInts(
+							A2(
+								_elm_lang$core$List$map,
+								A2(_user$project$Renderables2D_Rect2D$normalize, model.inBoundary, model.outBoundary),
+								model.renderedLines)))
 				};
 		}
 	});

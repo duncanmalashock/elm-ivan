@@ -1,4 +1,4 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 import Renderables2D.Vector2D as Vector2D exposing (Vector2D)
 import Renderables2D.Line2D as Line2D exposing (Line2D)
@@ -10,7 +10,6 @@ import Renderables3D.Line3D as Line3D exposing (Line3D)
 import Renderables3D.Geometry3D as Geometry3D exposing (Geometry3D)
 import Renderables3D.Object3D as Object3D exposing (Object3D)
 import Projection
-import Readout
 import WebVectorDisplay
 import CmdHelper exposing (cmdFromMsg)
 import Html exposing (Html, text, div)
@@ -46,17 +45,12 @@ init : ( Model, Cmd Msg )
 init =
     ( { renderedLines = []
       , objects2D =
-            [ Object2D Geometry2D.square ( 170, 100 ) 1.0 0
-            , Object2D Geometry2D.square ( 280, 100 ) 0.5 0
-            , Object2D Geometry2D.square ( 350, 100 ) 0.25 0
-            ]
+            []
       , objects3D =
-            [ Object3D Geometry3D.cube ( 170, 275, 100 ) 1.0 ( 0, 0, 0 )
-            , Object3D Geometry3D.cube ( 280, 275, 100 ) 0.5 ( 0, 0, 0 )
-            , Object3D Geometry3D.cube ( 350, 275, 100 ) 0.25 ( 0, 0, 0 )
+            [ Object3D Geometry3D.cube ( 250, 200, 100 ) 1.0 ( 0, 0, 0 )
             ]
       , inBoundary = Rect2D 0 550 0 400
-      , outBoundary = Rect2D 0 2048 0 2048
+      , outBoundary = Rect2D 0 4095 0 4095
       , rotateAmount = 0.0
       }
     , cmdFromMsg RenderObjects
@@ -77,6 +71,14 @@ renderObjects2D objects2D =
 renderObjects3D : List Object3D -> List Line2D
 renderObjects3D objects3D =
     List.concat (List.map Projection.projectObject objects3D)
+
+
+linesToArraysOfInts : List Line2D -> List (List Int)
+linesToArraysOfInts lines =
+    List.concat <| List.map Line2D.asInts lines
+
+
+port sendDrawingInstructions : List (List Int) -> Cmd msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -123,7 +125,12 @@ update msg model =
                         , (renderObjects3D model.objects3D)
                         ]
               }
-            , Cmd.none
+            , sendDrawingInstructions <|
+                linesToArraysOfInts
+                    (List.map
+                        (Rect2D.normalize model.inBoundary model.outBoundary)
+                        model.renderedLines
+                    )
             )
 
 
@@ -131,5 +138,4 @@ view : Model -> Html Msg
 view model =
     div [ class "app" ]
         [ WebVectorDisplay.view model.renderedLines
-        , Readout.view model.inBoundary model.outBoundary model.renderedLines
         ]

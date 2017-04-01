@@ -22,6 +22,20 @@ asString theLine =
         String.join " " <| List.map (floor >> toString) [ x1, y1, x2, y2 ]
 
 
+asInts : Line2D -> List (List Int)
+asInts theLine =
+    let
+        ( x1, y1 ) =
+            theLine.start
+
+        ( x2, y2 ) =
+            theLine.end
+    in
+        [ [ truncate x1, truncate y1, 0 ]
+        , [ truncate x2, truncate y2, 63 ]
+        ]
+
+
 translate : Vector2D -> Line2D -> Line2D
 translate delta theLine =
     { theLine
