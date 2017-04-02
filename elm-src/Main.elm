@@ -47,9 +47,9 @@ init =
       , objects2D =
             []
       , objects3D =
-            [ Object3D Geometry3D.cube ( 250, 200, 100 ) 1.0 ( 0, 0, 0 )
+            [ Object3D Geometry3D.cube ( 200, 200, 100 ) 1.0 ( 0, 0, 0 )
             ]
-      , inBoundary = Rect2D 0 550 0 400
+      , inBoundary = Rect2D 0 400 0 400
       , outBoundary = Rect2D 0 4095 0 4095
       , rotateAmount = 0.0
       }

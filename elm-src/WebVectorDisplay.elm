@@ -16,7 +16,7 @@ drawLine theLine =
             theLine.end
     in
         g
-            [ transform "translate(0 450)" ]
+            [ transform "translate(0 400)" ]
             [ line
                 [ stroke "black"
                 , strokeWidth "2"

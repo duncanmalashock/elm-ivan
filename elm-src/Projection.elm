@@ -11,7 +11,7 @@ projectPoint : Vector3D -> Vector2D
 projectPoint point =
     let
         ( povX, povY, povZ ) =
-            ( 275, 200, -800 )
+            ( 200, 200, -800 )
 
         ( x, y, z ) =
             point

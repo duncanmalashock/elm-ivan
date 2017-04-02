@@ -9729,7 +9729,7 @@ var _user$project$Projection$projectPoint = function (point) {
 	var x = _p0._0;
 	var y = _p0._1;
 	var z = _p0._2;
-	var _p1 = {ctor: '_Tuple3', _0: 275, _1: 200, _2: -800};
+	var _p1 = {ctor: '_Tuple3', _0: 200, _1: 200, _2: -800};
 	var povX = _p1._0;
 	var povY = _p1._1;
 	var povZ = _p1._2;
@@ -9759,7 +9759,7 @@ var _user$project$WebVectorDisplay$drawLine = function (theLine) {
 		_elm_lang$svg$Svg$g,
 		{
 			ctor: '::',
-			_0: _elm_lang$svg$Svg_Attributes$transform('translate(0 450)'),
+			_0: _elm_lang$svg$Svg_Attributes$transform('translate(0 400)'),
 			_1: {ctor: '[]'}
 		},
 		{
@@ -9862,12 +9862,12 @@ var _user$project$Main$init = {
 			_0: A4(
 				_user$project$Renderables3D_Object3D$Object3D,
 				_user$project$Renderables3D_Geometry3D$cube,
-				{ctor: '_Tuple3', _0: 250, _1: 200, _2: 100},
+				{ctor: '_Tuple3', _0: 200, _1: 200, _2: 100},
 				1.0,
 				{ctor: '_Tuple3', _0: 0, _1: 0, _2: 0}),
 			_1: {ctor: '[]'}
 		},
-		inBoundary: A4(_user$project$Renderables2D_Rect2D$Rect2D, 0, 550, 0, 400),
+		inBoundary: A4(_user$project$Renderables2D_Rect2D$Rect2D, 0, 400, 0, 400),
 		outBoundary: A4(_user$project$Renderables2D_Rect2D$Rect2D, 0, 4095, 0, 4095),
 		rotateAmount: 0.0
 	},
