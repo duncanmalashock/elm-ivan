@@ -22,7 +22,7 @@ var debugMode = false;
 
 var printIfDebug = function(message) {
   if (debugMode) {
-    printIfDebug(string);
+    console.log(message);
   }
 }
 
