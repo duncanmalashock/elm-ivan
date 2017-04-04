@@ -18,6 +18,8 @@ var xByteLength = 12;
 var yByteLength = 12;
 var zByteLength = 6;
 
+var drawLineProtocol = 0b10;
+
 var debugMode = false;
 
 var printIfDebug = function(message) {
@@ -42,7 +44,7 @@ var encodePointIntoBytes = function(point) {
   byteIndex += xByteLength;
   encodedData = encodedData | (zByte << byteIndex);
   byteIndex += zByteLength;
-  encodedData = encodedData | (2 << byteIndex);
+  encodedData = encodedData | (drawLineProtocol << byteIndex);
   return encodedData;
 }
 
@@ -56,7 +58,7 @@ var constructBufferOutput = function(points) {
   for (j = 0; j < points.length; j++) {
     dataForBuffer = encodePointIntoBytes(points[j]);
     for (k = numDataBytesPerLine - 1; k >= 0; k--) {
-      buffer[bufferIndex++] = (dataForBuffer >> (k * 8)) & maxValueForNumBits(numBufferIndexBits);
+      buffer[bufferIndex++] = (dataForBuffer >> (k * numBufferIndexBits)) & maxValueForNumBits(numBufferIndexBits);
     }
   }
   for (x = 0; x < numTailBytes; x++) {
