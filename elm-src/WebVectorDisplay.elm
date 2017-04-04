@@ -16,15 +16,14 @@ drawLine theLine =
             theLine.end
     in
         g
-            [ transform "translate(0 400)" ]
+            []
             [ line
                 [ stroke "black"
                 , strokeWidth "2"
                 , x1 (toString x1_)
                 , x2 (toString x2_)
-                , y1 (toString y1_)
-                , y2 (toString y2_)
-                , transform "rotate(-90 0 0)"
+                , y1 (toString <| 400 - y1_)
+                , y2 (toString <| 400 - y2_)
                 ]
                 []
             ]

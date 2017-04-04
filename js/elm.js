@@ -8743,6 +8743,121 @@ var _elm_lang$html$Html_Attributes$classList = function (list) {
 };
 var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
 
+var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
+var _elm_lang$html$Html_Events$targetChecked = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'checked',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$bool);
+var _elm_lang$html$Html_Events$targetValue = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'value',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _elm_lang$html$Html_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
+var _elm_lang$html$Html_Events$onWithOptions = _elm_lang$virtual_dom$VirtualDom$onWithOptions;
+var _elm_lang$html$Html_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
+var _elm_lang$html$Html_Events$onFocus = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'focus',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onBlur = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'blur',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onSubmitOptions = _elm_lang$core$Native_Utils.update(
+	_elm_lang$html$Html_Events$defaultOptions,
+	{preventDefault: true});
+var _elm_lang$html$Html_Events$onSubmit = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'submit',
+		_elm_lang$html$Html_Events$onSubmitOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onCheck = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'change',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetChecked));
+};
+var _elm_lang$html$Html_Events$onInput = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'input',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetValue));
+};
+var _elm_lang$html$Html_Events$onMouseOut = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseout',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseOver = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseover',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseLeave = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseleave',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseEnter = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseenter',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseUp = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseup',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseDown = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mousedown',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onDoubleClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'dblclick',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'click',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$Options = F2(
+	function (a, b) {
+		return {stopPropagation: a, preventDefault: b};
+	});
+
 var _elm_lang$mouse$Mouse_ops = _elm_lang$mouse$Mouse_ops || {};
 _elm_lang$mouse$Mouse_ops['&>'] = F2(
 	function (t1, t2) {
@@ -9757,11 +9872,7 @@ var _user$project$WebVectorDisplay$drawLine = function (theLine) {
 	var y1_ = _p1._1;
 	return A2(
 		_elm_lang$svg$Svg$g,
-		{
-			ctor: '::',
-			_0: _elm_lang$svg$Svg_Attributes$transform('translate(0 400)'),
-			_1: {ctor: '[]'}
-		},
+		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: A2(
@@ -9783,16 +9894,12 @@ var _user$project$WebVectorDisplay$drawLine = function (theLine) {
 								_1: {
 									ctor: '::',
 									_0: _elm_lang$svg$Svg_Attributes$y1(
-										_elm_lang$core$Basics$toString(y1_)),
+										_elm_lang$core$Basics$toString(400 - y1_)),
 									_1: {
 										ctor: '::',
 										_0: _elm_lang$svg$Svg_Attributes$y2(
-											_elm_lang$core$Basics$toString(y2_)),
-										_1: {
-											ctor: '::',
-											_0: _elm_lang$svg$Svg_Attributes$transform('rotate(-90 0 0)'),
-											_1: {ctor: '[]'}
-										}
+											_elm_lang$core$Basics$toString(400 - y2_)),
+										_1: {ctor: '[]'}
 									}
 								}
 							}
@@ -9810,20 +9917,6 @@ var _user$project$WebVectorDisplay$view = function (lines) {
 		A2(_elm_lang$core$List$map, _user$project$WebVectorDisplay$drawLine, lines));
 };
 
-var _user$project$Main$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('app'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _user$project$WebVectorDisplay$view(model.renderedLines),
-			_1: {ctor: '[]'}
-		});
-};
 var _user$project$Main$linesToArraysOfInts = function (lines) {
 	return _elm_lang$core$List$concat(
 		A2(_elm_lang$core$List$map, _user$project$Renderables2D_Line2D$asInts, lines));
@@ -9877,33 +9970,30 @@ var _user$project$Main$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
-			case 'NoOp':
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'MoveMouse':
-				var theta = _elm_lang$core$Basics$toFloat(_p0._0.x) / 20;
+				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+			case 'UpdateSlider':
+				var thetaX = _elm_lang$core$Basics$toFloat(
+					A2(
+						_elm_lang$core$Result$withDefault,
+						0,
+						_elm_lang$core$String$toInt(_p0._0)));
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							objects2D: A2(
-								_elm_lang$core$List$map,
-								function (obj) {
-									return _elm_lang$core$Native_Utils.update(
-										obj,
-										{rotation: theta});
-								},
-								model.objects2D),
 							objects3D: A2(
 								_elm_lang$core$List$map,
 								function (obj) {
 									return _elm_lang$core$Native_Utils.update(
 										obj,
 										{
-											rotation: {ctor: '_Tuple3', _0: theta, _1: theta, _2: theta}
+											rotation: {ctor: '_Tuple3', _0: 0, _1: thetaX, _2: 0}
 										});
 								},
-								model.objects3D)
+								model.objects3D),
+							rotateAmount: thetaX
 						}),
 					_1: _user$project$CmdHelper$cmdFromMsg(_user$project$Main$RenderObjects)
 				};
@@ -9933,6 +10023,58 @@ var _user$project$Main$update = F2(
 				};
 		}
 	});
+var _user$project$Main$UpdateSlider = function (a) {
+	return {ctor: 'UpdateSlider', _0: a};
+};
+var _user$project$Main$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('app'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$WebVectorDisplay$view(model.renderedLines),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$input,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$type_('range'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$min('0'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$max('90'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Attributes$value(
+												_elm_lang$core$Basics$toString(model.rotateAmount)),
+											_1: {
+												ctor: '::',
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Main$UpdateSlider),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							},
+							{ctor: '[]'}),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _user$project$Main$MoveMouse = function (a) {
 	return {ctor: 'MoveMouse', _0: a};
 };
@@ -9941,7 +10083,6 @@ var _user$project$Main$subscriptions = function (model) {
 };
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})();
-var _user$project$Main$NoOp = {ctor: 'NoOp'};
 
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};

@@ -12,8 +12,9 @@ import Renderables3D.Object3D as Object3D exposing (Object3D)
 import Projection
 import WebVectorDisplay
 import CmdHelper exposing (cmdFromMsg)
-import Html exposing (Html, text, div)
-import Html.Attributes exposing (class)
+import Html exposing (Html, text, div, input)
+import Html.Attributes exposing (class, min, max, value)
+import Html.Events exposing (on, onInput)
 import Mouse
 
 
@@ -58,8 +59,8 @@ init =
 
 
 type Msg
-    = NoOp
-    | MoveMouse Mouse.Position
+    = MoveMouse Mouse.Position
+    | UpdateSlider String
     | RenderObjects
 
 
@@ -84,35 +85,28 @@ port sendDrawingInstructions : List (List Int) -> Cmd msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        NoOp ->
+        MoveMouse mousePosition ->
             ( model, Cmd.none )
 
-        MoveMouse newMousePosition ->
+        UpdateSlider newX ->
             let
-                theta =
-                    toFloat newMousePosition.x / 20
+                thetaX =
+                    toFloat (String.toInt newX |> Result.withDefault 0)
             in
                 ( { model
-                    | objects2D =
-                        List.map
-                            (\obj ->
-                                { obj
-                                    | rotation = theta
-                                }
-                            )
-                            model.objects2D
-                    , objects3D =
+                    | objects3D =
                         List.map
                             (\obj ->
                                 { obj
                                     | rotation =
-                                        ( theta
-                                        , theta
-                                        , theta
+                                        ( 0
+                                        , thetaX
+                                        , 0
                                         )
                                 }
                             )
                             model.objects3D
+                    , rotateAmount = thetaX
                   }
                 , cmdFromMsg RenderObjects
                 )
@@ -138,4 +132,14 @@ view : Model -> Html Msg
 view model =
     div [ class "app" ]
         [ WebVectorDisplay.view model.renderedLines
+        , div []
+            [ input
+                [ Html.Attributes.type_ "range"
+                , Html.Attributes.min "0"
+                , Html.Attributes.max "90"
+                , value <| toString model.rotateAmount
+                , onInput UpdateSlider
+                ]
+                []
+            ]
         ]
