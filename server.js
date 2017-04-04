@@ -83,7 +83,6 @@ var sendBufferToSerial = function(port, buffer) {
 }
 
 var myPort = new SerialPort(portName, {
-  baudRate: 9600,
   autoOpen: false
 });
 
