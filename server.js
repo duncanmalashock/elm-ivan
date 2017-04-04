@@ -33,22 +33,13 @@ var maxValueForNumBits = function(numBits) {
 };
 
 var encodePointIntoBytes = function(point) {
-  var byteIndex = 0;
+  var zByte = (point[2] & maxValueForNumBits(zByteLength));
   var xByte = (point[0] & maxValueForNumBits(xByteLength));
   var yByte = (point[1] & maxValueForNumBits(yByteLength));
-  var zByte = (point[2] & maxValueForNumBits(zByteLength));
   var encodedData = drawLineProtocol;
   encodedData = (encodedData << zByteLength) + zByte;
   encodedData = (encodedData << xByteLength) + xByte;
   encodedData = (encodedData << yByteLength) + yByte;
-
-  // encodedData = encodedData | yByte;
-  // byteIndex += yByteLength;
-  // encodedData = encodedData | (xByte << byteIndex);
-  // byteIndex += xByteLength;
-  // encodedData = encodedData | (zByte << byteIndex);
-  // byteIndex += zByteLength;
-  // encodedData = encodedData | (drawLineProtocol << byteIndex);
   return encodedData;
 };
 
