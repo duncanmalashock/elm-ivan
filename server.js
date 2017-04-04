@@ -26,11 +26,11 @@ var printIfDebug = function(message) {
   if (debugMode) {
     console.log(message);
   }
-}
+};
 
 var maxValueForNumBits = function(numBits) {
   return Math.pow(2, numBits) - 1;
-}
+};
 
 var encodePointIntoBytes = function(point) {
   var byteIndex = 0;
@@ -46,7 +46,7 @@ var encodePointIntoBytes = function(point) {
   byteIndex += zByteLength;
   encodedData = encodedData | (drawLineProtocol << byteIndex);
   return encodedData;
-}
+};
 
 var constructBufferOutput = function(points) {
   var bufferLength = numHeaderBytes + (numDataBytesPerLine * points.length) + numTailBytes;
@@ -65,7 +65,7 @@ var constructBufferOutput = function(points) {
     buffer[bufferIndex++] = 1;
   }
   return buffer;
-}
+};
 
 var sendBufferToSerial = function(port, buffer) {
   port.write(buffer, function (error, result) {
@@ -80,7 +80,7 @@ var sendBufferToSerial = function(port, buffer) {
     printIfDebug("Sent buffer to serial port");
     return;
   });
-}
+};
 
 var myPort = new SerialPort(portName, {
   autoOpen: false
