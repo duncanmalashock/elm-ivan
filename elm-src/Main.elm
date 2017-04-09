@@ -11,7 +11,6 @@ import Renderables3D.Geometry3D as Geometry3D exposing (Geometry3D)
 import Renderables3D.Object3D as Object3D exposing (Object3D)
 import Projection
 import WebVectorDisplay
-import CmdHelper exposing (cmdFromMsg)
 import Html exposing (Html, text, div, input)
 import Html.Attributes exposing (class, min, max, value)
 import Html.Events exposing (on, onInput)
@@ -44,24 +43,25 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { renderedLines = []
-      , objects2D =
-            []
-      , objects3D =
-            [ Object3D Geometry3D.cube ( 200, 200, 100 ) 1.0 ( 0, 0, 0 )
-            ]
-      , inBoundary = Rect2D 0 400 0 400
-      , outBoundary = Rect2D 0 4095 0 4095
-      , rotateAmount = 0.0
-      }
-    , cmdFromMsg RenderObjects
-    )
+    let
+        initialModel =
+            { renderedLines = []
+            , objects2D =
+                []
+            , objects3D =
+                [ Object3D Geometry3D.cube ( 200, 200, 100 ) 1.0 ( 0, 0, 0 )
+                ]
+            , inBoundary = Rect2D 0 400 0 400
+            , outBoundary = Rect2D 0 4095 0 4095
+            , rotateAmount = 0.0
+            }
+    in
+        renderObjects initialModel
 
 
 type Msg
     = MoveMouse Mouse.Position
     | UpdateSlider String
-    | RenderObjects
 
 
 renderObjects2D : List Object2D -> List Line2D
@@ -93,39 +93,40 @@ update msg model =
                 thetaX =
                     toFloat (String.toInt newX |> Result.withDefault 0)
             in
-                ( { model
-                    | objects3D =
-                        List.map
-                            (\obj ->
-                                { obj
-                                    | rotation =
-                                        ( 0
-                                        , thetaX
-                                        , 0
-                                        )
-                                }
-                            )
-                            model.objects3D
-                    , rotateAmount = thetaX
-                  }
-                , cmdFromMsg RenderObjects
-                )
+                renderObjects
+                    { model
+                        | objects3D =
+                            List.map
+                                (\obj ->
+                                    { obj
+                                        | rotation =
+                                            ( 0
+                                            , thetaX
+                                            , 0
+                                            )
+                                    }
+                                )
+                                model.objects3D
+                        , rotateAmount = thetaX
+                    }
 
-        RenderObjects ->
-            ( { model
-                | renderedLines =
-                    List.concat
-                        [ (renderObjects2D model.objects2D)
-                        , (renderObjects3D model.objects3D)
-                        ]
-              }
-            , sendDrawingInstructions <|
-                linesToArraysOfInts
-                    (List.map
-                        (Rect2D.normalize model.inBoundary model.outBoundary)
-                        model.renderedLines
-                    )
+
+renderObjects : Model -> ( Model, Cmd Msg )
+renderObjects model =
+    ( { model
+        | renderedLines =
+            List.concat
+                [ (renderObjects2D model.objects2D)
+                , (renderObjects3D model.objects3D)
+                ]
+      }
+    , sendDrawingInstructions <|
+        linesToArraysOfInts
+            (List.map
+                (Rect2D.normalize model.inBoundary model.outBoundary)
+                model.renderedLines
             )
+    )
 
 
 view : Model -> Html Msg
