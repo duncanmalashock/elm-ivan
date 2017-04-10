@@ -1,6 +1,6 @@
 module Renderables3D.Object3D exposing (..)
 
-import Renderables3D.Transform exposing (Transform)
+import Renderables3D.Transform as Transform exposing (Transform)
 import Renderables3D.Line3D as Line3D exposing (Line3D)
 import Renderables3D.Vector3D as Vector3D exposing (Vector3D)
 

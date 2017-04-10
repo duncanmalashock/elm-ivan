@@ -9,7 +9,7 @@ import Renderables3D.Vector3D as Vector3D exposing (Vector3D)
 import Renderables3D.Line3D as Line3D exposing (Line3D)
 import Renderables3D.Geometry3D as Geometry3D exposing (Geometry3D)
 import Renderables3D.Object3D as Object3D exposing (Object3D)
-import Renderables3D.Transform exposing (Transform)
+import Renderables3D.Transform as Transform exposing (Transform)
 import Projection
 import WebVectorDisplay
 import Html exposing (Html, text, div, input)
@@ -46,13 +46,13 @@ init : ( Model, Cmd Msg )
 init =
     let
         positionTransform =
-            Renderables3D.Transform.Translate ( 200, 200, 100 )
+            Transform.Translate ( 200, 200, 100 )
 
         scaleTransform =
-            Renderables3D.Transform.Scale ( 1.0, 1.0, 1.0 )
+            Transform.Scale ( 1.0, 1.0, 1.0 )
 
         rotationTransform =
-            Renderables3D.Transform.Rotate ( 0, 0, 0 )
+            Transform.Rotate ( 0, 0, 0 )
 
         initialModel =
             { renderedLines = []
@@ -113,7 +113,7 @@ update msg model =
                                 (\obj ->
                                     { obj
                                         | rotation =
-                                            Renderables3D.Transform.Rotate
+                                            Transform.Rotate
                                                 ( 0, thetaX, 0 )
                                     }
                                 )
