@@ -10,8 +10,8 @@ type alias Line3D =
     }
 
 
-translate : Transform -> Line3D -> Line3D
-translate transform theLine =
+applyTransform : Transform -> Line3D -> Line3D
+applyTransform transform theLine =
     case transform of
         Transform.Translate delta ->
             { theLine
@@ -19,31 +19,14 @@ translate transform theLine =
                 , end = Vector3D.translate delta theLine.end
             }
 
-        _ ->
-            theLine
-
-
-scale : Transform -> Line3D -> Line3D
-scale transform theLine =
-    case transform of
         Transform.Scale amount ->
             { theLine
                 | start = Vector3D.scale amount theLine.start
                 , end = Vector3D.scale amount theLine.end
             }
 
-        _ ->
-            theLine
-
-
-rotate : Transform -> Line3D -> Line3D
-rotate transform theLine =
-    case transform of
         Transform.Rotate theta ->
             { theLine
                 | start = Vector3D.rotate theta theLine.start
                 , end = Vector3D.rotate theta theLine.end
             }
-
-        _ ->
-            theLine

@@ -53,9 +53,10 @@ init =
             { renderedLines = []
             , objects3D =
                 [ Object Geometry.cube
-                    positionTransform
-                    scaleTransform
-                    rotationTransform
+                    [ positionTransform
+                    , scaleTransform
+                    , rotationTransform
+                    ]
                 ]
             , inBoundary = Rect2D 0 400 0 400
             , outBoundary = Rect2D 0 4095 0 4095
@@ -100,9 +101,11 @@ update msg model =
                             List.map
                                 (\obj ->
                                     { obj
-                                        | rotation =
-                                            Transform.Rotate
-                                                ( 0, thetaX, 0 )
+                                        | transforms =
+                                            [ Transform.Translate ( 200, 200, 100 )
+                                            , Transform.Scale ( 1.0, 1.0, 1.0 )
+                                            , Transform.Rotate ( 0, thetaX, 0 )
+                                            ]
                                     }
                                 )
                                 model.objects3D
