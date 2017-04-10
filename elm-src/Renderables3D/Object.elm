@@ -1,11 +1,10 @@
-module Renderables3D.Object3D exposing (..)
+module Renderables3D.Object exposing (..)
 
 import Renderables3D.Transform as Transform exposing (Transform)
 import Renderables3D.Line3D as Line3D exposing (Line3D)
-import Renderables3D.Vector3D as Vector3D exposing (Vector3D)
 
 
-type alias Object3D =
+type alias Object =
     { geometry : List Line3D
     , position : Transform
     , scale : Transform
@@ -13,7 +12,7 @@ type alias Object3D =
     }
 
 
-render : Object3D -> List Line3D
+render : Object -> List Line3D
 render object =
     List.map
         ((Line3D.scale object.scale)

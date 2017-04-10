@@ -2,7 +2,7 @@ module Projection exposing (..)
 
 import Renderables2D.Vector2D as Vector2D exposing (Vector2D)
 import Renderables2D.Line2D as Line2D exposing (Line2D)
-import Renderables3D.Object3D as Object3D exposing (Object3D)
+import Renderables3D.Object as Object exposing (Object)
 import Renderables3D.Line3D as Line3D exposing (Line3D)
 import Renderables3D.Vector3D as Vector3D exposing (Vector3D)
 
@@ -28,6 +28,6 @@ projectLine line =
     }
 
 
-projectObject : Object3D -> List Line2D
+projectObject : Object -> List Line2D
 projectObject object =
-    List.map projectLine (Object3D.render object)
+    List.map projectLine (Object.render object)
