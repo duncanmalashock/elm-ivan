@@ -17,24 +17,16 @@ translate delta point =
         ( x + dx, y + dy, z + dz )
 
 
-scale : Float -> Vector3D -> Vector3D
-scale amount point =
-    let
-        ( x, y, z ) =
-            point
-    in
-        ( x * amount, y * amount, z * amount )
+scale : Vector3D -> Vector3D -> Vector3D
+scale ( dx, dy, dz ) ( x, y, z ) =
+    ( x * dx, y * dy, z * dz )
 
 
-rotate : ( Float, Float, Float ) -> Vector3D -> Vector3D
-rotate theta point =
-    let
-        ( thetaX, thetaY, thetaZ ) =
-            theta
-    in
-        rotateX thetaX <|
-            rotateY thetaY <|
-                rotateZ thetaZ point
+rotate : Vector3D -> Vector3D -> Vector3D
+rotate ( dx, dy, dz ) point =
+    rotateX dx <|
+        rotateY dy <|
+            rotateZ dz point
 
 
 rotateX : Float -> Vector3D -> Vector3D

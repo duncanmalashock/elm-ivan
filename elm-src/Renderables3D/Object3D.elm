@@ -1,14 +1,15 @@
 module Renderables3D.Object3D exposing (..)
 
+import Renderables3D.Transform exposing (Transform)
 import Renderables3D.Line3D as Line3D exposing (Line3D)
 import Renderables3D.Vector3D as Vector3D exposing (Vector3D)
 
 
 type alias Object3D =
     { geometry : List Line3D
-    , position : Vector3D
-    , scale : Float
-    , rotation : ( Float, Float, Float )
+    , position : Transform
+    , scale : Transform
+    , rotation : Transform
     }
 
 

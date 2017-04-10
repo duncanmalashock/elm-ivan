@@ -9,6 +9,7 @@ import Renderables3D.Vector3D as Vector3D exposing (Vector3D)
 import Renderables3D.Line3D as Line3D exposing (Line3D)
 import Renderables3D.Geometry3D as Geometry3D exposing (Geometry3D)
 import Renderables3D.Object3D as Object3D exposing (Object3D)
+import Renderables3D.Transform exposing (Transform)
 import Projection
 import WebVectorDisplay
 import Html exposing (Html, text, div, input)
@@ -44,12 +45,24 @@ type alias Model =
 init : ( Model, Cmd Msg )
 init =
     let
+        positionTransform =
+            Renderables3D.Transform.Translate ( 200, 200, 100 )
+
+        scaleTransform =
+            Renderables3D.Transform.Scale ( 1.0, 1.0, 1.0 )
+
+        rotationTransform =
+            Renderables3D.Transform.Rotate ( 0, 0, 0 )
+
         initialModel =
             { renderedLines = []
             , objects2D =
                 []
             , objects3D =
-                [ Object3D Geometry3D.cube ( 200, 200, 100 ) 1.0 ( 0, 0, 0 )
+                [ Object3D Geometry3D.cube
+                    positionTransform
+                    scaleTransform
+                    rotationTransform
                 ]
             , inBoundary = Rect2D 0 400 0 400
             , outBoundary = Rect2D 0 4095 0 4095
@@ -100,10 +113,8 @@ update msg model =
                                 (\obj ->
                                     { obj
                                         | rotation =
-                                            ( 0
-                                            , thetaX
-                                            , 0
-                                            )
+                                            Renderables3D.Transform.Rotate
+                                                ( 0, thetaX, 0 )
                                     }
                                 )
                                 model.objects3D
