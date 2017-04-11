@@ -3,3 +3,5 @@ style/.bundle/**
 style/.sass-cache/**
 .DS_Store
 node_modules/*
+launch.command
+js/*
