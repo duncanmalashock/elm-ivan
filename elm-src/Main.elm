@@ -3,7 +3,7 @@ port module Main exposing (..)
 import Renderables2D.Line2D as Line2D exposing (Line2D)
 import Renderables2D.Rect2D as Rect2D exposing (Rect2D)
 import Renderables3D.Geometry as Geometry exposing (Geometry)
-import Renderables3D.Object as Object exposing (Object)
+import Renderables3D.Object as Object exposing (Object, ObjectTree(..), emptyObjectTree)
 import Renderables3D.Transform as Transform exposing (Transform)
 import Projection
 import WebVectorDisplay
@@ -57,6 +57,7 @@ init =
                     , scaleTransform
                     , rotationTransform
                     ]
+                    emptyObjectTree
                 ]
             , inBoundary = Rect2D 0 400 0 400
             , outBoundary = Rect2D 0 4095 0 4095
