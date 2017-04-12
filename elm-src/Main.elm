@@ -78,7 +78,7 @@ type Msg
 
 renderObjects3D : ObjectTree -> List Line2D
 renderObjects3D objects3D =
-    List.map Projection.projectLine (Object.renderTree objects3D)
+    List.map Projection.projectLine (Object.renderTree objects3D [])
 
 
 linesToArraysOfInts : List Line2D -> List (List Int)

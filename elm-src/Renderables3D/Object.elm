@@ -36,13 +36,13 @@ render object =
         List.map (allTransforms) object.geometry
 
 
-renderTree : ObjectTree -> List Line3D
-renderTree objectTree =
+renderTree : ObjectTree -> List Line3D -> List Line3D
+renderTree objectTree outputList =
     case objectTree of
         Obj tree ->
             case tree of
                 Empty ->
-                    []
+                    outputList
 
                 Node object ->
-                    List.concat [ renderTree object.children, render object ]
+                    renderTree object.children <| List.concat [ (render object), outputList ]
