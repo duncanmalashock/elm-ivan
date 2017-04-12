@@ -29,7 +29,7 @@ subscriptions model =
 
 
 type alias Model =
-    { objects3D : List Object
+    { objects3D : ObjectTree
     , renderedLines : List Line2D
     , inBoundary : Rect2D
     , outBoundary : Rect2D
@@ -49,16 +49,20 @@ init =
         rotationTransform =
             Transform.Rotate ( 0, 0, 0 )
 
-        initialModel =
-            { renderedLines = []
-            , objects3D =
-                [ Object Geometry.cube
+        objectTree =
+            Object.objectTreeFromObject <|
+                Object
+                    Geometry.cube
                     [ positionTransform
                     , scaleTransform
                     , rotationTransform
                     ]
                     emptyObjectTree
-                ]
+
+        initialModel =
+            { renderedLines = []
+            , objects3D =
+                objectTree
             , inBoundary = Rect2D 0 400 0 400
             , outBoundary = Rect2D 0 4095 0 4095
             , rotateAmount = 0.0
@@ -72,9 +76,9 @@ type Msg
     | UpdateSlider String
 
 
-renderObjects3D : List Object -> List Line2D
+renderObjects3D : ObjectTree -> List Line2D
 renderObjects3D objects3D =
-    List.concat (List.map Projection.projectObject objects3D)
+    List.map Projection.projectLine (Object.renderTree objects3D)
 
 
 linesToArraysOfInts : List Line2D -> List (List Int)
@@ -95,21 +99,44 @@ update msg model =
             let
                 thetaX =
                     toFloat (String.toInt newX |> Result.withDefault 0)
+
+                positionTransform =
+                    Transform.Translate ( 200, 200, 100 )
+
+                positionTransform2 =
+                    Transform.Translate ( 300, 300, 100 )
+
+                scaleTransform =
+                    Transform.Scale ( 1.0, 1.0, 1.0 )
+
+                rotationTransform =
+                    Transform.Rotate ( 0, thetaX, 0 )
+
+                rotationTransform2 =
+                    Transform.Rotate ( 0, 0, 0 )
+
+                objectTree =
+                    Object.objectTreeFromObject <|
+                        Object
+                            Geometry.cube
+                            [ positionTransform
+                            , scaleTransform
+                            , rotationTransform
+                            ]
+                            (Object.objectTreeFromObject <|
+                                Object
+                                    Geometry.cube
+                                    [ positionTransform2
+                                    , scaleTransform
+                                    , rotationTransform2
+                                    ]
+                                    emptyObjectTree
+                            )
             in
                 renderObjects
                     { model
                         | objects3D =
-                            List.map
-                                (\obj ->
-                                    { obj
-                                        | transforms =
-                                            [ Transform.Translate ( 200, 200, 100 )
-                                            , Transform.Scale ( 1.0, 1.0, 1.0 )
-                                            , Transform.Rotate ( 0, thetaX, 0 )
-                                            ]
-                                    }
-                                )
-                                model.objects3D
+                            objectTree
                         , rotateAmount = thetaX
                     }
 

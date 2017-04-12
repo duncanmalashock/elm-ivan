@@ -14,6 +14,11 @@ emptyObjectTree =
     Obj Tree.empty
 
 
+objectTreeFromObject : Object -> ObjectTree
+objectTreeFromObject object =
+    Obj (Node object)
+
+
 type alias Object =
     { geometry : List Line3D
     , transforms : List Transform
@@ -29,3 +34,15 @@ render object =
                 |> List.foldl (>>) identity
     in
         List.map (allTransforms) object.geometry
+
+
+renderTree : ObjectTree -> List Line3D
+renderTree objectTree =
+    case objectTree of
+        Obj tree ->
+            case tree of
+                Empty ->
+                    []
+
+                Node object ->
+                    List.concat [ renderTree object.children, render object ]
