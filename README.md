@@ -8,8 +8,8 @@ Install the connect, serve-static, and [serialport](https://github.com/EmergingT
 `npm install serialport`  
 `npm install connect`  
 `npm install serve-static`  
-Run test.js with node, passing a serial port name, i.e.  
-`node test.js /dev/tty.usbmodem2752111`
+Run server.js with node, passing a serial port name, i.e.  
+`node server.js /dev/tty.usbmodem2752111`
 
 ## Notes for working on this repo:
 Elm:  
