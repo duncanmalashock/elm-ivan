@@ -62,15 +62,6 @@ exampleObjectTree theta =
 init : ( Model, Cmd Msg )
 init =
     let
-        positionTransform =
-            Transform.Translate ( 200, 200, 100 )
-
-        scaleTransform =
-            Transform.Scale ( 1.0, 1.0, 1.0 )
-
-        rotationTransform =
-            Transform.Rotate ( 0, 0, 0 )
-
         objectTree =
             exampleObjectTree 0
 
