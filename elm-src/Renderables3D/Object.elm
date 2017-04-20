@@ -39,11 +39,12 @@ addTransformsToObjectTree transforms tree =
 render : Object -> List Line3D
 render object =
     let
-        allTransformsAsFunctions =
-            List.map Line3D.applyTransform object.transforms
+        allTransformsAsFunctions : List Transform -> (Line3D -> Line3D)
+        allTransformsAsFunctions transforms =
+            List.map Line3D.applyTransform transforms
                 |> List.foldl (>>) identity
     in
-        List.map (allTransformsAsFunctions) object.geometry
+        List.map (allTransformsAsFunctions object.transforms) object.geometry
 
 
 renderTree : ObjectTree -> List Line3D
