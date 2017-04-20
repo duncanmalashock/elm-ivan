@@ -37,6 +37,28 @@ type alias Model =
     }
 
 
+exampleObjectTree : Float -> ObjectTree
+exampleObjectTree theta =
+    Object.objectTreeFromObject
+        { geometry = Geometry.cube
+        , transforms =
+            [ Transform.Scale ( 1.0, 1.0, 1.0 )
+            , Transform.Translate ( 200, 200, 100 )
+            , Transform.Rotate ( 0, theta, 0 )
+            ]
+        , children =
+            [ Object.objectTreeFromObject
+                { geometry = Geometry.cube
+                , transforms =
+                    [ Transform.Scale ( 0.2, 0.2, 0.2 )
+                    , Transform.Translate ( 200, 200, 200 )
+                    ]
+                , children = []
+                }
+            ]
+        }
+
+
 init : ( Model, Cmd Msg )
 init =
     let
@@ -50,15 +72,7 @@ init =
             Transform.Rotate ( 0, 0, 0 )
 
         objectTree =
-            Object.objectTreeFromObject
-                { geometry = Geometry.cube
-                , transforms =
-                    [ positionTransform
-                    , scaleTransform
-                    , rotationTransform
-                    ]
-                , children = []
-                }
+            exampleObjectTree 0
 
         initialModel =
             { renderedLines = []
@@ -101,41 +115,8 @@ update msg model =
                 thetaX =
                     toFloat (String.toInt newX |> Result.withDefault 0)
 
-                positionTransform =
-                    Transform.Translate ( 200, 200, 100 )
-
-                positionTransform2 =
-                    Transform.Translate ( 300, 300, 100 )
-
-                scaleTransform =
-                    Transform.Scale ( 1.0, 1.0, 1.0 )
-
-                rotationTransform =
-                    Transform.Rotate ( 0, thetaX, 0 )
-
-                rotationTransform2 =
-                    Transform.Rotate ( 0, 0, 0 )
-
                 objectTree =
-                    Object.objectTreeFromObject
-                        { geometry = Geometry.cube
-                        , transforms =
-                            [ positionTransform
-                            , scaleTransform
-                            , rotationTransform
-                            ]
-                        , children =
-                            [ Object.objectTreeFromObject
-                                { geometry = Geometry.cube
-                                , transforms =
-                                    [ positionTransform2
-                                    , scaleTransform
-                                    , rotationTransform2
-                                    ]
-                                , children = []
-                                }
-                            ]
-                        }
+                    exampleObjectTree thetaX
             in
                 renderObjects
                     { model
