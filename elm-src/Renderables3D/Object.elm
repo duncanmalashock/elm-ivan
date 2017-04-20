@@ -50,11 +50,11 @@ renderTree : ObjectTree -> List Line3D
 renderTree objectTree =
     case objectTree of
         Node value ->
-            (List.concat <|
-                List.map
-                    (renderTree << (addTransformsToObjectTree value.transforms))
-                    (value.children)
-            )
+            List.concat
+                (List.map
+                    ((addTransformsToObjectTree value.transforms) >> renderTree)
+                    value.children
+                )
                 ++ render value
 
         Empty ->
