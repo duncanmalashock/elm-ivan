@@ -2,28 +2,28 @@ module Renderables3D.Object exposing (..)
 
 import Renderables3D.Transform as Transform exposing (Transform)
 import Renderables3D.Line3D as Line3D exposing (Line3D)
-import Tree exposing (Tree(..), empty)
 
 
 type ObjectTree
-    = Obj (Tree Object)
-
-
-emptyObjectTree : ObjectTree
-emptyObjectTree =
-    Obj Tree.empty
-
-
-objectTreeFromObject : Object -> ObjectTree
-objectTreeFromObject object =
-    Obj (Node object)
+    = Empty
+    | Node Object
 
 
 type alias Object =
     { geometry : List Line3D
     , transforms : List Transform
-    , children : ObjectTree
+    , children : List ObjectTree
     }
+
+
+objectTreeFromObject : Object -> ObjectTree
+objectTreeFromObject object =
+    Node object
+
+
+emptyObjectTree : ObjectTree
+emptyObjectTree =
+    Empty
 
 
 render : Object -> List Line3D
@@ -36,13 +36,11 @@ render object =
         List.map (allTransforms) object.geometry
 
 
-renderTree : ObjectTree -> List Line3D -> List Line3D
-renderTree objectTree outputList =
+renderTree : ObjectTree -> List Line3D
+renderTree objectTree =
     case objectTree of
-        Obj tree ->
-            case tree of
-                Empty ->
-                    outputList
+        Empty ->
+            []
 
-                Node object ->
-                    renderTree object.children <| List.concat [ (render object), outputList ]
+        Node value ->
+            List.concat [ List.concat <| List.map renderTree value.children, render value ]

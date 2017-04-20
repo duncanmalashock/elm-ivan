@@ -50,14 +50,15 @@ init =
             Transform.Rotate ( 0, 0, 0 )
 
         objectTree =
-            Object.objectTreeFromObject <|
-                Object
-                    Geometry.cube
+            Object.objectTreeFromObject
+                { geometry = Geometry.cube
+                , transforms =
                     [ positionTransform
                     , scaleTransform
                     , rotationTransform
                     ]
-                    emptyObjectTree
+                , children = []
+                }
 
         initialModel =
             { renderedLines = []
@@ -78,7 +79,7 @@ type Msg
 
 renderObjects3D : ObjectTree -> List Line2D
 renderObjects3D objects3D =
-    List.map Projection.projectLine (Object.renderTree objects3D [])
+    List.map Projection.projectLine (Object.renderTree objects3D)
 
 
 linesToArraysOfInts : List Line2D -> List (List Int)
@@ -116,22 +117,25 @@ update msg model =
                     Transform.Rotate ( 0, 0, 0 )
 
                 objectTree =
-                    Object.objectTreeFromObject <|
-                        Object
-                            Geometry.cube
+                    Object.objectTreeFromObject
+                        { geometry = Geometry.cube
+                        , transforms =
                             [ positionTransform
                             , scaleTransform
                             , rotationTransform
                             ]
-                            (Object.objectTreeFromObject <|
-                                Object
-                                    Geometry.cube
+                        , children =
+                            [ Object.objectTreeFromObject
+                                { geometry = Geometry.cube
+                                , transforms =
                                     [ positionTransform2
                                     , scaleTransform
                                     , rotationTransform2
                                     ]
-                                    emptyObjectTree
-                            )
+                                , children = []
+                                }
+                            ]
+                        }
             in
                 renderObjects
                     { model
