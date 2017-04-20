@@ -30,7 +30,7 @@ addTransformsToObjectTree : List Transform -> ObjectTree -> ObjectTree
 addTransformsToObjectTree transforms tree =
     case tree of
         Node object ->
-            Node { object | transforms = object.transforms ++ transforms }
+            Node { object | transforms = transforms ++ object.transforms }
 
         Empty ->
             tree
