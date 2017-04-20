@@ -34,26 +34,43 @@ type alias Model =
     , inBoundary : Rect2D
     , outBoundary : Rect2D
     , rotateAmount : Float
+    , scaleAmount : Float
     }
 
 
-exampleObjectTree : Float -> ObjectTree
-exampleObjectTree theta =
+exampleObjectTree : Float -> Float -> ObjectTree
+exampleObjectTree scale rotate =
     Object.objectTreeFromObject
-        { geometry = Geometry.cube
+        { geometry = []
         , transforms =
-            [ Transform.Scale ( 1.0, 1.0, 1.0 )
-            , Transform.Translate ( 200, 200, 100 )
-            , Transform.Rotate ( 0, theta, 0 )
+            [ Transform.Translate ( 200, 200, 100 )
+            , Transform.Scale ( scale, scale, scale )
+            , Transform.Rotate ( 0, rotate, 0 )
             ]
         , children =
             [ Object.objectTreeFromObject
                 { geometry = Geometry.cube
                 , transforms =
-                    [ Transform.Scale ( 0.2, 0.2, 0.2 )
-                    , Transform.Translate ( 200, 200, 200 )
+                    []
+                , children =
+                    [ Object.objectTreeFromObject
+                        { geometry = Geometry.cube
+                        , transforms =
+                            [ Transform.Scale ( 0.4, 0.4, 0.4 )
+                            , Transform.Translate ( 50, 50, 50 )
+                            ]
+                        , children =
+                            [ Object.objectTreeFromObject
+                                { geometry = Geometry.cube
+                                , transforms =
+                                    [ Transform.Scale ( 0.4, 0.4, 0.4 )
+                                    , Transform.Translate ( 50, 50, 50 )
+                                    ]
+                                , children = []
+                                }
+                            ]
+                        }
                     ]
-                , children = []
                 }
             ]
         }
@@ -63,7 +80,7 @@ init : ( Model, Cmd Msg )
 init =
     let
         objectTree =
-            exampleObjectTree 0
+            exampleObjectTree 1.0 0
 
         initialModel =
             { renderedLines = []
@@ -72,6 +89,7 @@ init =
             , inBoundary = Rect2D 0 400 0 400
             , outBoundary = Rect2D 0 4095 0 4095
             , rotateAmount = 0.0
+            , scaleAmount = 1.0
             }
     in
         renderObjects initialModel
@@ -79,7 +97,8 @@ init =
 
 type Msg
     = MoveMouse Mouse.Position
-    | UpdateSlider String
+    | UpdateScaleSlider String
+    | UpdateRotateSlider String
 
 
 renderObjects3D : ObjectTree -> List Line2D
@@ -101,19 +120,34 @@ update msg model =
         MoveMouse mousePosition ->
             ( model, Cmd.none )
 
-        UpdateSlider newX ->
+        UpdateScaleSlider newVal ->
             let
-                thetaX =
-                    toFloat (String.toInt newX |> Result.withDefault 0)
+                s =
+                    toFloat (String.toInt newVal |> Result.withDefault 0)
 
                 objectTree =
-                    exampleObjectTree thetaX
+                    exampleObjectTree ((s / 25.0) + 0.2) model.rotateAmount
             in
                 renderObjects
                     { model
                         | objects3D =
                             objectTree
-                        , rotateAmount = thetaX
+                        , scaleAmount = s
+                    }
+
+        UpdateRotateSlider newVal ->
+            let
+                r =
+                    toFloat (String.toInt newVal |> Result.withDefault 0)
+
+                objectTree =
+                    exampleObjectTree ((model.scaleAmount / 25.0) + 0.2) r
+            in
+                renderObjects
+                    { model
+                        | objects3D =
+                            objectTree
+                        , rotateAmount = r
                     }
 
 
@@ -142,9 +176,19 @@ view model =
             [ input
                 [ Html.Attributes.type_ "range"
                 , Html.Attributes.min "0"
+                , Html.Attributes.max "100"
+                , value <| toString model.scaleAmount
+                , onInput UpdateScaleSlider
+                ]
+                []
+            ]
+        , div []
+            [ input
+                [ Html.Attributes.type_ "range"
+                , Html.Attributes.min "0"
                 , Html.Attributes.max "90"
                 , value <| toString model.rotateAmount
-                , onInput UpdateSlider
+                , onInput UpdateRotateSlider
                 ]
                 []
             ]
