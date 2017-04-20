@@ -26,14 +26,24 @@ emptyObjectTree =
     Empty
 
 
+addTransformsToObjectTree : List Transform -> ObjectTree -> ObjectTree
+addTransformsToObjectTree transforms tree =
+    case tree of
+        Node object ->
+            Node { object | transforms = object.transforms ++ transforms }
+
+        Empty ->
+            tree
+
+
 render : Object -> List Line3D
 render object =
     let
-        allTransforms =
+        allTransformsAsFunctions =
             List.map Line3D.applyTransform object.transforms
                 |> List.foldl (>>) identity
     in
-        List.map (allTransforms) object.geometry
+        List.map (allTransformsAsFunctions) object.geometry
 
 
 renderTree : ObjectTree -> List Line3D
@@ -43,4 +53,9 @@ renderTree objectTree =
             []
 
         Node value ->
-            List.concat [ List.concat <| List.map renderTree value.children, render value ]
+            let
+                childrenWithTransformsAdded =
+                    List.map (addTransformsToObjectTree value.transforms) value.children
+            in
+                List.concat
+                    [ List.concat <| List.map renderTree childrenWithTransformsAdded, render value ]
