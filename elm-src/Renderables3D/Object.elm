@@ -49,13 +49,12 @@ render object =
 renderTree : ObjectTree -> List Line3D
 renderTree objectTree =
     case objectTree of
-        Empty ->
-            []
-
         Node value ->
             let
                 childrenWithTransformsAdded =
                     List.map (addTransformsToObjectTree value.transforms) value.children
             in
-                List.concat
-                    [ List.concat <| List.map renderTree childrenWithTransformsAdded, render value ]
+                (List.concat <| List.map renderTree childrenWithTransformsAdded) ++ render value
+
+        Empty ->
+            []
