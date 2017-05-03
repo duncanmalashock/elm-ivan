@@ -1,6 +1,6 @@
 module Rect2D exposing (..)
 
-import Line2D as Line2D exposing (Line2D)
+import Line2D exposing (Line2D)
 
 
 type alias Rect2D =

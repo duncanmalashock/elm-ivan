@@ -1,6 +1,6 @@
 module LineSegment exposing (..)
 
-import Point as Point exposing (Point)
+import Point exposing (Point)
 
 
 type alias LineSegment =

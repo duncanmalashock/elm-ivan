@@ -1,8 +1,10 @@
 module Object exposing (..)
 
-import Transform as Transform exposing (Transform)
-import LineSegment as LineSegment exposing (LineSegment)
-import Point as Point exposing (Point(..))
+import Transform exposing (Transform3D(..))
+import Geometry exposing (..)
+import LineSegment exposing (LineSegment)
+import Point exposing (Point(..))
+import Vector3D exposing (Vector3D)
 
 
 type ObjectTree
@@ -11,8 +13,8 @@ type ObjectTree
 
 
 type alias Object =
-    { geometry : List LineSegment
-    , transforms : List Transform
+    { geometry : Geometry
+    , transforms : List Transform3D
     , children : List ObjectTree
     }
 

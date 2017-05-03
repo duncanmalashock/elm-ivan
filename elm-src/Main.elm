@@ -1,10 +1,10 @@
 port module Main exposing (..)
 
-import Line2D as Line2D exposing (Line2D)
-import Rect2D as Rect2D exposing (Rect2D)
-import Geometry as Geometry exposing (Geometry)
-import Object as Object exposing (Object, ObjectTree(..), emptyObjectTree)
-import Transform as Transform exposing (Transform)
+import Line2D exposing (Line2D)
+import Rect2D exposing (Rect2D)
+import Geometry exposing (Geometry)
+import Object exposing (Object, ObjectTree(..), emptyObjectTree)
+import Transform exposing (Transform)
 import Projection
 import WebVectorDisplay
 import Html exposing (Html, text, div, input)

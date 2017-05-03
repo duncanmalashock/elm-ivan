@@ -1,7 +1,8 @@
 module Transform exposing (Transform(..), applyTransform)
 
-import Vector3D as Vector3D exposing (Vector3D)
-import Point as Point exposing (Point(..))
+import Vector2D exposing (Vector2D)
+import Vector3D exposing (Vector3D)
+import Point exposing (Point(..))
 
 
 type Transform
