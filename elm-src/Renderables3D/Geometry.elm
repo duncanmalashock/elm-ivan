@@ -9,16 +9,20 @@ type alias Geometry =
 
 cube : Geometry
 cube =
-    [ Line3D ( -50, -50, -50 ) ( 50, -50, -50 )
-    , Line3D ( 50, -50, -50 ) ( 50, 50, -50 )
-    , Line3D ( 50, 50, -50 ) ( -50, 50, -50 )
-    , Line3D ( -50, 50, -50 ) ( -50, -50, -50 )
-    , Line3D ( -50, -50, 50 ) ( 50, -50, 50 )
-    , Line3D ( 50, -50, 50 ) ( 50, 50, 50 )
-    , Line3D ( 50, 50, 50 ) ( -50, 50, 50 )
-    , Line3D ( -50, 50, 50 ) ( -50, -50, 50 )
-    , Line3D ( -50, -50, 50 ) ( -50, -50, -50 )
-    , Line3D ( 50, -50, 50 ) ( 50, -50, -50 )
-    , Line3D ( 50, 50, 50 ) ( 50, 50, -50 )
-    , Line3D ( -50, 50, 50 ) ( -50, 50, -50 )
-    ]
+    let
+        edgeLength =
+            50
+    in
+        [ Line3D ( -edgeLength, -edgeLength, -edgeLength ) ( edgeLength, -edgeLength, -edgeLength )
+        , Line3D ( edgeLength, -edgeLength, -edgeLength ) ( edgeLength, edgeLength, -edgeLength )
+        , Line3D ( edgeLength, edgeLength, -edgeLength ) ( -edgeLength, edgeLength, -edgeLength )
+        , Line3D ( -edgeLength, edgeLength, -edgeLength ) ( -edgeLength, -edgeLength, -edgeLength )
+        , Line3D ( -edgeLength, -edgeLength, edgeLength ) ( edgeLength, -edgeLength, edgeLength )
+        , Line3D ( edgeLength, -edgeLength, edgeLength ) ( edgeLength, edgeLength, edgeLength )
+        , Line3D ( edgeLength, edgeLength, edgeLength ) ( -edgeLength, edgeLength, edgeLength )
+        , Line3D ( -edgeLength, edgeLength, edgeLength ) ( -edgeLength, -edgeLength, edgeLength )
+        , Line3D ( -edgeLength, -edgeLength, edgeLength ) ( -edgeLength, -edgeLength, -edgeLength )
+        , Line3D ( edgeLength, -edgeLength, edgeLength ) ( edgeLength, -edgeLength, -edgeLength )
+        , Line3D ( edgeLength, edgeLength, edgeLength ) ( edgeLength, edgeLength, -edgeLength )
+        , Line3D ( -edgeLength, edgeLength, edgeLength ) ( -edgeLength, edgeLength, -edgeLength )
+        ]

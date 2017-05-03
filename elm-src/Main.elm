@@ -31,8 +31,8 @@ subscriptions model =
 type alias Model =
     { objects3D : ObjectTree
     , renderedLines : List Line2D
-    , inBoundary : Rect2D
-    , outBoundary : Rect2D
+    , sceneBounds : Rect2D
+    , displayBounds : Rect2D
     , rotateAmount : Float
     , scaleAmount : Float
     }
@@ -42,16 +42,15 @@ exampleObjectTree : Float -> Float -> ObjectTree
 exampleObjectTree scale rotate =
     Object.objectTreeFromObject
         { geometry = []
-        , transforms =
-            [ Transform.Translate ( 200, 200, 100 )
-            , Transform.Scale ( scale, scale, scale )
-            , Transform.Rotate ( 0, rotate, 0 )
-            ]
+        , transforms = []
         , children =
             [ Object.objectTreeFromObject
                 { geometry = Geometry.cube
                 , transforms =
-                    []
+                    [ Transform.Translate ( 200, 200, 50 )
+                    , Transform.Scale ( scale, scale, scale )
+                    , Transform.Rotate ( 0, rotate, 0 )
+                    ]
                 , children =
                     [ Object.objectTreeFromObject
                         { geometry = Geometry.cube
@@ -72,6 +71,15 @@ exampleObjectTree scale rotate =
                         }
                     ]
                 }
+            , Object.objectTreeFromObject
+                { geometry = Geometry.cube
+                , transforms =
+                    [ Transform.Translate ( 200, 200, 50 )
+                    , Transform.Scale ( 0.5, 0.5, 0.5 )
+                    , Transform.Rotate ( 0, 100, 0 )
+                    ]
+                , children = []
+                }
             ]
         }
 
@@ -86,8 +94,8 @@ init =
             { renderedLines = []
             , objects3D =
                 objectTree
-            , inBoundary = Rect2D 0 400 0 400
-            , outBoundary = Rect2D 0 4095 0 4095
+            , sceneBounds = Rect2D 0 400 0 400
+            , displayBounds = Rect2D 0 4095 0 4095
             , rotateAmount = 0.0
             , scaleAmount = 1.0
             }
@@ -162,7 +170,7 @@ renderObjects model =
     , sendDrawingInstructions <|
         linesToArraysOfInts
             (List.map
-                (Rect2D.normalize model.inBoundary model.outBoundary)
+                (Rect2D.normalize model.sceneBounds model.displayBounds)
                 model.renderedLines
             )
     )
