@@ -1,7 +1,7 @@
-module Renderables3D.Object exposing (..)
+module Object exposing (..)
 
-import Renderables3D.Transform as Transform exposing (Transform)
-import Renderables3D.LineSegment as LineSegment exposing (LineSegment)
+import Transform as Transform exposing (Transform)
+import LineSegment as LineSegment exposing (LineSegment)
 
 
 type ObjectTree

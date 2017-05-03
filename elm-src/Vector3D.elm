@@ -1,4 +1,4 @@
-module Renderables3D.Vector3D exposing (..)
+module Vector3D exposing (..)
 
 
 type alias Vector3D =

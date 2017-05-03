@@ -1,7 +1,7 @@
-module Renderables2D.Line2D exposing (..)
+module Line2D exposing (..)
 
 import String
-import Renderables2D.Vector2D as Vector2D exposing (Vector2D)
+import Vector2D as Vector2D exposing (Vector2D)
 
 
 type alias Line2D =

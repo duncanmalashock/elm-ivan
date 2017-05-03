@@ -1,7 +1,7 @@
-module Renderables3D.Transform exposing (Transform(..), applyTransform)
+module Transform exposing (Transform(..), applyTransform)
 
-import Renderables3D.Vector3D as Vector3D exposing (Vector3D)
-import Renderables3D.LineSegment as LineSegment exposing (LineSegment)
+import Vector3D as Vector3D exposing (Vector3D)
+import LineSegment as LineSegment exposing (LineSegment)
 
 
 type Transform

@@ -1,6 +1,6 @@
-module Renderables3D.Geometry exposing (..)
+module Geometry exposing (..)
 
-import Renderables3D.LineSegment as LineSegment exposing (LineSegment)
+import LineSegment as LineSegment exposing (LineSegment)
 
 
 type alias Geometry =

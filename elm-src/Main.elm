@@ -1,10 +1,10 @@
 port module Main exposing (..)
 
-import Renderables2D.Line2D as Line2D exposing (Line2D)
-import Renderables2D.Rect2D as Rect2D exposing (Rect2D)
-import Renderables3D.Geometry as Geometry exposing (Geometry)
-import Renderables3D.Object as Object exposing (Object, ObjectTree(..), emptyObjectTree)
-import Renderables3D.Transform as Transform exposing (Transform)
+import Line2D as Line2D exposing (Line2D)
+import Rect2D as Rect2D exposing (Rect2D)
+import Geometry as Geometry exposing (Geometry)
+import Object as Object exposing (Object, ObjectTree(..), emptyObjectTree)
+import Transform as Transform exposing (Transform)
 import Projection
 import WebVectorDisplay
 import Html exposing (Html, text, div, input)
