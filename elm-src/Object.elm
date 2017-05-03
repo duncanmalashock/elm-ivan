@@ -2,6 +2,7 @@ module Object exposing (..)
 
 import Transform as Transform exposing (Transform)
 import LineSegment as LineSegment exposing (LineSegment)
+import Point as Point exposing (Point(..))
 
 
 type ObjectTree
@@ -39,12 +40,14 @@ addTransformsToObjectTree transforms tree =
 render : Object -> List LineSegment
 render object =
     let
-        allTransformsAsFunctions : List Transform -> (LineSegment -> LineSegment)
+        allTransformsAsFunctions : List Transform -> (Point -> Point)
         allTransformsAsFunctions transforms =
             List.map Transform.applyTransform transforms
                 |> List.foldl (>>) identity
     in
-        List.map (allTransformsAsFunctions object.transforms) object.geometry
+        List.map
+            (\ls -> LineSegment.map (allTransformsAsFunctions object.transforms) ls)
+            object.geometry
 
 
 renderTree : ObjectTree -> List LineSegment

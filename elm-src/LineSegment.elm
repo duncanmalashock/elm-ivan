@@ -1,7 +1,12 @@
 module LineSegment exposing (..)
 
-import Vector3D as Vector3D exposing (Vector3D)
+import Point as Point exposing (Point)
 
 
 type alias LineSegment =
-    ( Vector3D, Vector3D )
+    ( Point, Point )
+
+
+map func =
+    Tuple.mapFirst func
+        >> Tuple.mapSecond func

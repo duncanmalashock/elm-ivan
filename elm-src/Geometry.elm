@@ -1,6 +1,7 @@
 module Geometry exposing (..)
 
-import LineSegment as LineSegment exposing (LineSegment)
+import LineSegment exposing (LineSegment)
+import Point exposing (Point(..))
 
 
 type alias Geometry =
@@ -13,16 +14,16 @@ cube =
         edgeLength =
             50
     in
-        [ ( ( -edgeLength, -edgeLength, -edgeLength ), ( edgeLength, -edgeLength, -edgeLength ) )
-        , ( ( edgeLength, -edgeLength, -edgeLength ), ( edgeLength, edgeLength, -edgeLength ) )
-        , ( ( edgeLength, edgeLength, -edgeLength ), ( -edgeLength, edgeLength, -edgeLength ) )
-        , ( ( -edgeLength, edgeLength, -edgeLength ), ( -edgeLength, -edgeLength, -edgeLength ) )
-        , ( ( -edgeLength, -edgeLength, edgeLength ), ( edgeLength, -edgeLength, edgeLength ) )
-        , ( ( edgeLength, -edgeLength, edgeLength ), ( edgeLength, edgeLength, edgeLength ) )
-        , ( ( edgeLength, edgeLength, edgeLength ), ( -edgeLength, edgeLength, edgeLength ) )
-        , ( ( -edgeLength, edgeLength, edgeLength ), ( -edgeLength, -edgeLength, edgeLength ) )
-        , ( ( -edgeLength, -edgeLength, edgeLength ), ( -edgeLength, -edgeLength, -edgeLength ) )
-        , ( ( edgeLength, -edgeLength, edgeLength ), ( edgeLength, -edgeLength, -edgeLength ) )
-        , ( ( edgeLength, edgeLength, edgeLength ), ( edgeLength, edgeLength, -edgeLength ) )
-        , ( ( -edgeLength, edgeLength, edgeLength ), ( -edgeLength, edgeLength, -edgeLength ) )
+        [ ( InModelSpace ( -edgeLength, -edgeLength, -edgeLength ), InModelSpace ( edgeLength, -edgeLength, -edgeLength ) )
+        , ( InModelSpace ( edgeLength, -edgeLength, -edgeLength ), InModelSpace ( edgeLength, edgeLength, -edgeLength ) )
+        , ( InModelSpace ( edgeLength, edgeLength, -edgeLength ), InModelSpace ( -edgeLength, edgeLength, -edgeLength ) )
+        , ( InModelSpace ( -edgeLength, edgeLength, -edgeLength ), InModelSpace ( -edgeLength, -edgeLength, -edgeLength ) )
+        , ( InModelSpace ( -edgeLength, -edgeLength, edgeLength ), InModelSpace ( edgeLength, -edgeLength, edgeLength ) )
+        , ( InModelSpace ( edgeLength, -edgeLength, edgeLength ), InModelSpace ( edgeLength, edgeLength, edgeLength ) )
+        , ( InModelSpace ( edgeLength, edgeLength, edgeLength ), InModelSpace ( -edgeLength, edgeLength, edgeLength ) )
+        , ( InModelSpace ( -edgeLength, edgeLength, edgeLength ), InModelSpace ( -edgeLength, -edgeLength, edgeLength ) )
+        , ( InModelSpace ( -edgeLength, -edgeLength, edgeLength ), InModelSpace ( -edgeLength, -edgeLength, -edgeLength ) )
+        , ( InModelSpace ( edgeLength, -edgeLength, edgeLength ), InModelSpace ( edgeLength, -edgeLength, -edgeLength ) )
+        , ( InModelSpace ( edgeLength, edgeLength, edgeLength ), InModelSpace ( edgeLength, edgeLength, -edgeLength ) )
+        , ( InModelSpace ( -edgeLength, edgeLength, edgeLength ), InModelSpace ( -edgeLength, edgeLength, -edgeLength ) )
         ]

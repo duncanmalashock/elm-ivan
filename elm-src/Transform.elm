@@ -1,7 +1,7 @@
 module Transform exposing (Transform(..), applyTransform)
 
 import Vector3D as Vector3D exposing (Vector3D)
-import LineSegment as LineSegment exposing (LineSegment)
+import Point as Point exposing (Point(..))
 
 
 type Transform
@@ -10,20 +10,20 @@ type Transform
     | Rotate Vector3D
 
 
-applyTransform : Transform -> LineSegment -> LineSegment
-applyTransform transform ( start, end ) =
+applyTransform : Transform -> Point -> Point
+applyTransform transform point =
     case transform of
         Translate delta ->
-            ( Vector3D.translate delta start
-            , Vector3D.translate delta end
-            )
+            case point of
+                InModelSpace coordinates ->
+                    InModelSpace <| Vector3D.translate delta coordinates
 
         Scale amount ->
-            ( Vector3D.scale amount start
-            , Vector3D.scale amount end
-            )
+            case point of
+                InModelSpace coordinates ->
+                    InModelSpace <| Vector3D.scale amount coordinates
 
         Rotate theta ->
-            ( Vector3D.rotate theta start
-            , Vector3D.rotate theta end
-            )
+            case point of
+                InModelSpace coordinates ->
+                    InModelSpace <| Vector3D.rotate theta coordinates
