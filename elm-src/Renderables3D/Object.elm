@@ -41,7 +41,7 @@ render object =
     let
         allTransformsAsFunctions : List Transform -> (LineSegment -> LineSegment)
         allTransformsAsFunctions transforms =
-            List.map LineSegment.applyTransform transforms
+            List.map Transform.applyTransform transforms
                 |> List.foldl (>>) identity
     in
         List.map (allTransformsAsFunctions object.transforms) object.geometry
