@@ -12,7 +12,7 @@ type alias Rect2D =
 
 
 normalize : Rect2D -> Rect2D -> Line2D -> Line2D
-normalize inBoundary outBoundary theLine =
+normalize inBoundary outBoundary ( start, end ) =
     let
         yTranslate =
             outBoundary.minY - inBoundary.minY
@@ -35,9 +35,9 @@ normalize inBoundary outBoundary theLine =
             (y - inBoundary.minY) * yScale + (inBoundary.minY) + yTranslate
 
         ( x1_, y1_ ) =
-            theLine.start
+            start
 
         ( x2_, y2_ ) =
-            theLine.end
+            end
     in
-        Line2D ( xTransform x1_, yTransform y1_ ) ( xTransform x2_, yTransform y2_ )
+        ( ( xTransform x1_, yTransform y1_ ), ( xTransform x2_, yTransform y2_ ) )

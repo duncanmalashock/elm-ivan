@@ -7,13 +7,13 @@ import Svg.Attributes exposing (x1, y1, x2, y2, stroke, strokeWidth, transform)
 
 
 drawLine : Line2D -> Svg msg
-drawLine theLine =
+drawLine ( start, end ) =
     let
         ( x1_, y1_ ) =
-            theLine.start
+            start
 
         ( x2_, y2_ ) =
-            theLine.end
+            end
     in
         g
             []

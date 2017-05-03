@@ -1,10 +1,10 @@
 module Renderables3D.Geometry exposing (..)
 
-import Renderables3D.Line3D as Line3D exposing (Line3D)
+import Renderables3D.LineSegment as LineSegment exposing (LineSegment)
 
 
 type alias Geometry =
-    List Line3D
+    List LineSegment
 
 
 cube : Geometry
@@ -13,16 +13,16 @@ cube =
         edgeLength =
             50
     in
-        [ Line3D ( -edgeLength, -edgeLength, -edgeLength ) ( edgeLength, -edgeLength, -edgeLength )
-        , Line3D ( edgeLength, -edgeLength, -edgeLength ) ( edgeLength, edgeLength, -edgeLength )
-        , Line3D ( edgeLength, edgeLength, -edgeLength ) ( -edgeLength, edgeLength, -edgeLength )
-        , Line3D ( -edgeLength, edgeLength, -edgeLength ) ( -edgeLength, -edgeLength, -edgeLength )
-        , Line3D ( -edgeLength, -edgeLength, edgeLength ) ( edgeLength, -edgeLength, edgeLength )
-        , Line3D ( edgeLength, -edgeLength, edgeLength ) ( edgeLength, edgeLength, edgeLength )
-        , Line3D ( edgeLength, edgeLength, edgeLength ) ( -edgeLength, edgeLength, edgeLength )
-        , Line3D ( -edgeLength, edgeLength, edgeLength ) ( -edgeLength, -edgeLength, edgeLength )
-        , Line3D ( -edgeLength, -edgeLength, edgeLength ) ( -edgeLength, -edgeLength, -edgeLength )
-        , Line3D ( edgeLength, -edgeLength, edgeLength ) ( edgeLength, -edgeLength, -edgeLength )
-        , Line3D ( edgeLength, edgeLength, edgeLength ) ( edgeLength, edgeLength, -edgeLength )
-        , Line3D ( -edgeLength, edgeLength, edgeLength ) ( -edgeLength, edgeLength, -edgeLength )
+        [ ( ( -edgeLength, -edgeLength, -edgeLength ), ( edgeLength, -edgeLength, -edgeLength ) )
+        , ( ( edgeLength, -edgeLength, -edgeLength ), ( edgeLength, edgeLength, -edgeLength ) )
+        , ( ( edgeLength, edgeLength, -edgeLength ), ( -edgeLength, edgeLength, -edgeLength ) )
+        , ( ( -edgeLength, edgeLength, -edgeLength ), ( -edgeLength, -edgeLength, -edgeLength ) )
+        , ( ( -edgeLength, -edgeLength, edgeLength ), ( edgeLength, -edgeLength, edgeLength ) )
+        , ( ( edgeLength, -edgeLength, edgeLength ), ( edgeLength, edgeLength, edgeLength ) )
+        , ( ( edgeLength, edgeLength, edgeLength ), ( -edgeLength, edgeLength, edgeLength ) )
+        , ( ( -edgeLength, edgeLength, edgeLength ), ( -edgeLength, -edgeLength, edgeLength ) )
+        , ( ( -edgeLength, -edgeLength, edgeLength ), ( -edgeLength, -edgeLength, -edgeLength ) )
+        , ( ( edgeLength, -edgeLength, edgeLength ), ( edgeLength, -edgeLength, -edgeLength ) )
+        , ( ( edgeLength, edgeLength, edgeLength ), ( edgeLength, edgeLength, -edgeLength ) )
+        , ( ( -edgeLength, edgeLength, edgeLength ), ( -edgeLength, edgeLength, -edgeLength ) )
         ]

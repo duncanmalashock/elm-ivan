@@ -1,7 +1,7 @@
 module Renderables3D.Object exposing (..)
 
 import Renderables3D.Transform as Transform exposing (Transform)
-import Renderables3D.Line3D as Line3D exposing (Line3D)
+import Renderables3D.LineSegment as LineSegment exposing (LineSegment)
 
 
 type ObjectTree
@@ -10,7 +10,7 @@ type ObjectTree
 
 
 type alias Object =
-    { geometry : List Line3D
+    { geometry : List LineSegment
     , transforms : List Transform
     , children : List ObjectTree
     }
@@ -36,18 +36,18 @@ addTransformsToObjectTree transforms tree =
             tree
 
 
-render : Object -> List Line3D
+render : Object -> List LineSegment
 render object =
     let
-        allTransformsAsFunctions : List Transform -> (Line3D -> Line3D)
+        allTransformsAsFunctions : List Transform -> (LineSegment -> LineSegment)
         allTransformsAsFunctions transforms =
-            List.map Line3D.applyTransform transforms
+            List.map LineSegment.applyTransform transforms
                 |> List.foldl (>>) identity
     in
         List.map (allTransformsAsFunctions object.transforms) object.geometry
 
 
-renderTree : ObjectTree -> List Line3D
+renderTree : ObjectTree -> List LineSegment
 renderTree objectTree =
     case objectTree of
         Node value ->
