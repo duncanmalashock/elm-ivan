@@ -1,14 +1,14 @@
 module Geometry exposing (..)
 
-import LineSegment exposing (LineSegment)
 import Point exposing (Point(..))
+import Vector3D exposing (Vector3D)
 
 
-type alias Geometry =
-    List LineSegment
+type alias LineSegment =
+    ( Point, Point )
 
 
-cube : Geometry
+cube : List LineSegment
 cube =
     let
         edgeLength =

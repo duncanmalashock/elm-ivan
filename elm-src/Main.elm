@@ -2,7 +2,7 @@ port module Main exposing (..)
 
 import Line2D exposing (Line2D)
 import Rect2D exposing (Rect2D)
-import Geometry exposing (Geometry)
+import Geometry exposing (LineSegment)
 import Object exposing (Object, ObjectTree(..), emptyObjectTree)
 import Transform exposing (Transform)
 import Projection
