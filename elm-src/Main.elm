@@ -4,7 +4,7 @@ import Line2D exposing (Line2D)
 import Rect2D exposing (Rect2D)
 import Geometry exposing (LineSegment)
 import Object exposing (Object, ObjectTree(..), emptyObjectTree)
-import Transform exposing (Transform)
+import Transform exposing (Transform3D)
 import Projection
 import WebVectorDisplay
 import Html exposing (Html, text, div, input)
@@ -47,23 +47,23 @@ exampleObjectTree scale rotate =
             [ Object.objectTreeFromObject
                 { geometry = Geometry.cube
                 , transforms =
-                    [ Transform.Translate ( 200, 200, 50 )
-                    , Transform.Scale ( scale, scale, scale )
-                    , Transform.Rotate ( 0, rotate, 0 )
+                    [ Transform.Translate3D ( 200, 200, 50 )
+                    , Transform.Scale3D ( scale, scale, scale )
+                    , Transform.Rotate3D ( 0, rotate, 0 )
                     ]
                 , children =
                     [ Object.objectTreeFromObject
                         { geometry = Geometry.cube
                         , transforms =
-                            [ Transform.Scale ( 0.4, 0.4, 0.4 )
-                            , Transform.Translate ( 50, 50, 50 )
+                            [ Transform.Scale3D ( 0.4, 0.4, 0.4 )
+                            , Transform.Translate3D ( 50, 50, 50 )
                             ]
                         , children =
                             [ Object.objectTreeFromObject
                                 { geometry = Geometry.cube
                                 , transforms =
-                                    [ Transform.Scale ( 0.4, 0.4, 0.4 )
-                                    , Transform.Translate ( 50, 50, 50 )
+                                    [ Transform.Scale3D ( 0.4, 0.4, 0.4 )
+                                    , Transform.Translate3D ( 50, 50, 50 )
                                     ]
                                 , children = []
                                 }
@@ -74,9 +74,9 @@ exampleObjectTree scale rotate =
             , Object.objectTreeFromObject
                 { geometry = Geometry.cube
                 , transforms =
-                    [ Transform.Translate ( 200, 200, 50 )
-                    , Transform.Scale ( 0.5, 0.5, 0.5 )
-                    , Transform.Rotate ( 0, 100, 0 )
+                    [ Transform.Translate3D ( 200, 200, 50 )
+                    , Transform.Scale3D ( 0.5, 0.5, 0.5 )
+                    , Transform.Rotate3D ( 0, 100, 0 )
                     ]
                 , children = []
                 }
@@ -111,7 +111,16 @@ type Msg
 
 renderObjects3D : ObjectTree -> List Line2D
 renderObjects3D objects3D =
-    List.map Projection.projectLine (Object.renderTree objects3D)
+    let
+        renderedSegments =
+            Object.renderTree objects3D
+    in
+        case renderedSegments of
+            Ok segments ->
+                List.map Projection.projectLine segments
+
+            Err errorMessage ->
+                []
 
 
 linesToArraysOfInts : List Line2D -> List (List Int)

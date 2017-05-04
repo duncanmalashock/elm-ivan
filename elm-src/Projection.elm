@@ -26,8 +26,3 @@ projectLine ( start, end ) =
     ( projectPoint start
     , projectPoint end
     )
-
-
-projectObject : Object -> List Line2D
-projectObject object =
-    List.map projectLine (Object.render object)

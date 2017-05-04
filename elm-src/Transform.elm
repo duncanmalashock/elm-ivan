@@ -1,30 +1,49 @@
-module Transform exposing (Transform(..), applyTransform)
+module Transform
+    exposing
+        ( Transform3D(..)
+        , Transform2D(..)
+        , applyTransform2D
+        , applyTransform3D
+        )
 
 import Vector2D exposing (Vector2D)
 import Vector3D exposing (Vector3D)
 import Point exposing (Point(..))
 
 
-type Transform
-    = Translate Vector3D
-    | Scale Vector3D
-    | Rotate Vector3D
+type Transform3D
+    = Translate3D Vector3D
+    | Scale3D Vector3D
+    | Rotate3D Vector3D
 
 
-applyTransform : Transform -> Point -> Point
-applyTransform transform point =
+type Transform2D
+    = Translate2D Vector2D
+    | Scale2D Float
+    | Rotate2D Float
+
+
+applyTransform3D : Transform3D -> Vector3D -> Vector3D
+applyTransform3D transform coordinates =
     case transform of
-        Translate delta ->
-            case point of
-                InModelSpace coordinates ->
-                    InModelSpace <| Vector3D.translate delta coordinates
+        Translate3D delta ->
+            Vector3D.translate delta coordinates
 
-        Scale amount ->
-            case point of
-                InModelSpace coordinates ->
-                    InModelSpace <| Vector3D.scale amount coordinates
+        Scale3D amount ->
+            Vector3D.scale amount coordinates
 
-        Rotate theta ->
-            case point of
-                InModelSpace coordinates ->
-                    InModelSpace <| Vector3D.rotate theta coordinates
+        Rotate3D theta ->
+            Vector3D.rotate theta coordinates
+
+
+applyTransform2D : Transform2D -> Vector2D -> Vector2D
+applyTransform2D transform coordinates =
+    case transform of
+        Translate2D delta ->
+            Vector2D.translate delta coordinates
+
+        Scale2D amount ->
+            Vector2D.scale amount coordinates
+
+        Rotate2D theta ->
+            Vector2D.rotateZ theta coordinates

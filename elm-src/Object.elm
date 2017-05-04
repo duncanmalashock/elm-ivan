@@ -28,7 +28,7 @@ emptyObjectTree =
     Empty
 
 
-addTransformsToObjectTree : List Transform -> ObjectTree -> ObjectTree
+addTransformsToObjectTree : List Transform3D -> ObjectTree -> ObjectTree
 addTransformsToObjectTree transforms tree =
     case tree of
         Node object ->
@@ -38,29 +38,45 @@ addTransformsToObjectTree transforms tree =
             tree
 
 
-render : Object -> List LineSegment
+allTransformsAsFunctions : List Transform3D -> (Vector3D -> Vector3D)
+allTransformsAsFunctions transforms =
+    List.map Transform.applyTransform3D transforms
+        |> List.foldl (>>) identity
+
+
+render : Object -> Result String (List LineSegment)
 render object =
-    let
-        allTransformsAsFunctions : List Transform -> (Point -> Point)
-        allTransformsAsFunctions transforms =
-            List.map Transform.applyTransform transforms
-                |> List.foldl (>>) identity
-    in
-        List.map
-            (\ls -> LineSegment.map (allTransformsAsFunctions object.transforms) ls)
-            object.geometry
+    Geometry.applyTransform3DFunction
+        (allTransformsAsFunctions object.transforms)
+        object.geometry
 
 
-renderTree : ObjectTree -> List LineSegment
+renderChildren : Object -> List (Result String (List LineSegment))
+renderChildren obj =
+    List.map
+        ((addTransformsToObjectTree obj.transforms) >> renderTree)
+        obj.children
+
+
+appendResults :
+    Result String (List LineSegment)
+    -> Result String (List LineSegment)
+    -> Result String (List LineSegment)
+appendResults resultWithList1 resultWithList2 =
+    Result.map2 (List.append) resultWithList1 resultWithList2
+
+
+renderTree : ObjectTree -> Result String (List LineSegment)
 renderTree objectTree =
     case objectTree of
-        Node value ->
-            List.concat
-                (List.map
-                    ((addTransformsToObjectTree value.transforms) >> renderTree)
-                    value.children
-                )
-                ++ render value
+        Node obj ->
+            let
+                resultWithRenderedChildren =
+                    Result.map
+                        (List.concat)
+                        (Geometry.combineResults <| renderChildren obj)
+            in
+                appendResults (render obj) resultWithRenderedChildren
 
         Empty ->
-            []
+            Ok []
