@@ -8,21 +8,25 @@ import Vector3D exposing (Vector3D)
 import Point exposing (Point(..))
 
 
-projectPoint : Point -> Vector2D
-projectPoint point =
+projectCoordinates : Vector3D -> Vector2D
+projectCoordinates ( x, y, z ) =
     let
         ( povX, povY, povZ ) =
             ( 200, 200, -800 )
     in
-        case point of
-            InModelSpace ( x, y, z ) ->
-                ( (povZ * (x - povX) / (z + povZ) + povX)
-                , (povZ * (y - povY) / (z + povZ) + povY)
+        ( (povZ * (x - povX) / (z + povZ) + povX)
+        , (povZ * (y - povY) / (z + povZ) + povY)
+        )
+
+
+projectLine : LineSegment -> Result String Line2D
+projectLine lineSegment =
+    case lineSegment of
+        ( InModelSpace start, InModelSpace end ) ->
+            Ok <|
+                ( projectCoordinates start
+                , projectCoordinates end
                 )
 
-
-projectLine : LineSegment -> Line2D
-projectLine ( start, end ) =
-    ( projectPoint start
-    , projectPoint end
-    )
+        _ ->
+            Err <| "Couldn't apply 3D transform to " ++ (toString lineSegment)

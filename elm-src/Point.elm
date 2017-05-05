@@ -5,6 +5,7 @@ import Vector3D exposing (Vector3D)
 
 type Point
     = InModelSpace Vector3D
+    | InSceneSpace Vector3D
 
 
 applyTransform3DFunction :
@@ -16,7 +17,5 @@ applyTransform3DFunction transformFunction point =
         InModelSpace coordinates ->
             Ok (InModelSpace <| transformFunction coordinates)
 
-
-
--- _ ->
---     Err <| "Couldn't apply 3D transform to " ++ (toString point)
+        _ ->
+            Err <| "Couldn't apply 3D transform to " ++ (toString point)

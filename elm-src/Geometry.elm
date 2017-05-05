@@ -78,3 +78,6 @@ applyTransform3DFunctionToLineSegment transformFunction lineSegment =
                 ( InModelSpace <| transformFunction start
                 , InModelSpace <| transformFunction end
                 )
+
+        _ ->
+            Err <| "Couldn't apply 3D transform to " ++ (toString lineSegment)

@@ -109,7 +109,7 @@ type Msg
     | UpdateRotateSlider String
 
 
-renderObjects3D : ObjectTree -> List Line2D
+renderObjects3D : ObjectTree -> Result String (List Line2D)
 renderObjects3D objects3D =
     let
         renderedSegments =
@@ -117,10 +117,11 @@ renderObjects3D objects3D =
     in
         case renderedSegments of
             Ok segments ->
-                List.map Projection.projectLine segments
+                Geometry.combineResults
+                    (List.map Projection.projectLine segments)
 
             Err errorMessage ->
-                []
+                Geometry.combineResults []
 
 
 linesToArraysOfInts : List Line2D -> List (List Int)
@@ -170,19 +171,26 @@ update msg model =
 
 renderObjects : Model -> ( Model, Cmd Msg )
 renderObjects model =
-    ( { model
-        | renderedLines =
-            List.concat
-                [ (renderObjects3D model.objects3D)
-                ]
-      }
-    , sendDrawingInstructions <|
-        linesToArraysOfInts
-            (List.map
-                (Rect2D.normalize model.sceneBounds model.displayBounds)
-                model.renderedLines
-            )
-    )
+    let
+        newRenderedLines =
+            case (renderObjects3D model.objects3D) of
+                Ok renderedSegments ->
+                    List.concat [ renderedSegments ]
+
+                Err message ->
+                    []
+    in
+        ( { model
+            | renderedLines =
+                newRenderedLines
+          }
+        , sendDrawingInstructions <|
+            linesToArraysOfInts
+                (List.map
+                    (Rect2D.normalize model.sceneBounds model.displayBounds)
+                    model.renderedLines
+                )
+        )
 
 
 view : Model -> Html Msg
