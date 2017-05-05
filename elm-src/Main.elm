@@ -71,15 +71,6 @@ exampleObjectTree scale rotate =
                         }
                     ]
                 }
-            , Object.objectTreeFromObject
-                { geometry = Geometry.cube
-                , transforms =
-                    [ Transform.Translate3D ( 200, 200, 50 )
-                    , Transform.Scale3D ( 0.5, 0.5, 0.5 )
-                    , Transform.Rotate3D ( 0, 100, 0 )
-                    ]
-                , children = []
-                }
             ]
         }
 
