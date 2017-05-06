@@ -10,8 +10,8 @@ type ObjectTree
     | Leaf ModelGeometry.Object
 
 
-singleton : ModelGeometry.Object -> ObjectTree
-singleton object =
+objectToTree : ModelGeometry.Object -> ObjectTree
+objectToTree object =
     Leaf object
 
 
@@ -27,7 +27,7 @@ addSibling toThis thisOne =
             Node transforms (thisOne :: childTrees)
 
         Leaf object ->
-            Node [] [ thisOne, Leaf object ]
+            Node [] [ thisOne, objectToTree object ]
 
 
 addTransform : Transform3D -> ObjectTree -> ObjectTree
@@ -37,12 +37,13 @@ addTransform transform tree =
             Node (transform :: transforms) childTrees
 
         Leaf object ->
-            Node [ transform ] [ Leaf object ]
+            Node [ transform ] [ objectToTree object ]
 
 
 allTransformsAsFunctions : List Transform3D -> (Vector3D -> Vector3D)
 allTransformsAsFunctions transforms =
-    List.map Transform.applyTransform3D transforms
+    transforms
+        |> List.map Transform.applyTransform3D
         |> List.foldl (>>) identity
 
 
@@ -58,8 +59,9 @@ applyTransformsToObject transforms object =
 applyTransformsToTree : List Transform3D -> ObjectTree -> List ModelGeometry.Object
 applyTransformsToTree transforms tree =
     case tree of
-        Node transforms childTrees ->
-            applyTransformsToTrees transforms childTrees
+        Node childTransforms childTrees ->
+            applyTransformsToTrees childTransforms childTrees
+                |> List.map (applyTransformsToObject transforms)
 
         Leaf object ->
             [ applyTransformsToObject transforms object ]

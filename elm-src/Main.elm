@@ -42,13 +42,13 @@ exampleObjectTree : Float -> Float -> ObjectTree
 exampleObjectTree scale rotate =
     let
         cube1 =
-            ObjectTree.singleton ModelGeometry.cube
+            ObjectTree.objectToTree ModelGeometry.cube
                 |> ObjectTree.addTransform (Rotate3D ( 0, rotate, 0 ))
                 |> ObjectTree.addTransform (Scale3D ( scale, scale, scale ))
                 |> ObjectTree.addTransform (Translate3D ( 200, 200, 50 ))
 
         cube2 =
-            ObjectTree.singleton ModelGeometry.cube
+            ObjectTree.objectToTree ModelGeometry.cube
                 |> ObjectTree.addTransform (Scale3D ( 0.4, 0.4, 0.4 ))
                 |> ObjectTree.addTransform (Translate3D ( 50, 50, 50 ))
     in
