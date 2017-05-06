@@ -1,7 +1,7 @@
 module Geometry exposing (..)
 
 import Point exposing (Point(..))
-import Vector3D exposing (Vector3D)
+import Vector exposing (Vector3D)
 
 
 type alias LineSegment =

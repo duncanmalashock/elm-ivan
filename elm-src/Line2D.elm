@@ -1,7 +1,8 @@
 module Line2D exposing (..)
 
 import String
-import Vector2D exposing (Vector2D)
+import Transform exposing (..)
+import Vector exposing (Vector2D)
 
 
 type alias Line2D =
@@ -36,20 +37,20 @@ asInts ( start, end ) =
 
 translate : Vector2D -> Line2D -> Line2D
 translate delta ( start, end ) =
-    ( Vector2D.translate delta start
-    , Vector2D.translate delta end
+    ( applyTransform2D (Translate2D delta) start
+    , applyTransform2D (Translate2D delta) end
     )
 
 
 scale : Float -> Line2D -> Line2D
 scale amount ( start, end ) =
-    ( Vector2D.scale amount start
-    , Vector2D.scale amount end
+    ( applyTransform2D (Scale2D amount) start
+    , applyTransform2D (Scale2D amount) end
     )
 
 
 rotateZ : Float -> Line2D -> Line2D
 rotateZ theta ( start, end ) =
-    ( Vector2D.rotateZ theta start
-    , Vector2D.rotateZ theta end
+    ( applyTransform2D (Rotate2D theta) start
+    , applyTransform2D (Rotate2D theta) end
     )

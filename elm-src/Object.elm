@@ -1,9 +1,9 @@
 module Object exposing (..)
 
+import Vector exposing (Vector3D)
 import Transform exposing (Transform3D(..))
 import Geometry exposing (..)
 import Point exposing (Point(..))
-import Vector3D exposing (Vector3D)
 
 
 type ObjectTree

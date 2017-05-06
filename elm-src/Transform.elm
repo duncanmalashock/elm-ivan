@@ -6,9 +6,8 @@ module Transform
         , applyTransform3D
         )
 
-import Vector2D exposing (Vector2D)
-import Vector3D exposing (Vector3D)
 import Point exposing (Point(..))
+import Vector exposing (Vector3D, Vector2D)
 
 
 type Transform3D
@@ -24,26 +23,54 @@ type Transform2D
 
 
 applyTransform3D : Transform3D -> Vector3D -> Vector3D
-applyTransform3D transform coordinates =
+applyTransform3D transform ( x, y, z ) =
     case transform of
-        Translate3D delta ->
-            Vector3D.translate delta coordinates
+        Translate3D ( dx, dy, dz ) ->
+            ( x + dx, y + dy, z + dz )
 
-        Scale3D amount ->
-            Vector3D.scale amount coordinates
+        Scale3D ( dx, dy, dz ) ->
+            ( x * dx, y * dy, z * dz )
 
-        Rotate3D theta ->
-            Vector3D.rotate theta coordinates
+        Rotate3D ( dx, dy, dz ) ->
+            rotateX dx <|
+                rotateY dy <|
+                    rotateZ dz ( x, y, z )
 
 
 applyTransform2D : Transform2D -> Vector2D -> Vector2D
-applyTransform2D transform coordinates =
+applyTransform2D transform ( x, y ) =
     case transform of
-        Translate2D delta ->
-            Vector2D.translate delta coordinates
+        Translate2D ( dx, dy ) ->
+            ( x + dx, y + dy )
 
         Scale2D amount ->
-            Vector2D.scale amount coordinates
+            ( x * amount, y * amount )
 
         Rotate2D theta ->
-            Vector2D.rotateZ theta coordinates
+            ( x * cos (degrees theta) - y * sin (degrees theta)
+            , x * sin (degrees theta) + y * cos (degrees theta)
+            )
+
+
+rotateX : Float -> Vector3D -> Vector3D
+rotateX theta ( x, y, z ) =
+    ( x
+    , y * cos (degrees theta) - z * sin (degrees theta)
+    , y * sin (degrees theta) + z * cos (degrees theta)
+    )
+
+
+rotateY : Float -> Vector3D -> Vector3D
+rotateY theta ( x, y, z ) =
+    ( z * sin (degrees theta) + x * cos (degrees theta)
+    , y
+    , z * cos (degrees theta) - x * sin (degrees theta)
+    )
+
+
+rotateZ : Float -> Vector3D -> Vector3D
+rotateZ theta ( x, y, z ) =
+    ( x * cos (degrees theta) - y * sin (degrees theta)
+    , x * sin (degrees theta) + y * cos (degrees theta)
+    , z
+    )

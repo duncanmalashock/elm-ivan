@@ -1,10 +1,9 @@
 module Projection exposing (..)
 
-import Vector2D exposing (Vector2D)
+import Vector exposing (Vector3D, Vector2D)
 import Line2D exposing (Line2D)
 import Object exposing (Object)
 import Geometry exposing (LineSegment)
-import Vector3D exposing (Vector3D)
 import Point exposing (Point(..))
 
 
