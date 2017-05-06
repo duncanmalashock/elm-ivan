@@ -85,7 +85,7 @@ renderObjects3D : ObjectTree -> List Line2D
 renderObjects3D objects3D =
     let
         renderedSegments =
-            ObjectTree.render objects3D
+            ObjectTree.toObjects objects3D
                 |> List.concat
     in
         (List.map Projection.projectLine renderedSegments)

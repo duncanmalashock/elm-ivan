@@ -73,8 +73,8 @@ applyTransformsToTrees transforms trees =
         |> List.concat
 
 
-render : ObjectTree -> List ModelGeometry.Object
-render tree =
+toObjects : ObjectTree -> List ModelGeometry.Object
+toObjects tree =
     case tree of
         Node transforms childTrees ->
             applyTransformsToTrees transforms childTrees
