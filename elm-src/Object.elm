@@ -45,7 +45,7 @@ allTransformsAsFunctions transforms =
 
 render : Object -> List ModelGeometry.LineSegment
 render object =
-    ModelGeometry.applyTransform3DFunction
+    ModelGeometry.mapObject
         (allTransformsAsFunctions object.transforms)
         object.geometry
 

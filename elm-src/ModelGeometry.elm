@@ -56,19 +56,21 @@ cube =
         ]
 
 
-applyTransform3DFunction :
+mapObject :
     (Vector3D -> Vector3D)
     -> List LineSegment
     -> List LineSegment
-applyTransform3DFunction transformFunction geometry =
-    List.map (applyTransform3DFunctionToLineSegment transformFunction) geometry
+mapObject transform geometry =
+    List.map (mapLineSegment transform) geometry
 
 
-applyTransform3DFunctionToLineSegment :
-    (Vector3D -> Vector3D)
-    -> LineSegment
-    -> LineSegment
-applyTransform3DFunctionToLineSegment transformFunction ( Point start, Point end ) =
-    ( Point <| transformFunction start
-    , Point <| transformFunction end
+mapPoint : (Vector3D -> Vector3D) -> Point -> Point
+mapPoint transform (Point vector) =
+    Point <| transform vector
+
+
+mapLineSegment : (Vector3D -> Vector3D) -> LineSegment -> LineSegment
+mapLineSegment transform ( start, end ) =
+    ( mapPoint transform start
+    , mapPoint transform end
     )
