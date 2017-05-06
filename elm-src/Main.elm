@@ -1,5 +1,6 @@
 port module Main exposing (..)
 
+import Pipeline
 import Line2D exposing (Line2D)
 import Rect2D exposing (Rect2D)
 import ModelGeometry
