@@ -6,7 +6,6 @@ module Transform
         , applyTransform3D
         )
 
-import Point exposing (ModelPoint(ModelPoint))
 import Vector exposing (Vector3D, Vector2D)
 
 

@@ -4,7 +4,6 @@ import Vector exposing (Vector3D, Vector2D)
 import Line2D exposing (Line2D)
 import Object exposing (Object)
 import ModelGeometry
-import Point exposing (ModelPoint(..))
 
 
 projectCoordinates : Vector3D -> Vector2D
@@ -19,7 +18,7 @@ projectCoordinates ( x, y, z ) =
 
 
 projectLine : ModelGeometry.LineSegment -> Line2D
-projectLine ( ModelPoint start, ModelPoint end ) =
+projectLine ( ModelGeometry.Point start, ModelGeometry.Point end ) =
     ( projectCoordinates start
     , projectCoordinates end
     )

@@ -3,7 +3,6 @@ module Object exposing (..)
 import Vector exposing (Vector3D)
 import Transform exposing (Transform3D(..))
 import ModelGeometry
-import Point exposing (ModelPoint(ModelPoint))
 
 
 type ObjectTree
