@@ -2,7 +2,7 @@ port module Main exposing (..)
 
 import Line2D exposing (Line2D)
 import Rect2D exposing (Rect2D)
-import Geometry exposing (LineSegment)
+import ModelGeometry
 import Object exposing (Object, ObjectTree(..), emptyObjectTree)
 import Transform exposing (Transform3D)
 import Projection
@@ -45,7 +45,7 @@ exampleObjectTree scale rotate =
         , transforms = []
         , children =
             [ Object.objectTreeFromObject
-                { geometry = Geometry.cube
+                { geometry = ModelGeometry.cube
                 , transforms =
                     [ Transform.Translate3D ( 200, 200, 50 )
                     , Transform.Scale3D ( scale, scale, scale )
@@ -53,14 +53,14 @@ exampleObjectTree scale rotate =
                     ]
                 , children =
                     [ Object.objectTreeFromObject
-                        { geometry = Geometry.cube
+                        { geometry = ModelGeometry.cube
                         , transforms =
                             [ Transform.Scale3D ( 0.4, 0.4, 0.4 )
                             , Transform.Translate3D ( 50, 50, 50 )
                             ]
                         , children =
                             [ Object.objectTreeFromObject
-                                { geometry = Geometry.cube
+                                { geometry = ModelGeometry.cube
                                 , transforms =
                                     [ Transform.Scale3D ( 0.4, 0.4, 0.4 )
                                     , Transform.Translate3D ( 50, 50, 50 )
@@ -100,19 +100,13 @@ type Msg
     | UpdateRotateSlider String
 
 
-renderObjects3D : ObjectTree -> Result String (List Line2D)
+renderObjects3D : ObjectTree -> List Line2D
 renderObjects3D objects3D =
     let
         renderedSegments =
             Object.renderTree objects3D
     in
-        case renderedSegments of
-            Ok segments ->
-                Geometry.combineResults
-                    (List.map Projection.projectLine segments)
-
-            Err errorMessage ->
-                Geometry.combineResults []
+        (List.map Projection.projectLine renderedSegments)
 
 
 linesToArraysOfInts : List Line2D -> List (List Int)
@@ -164,12 +158,7 @@ renderObjects : Model -> ( Model, Cmd Msg )
 renderObjects model =
     let
         newRenderedLines =
-            case (renderObjects3D model.objects3D) of
-                Ok renderedSegments ->
-                    List.concat [ renderedSegments ]
-
-                Err message ->
-                    []
+            List.concat [ (renderObjects3D model.objects3D) ]
     in
         ( { model
             | renderedLines =

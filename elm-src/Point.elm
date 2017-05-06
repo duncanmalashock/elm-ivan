@@ -1,23 +1,16 @@
-module Point exposing (Point(..))
+module Point exposing (ModelPoint(ModelPoint), ScenePoint(ScenePoint))
 
 import Vector exposing (Vector3D, Vector2D)
 
 
-type Point
-    = InModelSpace Vector3D
-    | InSceneSpace Vector3D
-    | InImageSpace Vector2D
-    | InDisplaySpace ( Int, Int )
+type ModelPoint
+    = ModelPoint Vector3D
 
 
-applyTransform3DFunction :
-    (Vector3D -> Vector3D)
-    -> Point
-    -> Result String Point
-applyTransform3DFunction transformFunction point =
-    case point of
-        InModelSpace coordinates ->
-            Ok (InModelSpace <| transformFunction coordinates)
+type ScenePoint
+    = ScenePoint Vector3D
 
-        _ ->
-            Err <| "Couldn't apply 3D transform to " ++ (toString point)
+
+applyTransform3DFunction : (Vector3D -> Vector3D) -> ModelPoint -> ModelPoint
+applyTransform3DFunction transformFunction (ModelPoint coordinates) =
+    ModelPoint <| transformFunction coordinates

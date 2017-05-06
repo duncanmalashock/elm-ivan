@@ -2,8 +2,8 @@ module Object exposing (..)
 
 import Vector exposing (Vector3D)
 import Transform exposing (Transform3D(..))
-import Geometry exposing (..)
-import Point exposing (Point(..))
+import ModelGeometry
+import Point exposing (ModelPoint(ModelPoint))
 
 
 type ObjectTree
@@ -12,7 +12,7 @@ type ObjectTree
 
 
 type alias Object =
-    { geometry : List LineSegment
+    { geometry : List ModelGeometry.LineSegment
     , transforms : List Transform3D
     , children : List ObjectTree
     }
@@ -44,39 +44,26 @@ allTransformsAsFunctions transforms =
         |> List.foldl (>>) identity
 
 
-render : Object -> Result String (List LineSegment)
+render : Object -> List ModelGeometry.LineSegment
 render object =
-    Geometry.applyTransform3DFunction
+    ModelGeometry.applyTransform3DFunction
         (allTransformsAsFunctions object.transforms)
         object.geometry
 
 
-renderChildren : Object -> List (Result String (List LineSegment))
+renderChildren : Object -> List ModelGeometry.LineSegment
 renderChildren obj =
-    List.map
-        ((addTransformsToObjectTree obj.transforms) >> renderTree)
-        obj.children
+    List.concat <|
+        List.map
+            ((addTransformsToObjectTree obj.transforms) >> renderTree)
+            obj.children
 
 
-appendResults :
-    Result String (List LineSegment)
-    -> Result String (List LineSegment)
-    -> Result String (List LineSegment)
-appendResults resultWithList1 resultWithList2 =
-    Result.map2 (List.append) resultWithList1 resultWithList2
-
-
-renderTree : ObjectTree -> Result String (List LineSegment)
+renderTree : ObjectTree -> List ModelGeometry.LineSegment
 renderTree objectTree =
     case objectTree of
         Node obj ->
-            let
-                resultWithRenderedChildren =
-                    Result.map
-                        (List.concat)
-                        (Geometry.combineResults <| renderChildren obj)
-            in
-                appendResults (render obj) resultWithRenderedChildren
+            List.append (render obj) (renderChildren obj)
 
         Empty ->
-            Ok []
+            []
