@@ -1,11 +1,13 @@
 module Point exposing (Point(..))
 
-import Vector exposing (Vector3D)
+import Vector exposing (Vector3D, Vector2D)
 
 
 type Point
     = InModelSpace Vector3D
     | InSceneSpace Vector3D
+    | InImageSpace Vector2D
+    | InDisplaySpace ( Int, Int )
 
 
 applyTransform3DFunction :
