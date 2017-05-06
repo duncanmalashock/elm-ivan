@@ -11,6 +11,10 @@ type alias LineSegment =
     ( Point, Point )
 
 
+type alias Object =
+    List LineSegment
+
+
 cube : List LineSegment
 cube =
     let
@@ -58,10 +62,10 @@ cube =
 
 mapObject :
     (Vector3D -> Vector3D)
-    -> List LineSegment
-    -> List LineSegment
-mapObject transform geometry =
-    List.map (mapLineSegment transform) geometry
+    -> Object
+    -> Object
+mapObject transform object =
+    List.map (mapLineSegment transform) object
 
 
 mapPoint : (Vector3D -> Vector3D) -> Point -> Point

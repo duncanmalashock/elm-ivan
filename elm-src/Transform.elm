@@ -4,13 +4,15 @@ module Transform
         , Transform2D(..)
         , applyTransform2D
         , applyTransform3D
+        , identity3D
         )
 
 import Vector exposing (Vector3D, Vector2D)
 
 
 type Transform3D
-    = Translate3D Vector3D
+    = Identity3D
+    | Translate3D Vector3D
     | Scale3D Vector3D
     | Rotate3D Vector3D
 
@@ -21,9 +23,17 @@ type Transform2D
     | Rotate2D Float
 
 
+identity3D : Transform3D
+identity3D =
+    Identity3D
+
+
 applyTransform3D : Transform3D -> Vector3D -> Vector3D
 applyTransform3D transform ( x, y, z ) =
     case transform of
+        Identity3D ->
+            ( x, y, z )
+
         Translate3D ( dx, dy, dz ) ->
             ( x + dx, y + dy, z + dz )
 
