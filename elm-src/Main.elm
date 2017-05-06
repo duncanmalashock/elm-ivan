@@ -25,7 +25,7 @@ main =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Mouse.moves MoveMouse
+    Sub.none
 
 
 type alias Model =
@@ -49,48 +49,12 @@ exampleObjectTree scale rotate =
 
         cube2 =
             ObjectTree.objectToTree ModelGeometry.cube
-                |> ObjectTree.addTransform (Scale3D ( 0.4, 0.4, 0.4 ))
-                |> ObjectTree.addTransform (Translate3D ( 50, 50, 50 ))
+                |> ObjectTree.addTransform (Scale3D ( 0.7, 0.7, 0.7 ))
+                |> ObjectTree.addTransform (Translate3D ( 10, 10, 10 ))
     in
-        ObjectTree.addSibling cube1 cube2
-
-
-
--- xexampleObjectTree : Float -> Float -> ObjectTree
--- xexampleObjectTree scale rotate =
---     Object.objectTreeFromObject
---         { geometry = []
---         , transforms = []
---         , children =
---             [ Object.objectTreeFromObject
---                 { geometry = ModelGeometry.cube
---                 , transforms =
---                     [ Transform.Translate3D ( 200, 200, 50 )
---                     , Transform.Scale3D ( scale, scale, scale )
---                     , Transform.Rotate3D ( 0, rotate, 0 )
---                     ]
---                 , children =
---                     [ Object.objectTreeFromObject
---                         { geometry = ModelGeometry.cube
---                         , transforms =
---                             [ Transform.Scale3D ( 0.4, 0.4, 0.4 )
---                             , Transform.Translate3D ( 50, 50, 50 )
---                             ]
---                         , children =
---                             [ Object.objectTreeFromObject
---                                 { geometry = ModelGeometry.cube
---                                 , transforms =
---                                     [ Transform.Scale3D ( 0.4, 0.4, 0.4 )
---                                     , Transform.Translate3D ( 50, 50, 50 )
---                                     ]
---                                 , children = []
---                                 }
---                             ]
---                         }
---                     ]
---                 }
---             ]
---         }
+        ObjectTree.addSibling cube2 cube2
+            |> ObjectTree.addSibling cube2
+            |> ObjectTree.addSibling cube1
 
 
 init : ( Model, Cmd Msg )
@@ -113,8 +77,7 @@ init =
 
 
 type Msg
-    = MoveMouse Mouse.Position
-    | UpdateScaleSlider String
+    = UpdateScaleSlider String
     | UpdateRotateSlider String
 
 
@@ -139,9 +102,6 @@ port sendDrawingInstructions : List (List Int) -> Cmd msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        MoveMouse mousePosition ->
-            ( model, Cmd.none )
-
         UpdateScaleSlider newVal ->
             let
                 s =
