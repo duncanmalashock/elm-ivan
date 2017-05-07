@@ -6,7 +6,6 @@ import ImageGeometry
 import DeviceGeometry
 import ObjectTree exposing (ObjectTree)
 import Vector exposing (Vector3D, Vector2D)
-import Rect2D exposing (Rect2D)
 
 
 toSceneObject : ObjectTree -> SceneGeometry.Object
@@ -73,7 +72,7 @@ perspectiveProjection ( x, y, z ) =
 {- -}
 
 
-toDeviceObject : Rect2D -> Rect2D -> ImageGeometry.Object -> DeviceGeometry.Object
+toDeviceObject : ImageGeometry.Bounds -> ImageGeometry.Bounds -> ImageGeometry.Object -> DeviceGeometry.Object
 toDeviceObject imageBounds deviceBounds imageObject =
     imageObject
         |> ImageGeometry.normalize imageBounds deviceBounds

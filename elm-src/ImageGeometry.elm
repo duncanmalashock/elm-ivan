@@ -1,7 +1,6 @@
 module ImageGeometry exposing (..)
 
 import Vector exposing (Vector2D)
-import Rect2D exposing (Rect2D)
 
 
 type Point
@@ -14,6 +13,14 @@ type alias LineSegment =
 
 type alias Object =
     List LineSegment
+
+
+type alias Bounds =
+    { minX : Float
+    , maxX : Float
+    , minY : Float
+    , maxY : Float
+    }
 
 
 mapObject : (Vector2D -> Vector2D) -> Object -> Object
@@ -33,30 +40,30 @@ mapPoint transform (Point vector) =
     Point <| transform vector
 
 
-normalize : Rect2D -> Rect2D -> Object -> Object
-normalize inBoundary outBoundary object =
+normalize : Bounds -> Bounds -> Object -> Object
+normalize imageBounds deviceBounds object =
     let
         yTranslate =
-            outBoundary.minY - inBoundary.minY
+            deviceBounds.minY - imageBounds.minY
 
         yScale =
-            (outBoundary.maxY - outBoundary.minY)
-                / (inBoundary.maxY - inBoundary.minY)
+            (deviceBounds.maxY - deviceBounds.minY)
+                / (imageBounds.maxY - imageBounds.minY)
 
         xTranslate =
-            outBoundary.minX - inBoundary.minX
+            deviceBounds.minX - imageBounds.minX
 
         xScale =
-            (outBoundary.maxX - outBoundary.minX)
-                / (inBoundary.maxX - inBoundary.minX)
+            (deviceBounds.maxX - deviceBounds.minX)
+                / (imageBounds.maxX - imageBounds.minX)
 
         xTransform : Float -> Float
         xTransform x =
-            (x - inBoundary.minX) * xScale + (inBoundary.minX) + xTranslate
+            (x - imageBounds.minX) * xScale + (imageBounds.minX) + xTranslate
 
         yTransform : Float -> Float
         yTransform y =
-            (y - inBoundary.minY) * yScale + (inBoundary.minY) + yTranslate
+            (y - imageBounds.minY) * yScale + (imageBounds.minY) + yTranslate
     in
         object
             |> mapObject (\( x, y ) -> ( xTransform x, y ))

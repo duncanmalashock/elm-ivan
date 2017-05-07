@@ -1,7 +1,6 @@
 port module Main exposing (..)
 
 import Pipeline
-import Rect2D exposing (Rect2D)
 import ModelGeometry
 import SceneGeometry
 import ImageGeometry
@@ -33,8 +32,8 @@ subscriptions model =
 type alias Model =
     { objects3D : ObjectTree
     , renderedLines : ImageGeometry.Object
-    , sceneBounds : Rect2D
-    , displayBounds : Rect2D
+    , imageBounds : ImageGeometry.Bounds
+    , deviceBounds : ImageGeometry.Bounds
     , rotateAmount : Float
     , scaleAmount : Float
     }
@@ -69,8 +68,8 @@ init =
             { renderedLines = []
             , objects3D =
                 objectTree
-            , sceneBounds = Rect2D 0 400 0 400
-            , displayBounds = Rect2D 0 4095 0 4095
+            , imageBounds = ImageGeometry.Bounds 0 400 0 400
+            , deviceBounds = ImageGeometry.Bounds 0 4095 0 4095
             , rotateAmount = 0.0
             , scaleAmount = 1.0
             }
@@ -96,7 +95,7 @@ renderObjects model =
                 newRenderedLines
           }
         , newRenderedLines
-            |> Pipeline.toDeviceObject model.sceneBounds model.displayBounds
+            |> Pipeline.toDeviceObject model.imageBounds model.deviceBounds
             |> List.map DeviceGeometry.lineSegmentToInts
             |> List.concat
             |> sendDrawingInstructions
