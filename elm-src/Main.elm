@@ -2,10 +2,8 @@ module Main exposing (..)
 
 import Pipeline
 import ModelGeometry
-import SceneGeometry
 import ImageGeometry
-import DeviceGeometry
-import ObjectTree exposing (ObjectTree(..), emptyObjectTree)
+import ObjectTree exposing (ObjectTree)
 import Transform exposing (Transform3D(..))
 import WebVectorDisplay
 import Html exposing (Html, text, div, input)

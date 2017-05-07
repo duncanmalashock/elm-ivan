@@ -1,4 +1,4 @@
-module WebVectorDisplay exposing (..)
+module WebVectorDisplay exposing (view)
 
 import ImageGeometry
 import Html exposing (Html)

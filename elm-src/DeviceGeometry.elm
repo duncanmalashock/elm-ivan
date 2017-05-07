@@ -1,6 +1,11 @@
-module DeviceGeometry exposing (..)
-
-import Vector exposing (Vector2D)
+module DeviceGeometry
+    exposing
+        ( Object
+        , LineSegment
+        , Point(Point)
+        , Output
+        , toDeviceOutput
+        )
 
 
 type alias Output =

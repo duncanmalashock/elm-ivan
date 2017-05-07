@@ -1,4 +1,9 @@
-module SceneGeometry exposing (..)
+module SceneGeometry
+    exposing
+        ( Object
+        , LineSegment
+        , Point(Point)
+        )
 
 import Vector exposing (Vector3D)
 

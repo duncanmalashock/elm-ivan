@@ -1,4 +1,11 @@
-module ImageGeometry exposing (..)
+module ImageGeometry
+    exposing
+        ( Object
+        , LineSegment
+        , Point(Point)
+        , Bounds
+        , normalize
+        )
 
 import Vector exposing (Vector2D)
 

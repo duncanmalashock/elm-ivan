@@ -1,4 +1,11 @@
-module ModelGeometry exposing (..)
+module ModelGeometry
+    exposing
+        ( Object
+        , LineSegment
+        , Point(Point)
+        , mapObject
+        , cube
+        )
 
 import Vector exposing (Vector3D)
 

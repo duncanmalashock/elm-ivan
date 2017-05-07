@@ -1,4 +1,8 @@
-module Vector exposing (Vector3D, Vector2D)
+module Vector
+    exposing
+        ( Vector3D
+        , Vector2D
+        )
 
 
 type alias Vector3D =

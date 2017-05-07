@@ -1,4 +1,12 @@
-module ObjectTree exposing (..)
+module ObjectTree
+    exposing
+        ( ObjectTree(..)
+        , toObject
+        , objectToTree
+        , emptyObjectTree
+        , addSibling
+        , addTransform
+        )
 
 import Vector exposing (Vector3D)
 import Transform exposing (Transform3D)

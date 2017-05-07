@@ -1,4 +1,10 @@
-port module Pipeline exposing (..)
+port module Pipeline
+    exposing
+        ( toSceneObject
+        , toImageObject
+        , perspectiveProjection
+        , outputToDevice
+        )
 
 import ModelGeometry
 import SceneGeometry
