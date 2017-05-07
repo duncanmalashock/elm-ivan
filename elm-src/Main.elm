@@ -1,12 +1,12 @@
 port module Main exposing (..)
 
 import Pipeline
-import Line2D exposing (Line2D)
 import Rect2D exposing (Rect2D)
 import ModelGeometry
+import SceneGeometry
+import ImageGeometry
 import ObjectTree exposing (ObjectTree(..), emptyObjectTree)
 import Transform exposing (Transform3D(..))
-import Projection
 import WebVectorDisplay
 import Html exposing (Html, text, div, input)
 import Html.Attributes exposing (class, min, max, value)
@@ -31,7 +31,7 @@ subscriptions model =
 
 type alias Model =
     { objects3D : ObjectTree
-    , renderedLines : List Line2D
+    , renderedLines : ImageGeometry.Object
     , sceneBounds : Rect2D
     , displayBounds : Rect2D
     , rotateAmount : Float
@@ -82,19 +82,26 @@ type Msg
     | UpdateRotateSlider String
 
 
-renderObjects3D : ObjectTree -> List Line2D
-renderObjects3D objects3D =
+renderObjects : Model -> ( Model, Cmd Msg )
+renderObjects model =
     let
-        renderedSegments =
-            ObjectTree.toObjects objects3D
+        newRenderedLines =
+            model.objects3D
+                |> ObjectTree.toObjects
                 |> List.concat
+                |> Pipeline.toSceneObject
+                |> Pipeline.toImageObject Pipeline.perspectiveProjection
     in
-        (List.map Projection.projectLine renderedSegments)
-
-
-linesToArraysOfInts : List Line2D -> List (List Int)
-linesToArraysOfInts lines =
-    List.concat <| List.map Line2D.asInts lines
+        ( { model
+            | renderedLines =
+                newRenderedLines
+          }
+        , newRenderedLines
+            |> Rect2D.normalize model.sceneBounds model.displayBounds
+            |> List.map ImageGeometry.lineSegmentToInts
+            |> List.concat
+            |> sendDrawingInstructions
+        )
 
 
 port sendDrawingInstructions : List (List Int) -> Cmd msg
@@ -132,25 +139,6 @@ update msg model =
                             objectTree
                         , rotateAmount = r
                     }
-
-
-renderObjects : Model -> ( Model, Cmd Msg )
-renderObjects model =
-    let
-        newRenderedLines =
-            List.concat [ (renderObjects3D model.objects3D) ]
-    in
-        ( { model
-            | renderedLines =
-                newRenderedLines
-          }
-        , sendDrawingInstructions <|
-            linesToArraysOfInts
-                (List.map
-                    (Rect2D.normalize model.sceneBounds model.displayBounds)
-                    model.renderedLines
-                )
-        )
 
 
 view : Model -> Html Msg

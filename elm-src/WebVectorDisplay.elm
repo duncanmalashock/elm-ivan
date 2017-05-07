@@ -1,19 +1,23 @@
 module WebVectorDisplay exposing (..)
 
-import Line2D exposing (Line2D)
+import ImageGeometry
 import Html exposing (Html)
 import Svg exposing (Svg, svg, line, g)
 import Svg.Attributes exposing (x1, y1, x2, y2, stroke, strokeWidth, transform)
 
 
-drawLine : Line2D -> Svg msg
+drawLine : ImageGeometry.LineSegment -> Svg msg
 drawLine ( start, end ) =
     let
         ( x1_, y1_ ) =
-            start
+            case start of
+                ImageGeometry.Point ( x1__, y1__ ) ->
+                    ( x1__, y1__ )
 
         ( x2_, y2_ ) =
-            end
+            case end of
+                ImageGeometry.Point ( x2__, y2__ ) ->
+                    ( x2__, y2__ )
     in
         g
             []
@@ -29,7 +33,7 @@ drawLine ( start, end ) =
             ]
 
 
-view : List Line2D -> Html msg
+view : ImageGeometry.Object -> Html msg
 view lines =
     svg
         []

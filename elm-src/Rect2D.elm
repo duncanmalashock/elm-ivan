@@ -1,6 +1,6 @@
 module Rect2D exposing (..)
 
-import Line2D exposing (Line2D)
+import ImageGeometry
 
 
 type alias Rect2D =
@@ -11,8 +11,8 @@ type alias Rect2D =
     }
 
 
-normalize : Rect2D -> Rect2D -> Line2D -> Line2D
-normalize inBoundary outBoundary ( start, end ) =
+normalize : Rect2D -> Rect2D -> ImageGeometry.Object -> ImageGeometry.Object
+normalize inBoundary outBoundary object =
     let
         yTranslate =
             outBoundary.minY - inBoundary.minY
@@ -33,11 +33,7 @@ normalize inBoundary outBoundary ( start, end ) =
         yTransform : Float -> Float
         yTransform y =
             (y - inBoundary.minY) * yScale + (inBoundary.minY) + yTranslate
-
-        ( x1_, y1_ ) =
-            start
-
-        ( x2_, y2_ ) =
-            end
     in
-        ( ( xTransform x1_, yTransform y1_ ), ( xTransform x2_, yTransform y2_ ) )
+        object
+            |> ImageGeometry.mapObject (\( x, y ) -> ( xTransform x, y ))
+            |> ImageGeometry.mapObject (\( x, y ) -> ( x, yTransform y ))
