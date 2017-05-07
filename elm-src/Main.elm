@@ -29,8 +29,8 @@ subscriptions model =
 
 
 type alias Model =
-    { objects3D : ObjectTree
-    , renderedLines : ImageGeometry.Object
+    { objectTree : ObjectTree
+    , rendered : ImageGeometry.Object
     , imageBounds : ImageGeometry.Bounds
     , deviceBounds : ImageGeometry.Bounds
     , rotateAmount : Float
@@ -64,8 +64,8 @@ init =
             exampleObjectTree 1.0 0
 
         initialModel =
-            { renderedLines = []
-            , objects3D =
+            { rendered = []
+            , objectTree =
                 objectTree
             , imageBounds = ImageGeometry.Bounds 0 400 0 400
             , deviceBounds = ImageGeometry.Bounds 0 4095 0 4095
@@ -84,15 +84,15 @@ type Msg
 render : Model -> ( Model, Cmd Msg )
 render model =
     ( { model
-        | renderedLines =
-            model.objects3D
+        | rendered =
+            model.objectTree
                 |> Pipeline.toSceneObject
                 |> Pipeline.toImageObject Pipeline.perspectiveProjection
       }
     , Pipeline.outputToDevice
         model.imageBounds
         model.deviceBounds
-        model.renderedLines
+        model.rendered
     )
 
 
@@ -109,7 +109,7 @@ update msg model =
             in
                 render
                     { model
-                        | objects3D =
+                        | objectTree =
                             objectTree
                         , scaleAmount = s
                     }
@@ -124,7 +124,7 @@ update msg model =
             in
                 render
                     { model
-                        | objects3D =
+                        | objectTree =
                             objectTree
                         , rotateAmount = r
                     }
@@ -133,7 +133,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div [ class "app" ]
-        [ WebVectorDisplay.view model.renderedLines
+        [ WebVectorDisplay.view model.rendered
         , div []
             [ input
                 [ Html.Attributes.type_ "range"

@@ -8,7 +8,7 @@ import ObjectTree exposing (ObjectTree)
 import Vector exposing (Vector3D, Vector2D)
 
 
-port sendDrawingInstructions : DeviceGeometry.Object -> Cmd msg
+port sendDrawingInstructions : DeviceGeometry.Output -> Cmd msg
 
 
 toSceneObject : ObjectTree -> SceneGeometry.Object
@@ -84,19 +84,18 @@ toDeviceObject imageBounds deviceBounds imageObject =
     imageObject
         |> ImageGeometry.normalize imageBounds deviceBounds
         |> List.map toDeviceLineSegment
-        |> List.concat
 
 
 toDeviceLineSegment : ImageGeometry.LineSegment -> DeviceGeometry.LineSegment
 toDeviceLineSegment ( start, end ) =
-    [ (toDevicePoint start) ++ [ 0 ]
-    , (toDevicePoint end) ++ [ 63 ]
-    ]
+    ( toDevicePoint 0 start
+    , toDevicePoint 63 end
+    )
 
 
-toDevicePoint : ImageGeometry.Point -> DeviceGeometry.Point
-toDevicePoint (ImageGeometry.Point ( x, y )) =
-    [ truncate x, truncate y ]
+toDevicePoint : Int -> ImageGeometry.Point -> DeviceGeometry.Point
+toDevicePoint brightness (ImageGeometry.Point ( x, y )) =
+    DeviceGeometry.Point ( truncate x, truncate y, brightness )
 
 
 outputToDevice :
@@ -107,4 +106,5 @@ outputToDevice :
 outputToDevice imageBounds deviceBounds renderedImage =
     renderedImage
         |> toDeviceObject imageBounds deviceBounds
+        |> DeviceGeometry.toDeviceOutput
         |> sendDrawingInstructions
