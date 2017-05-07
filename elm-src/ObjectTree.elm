@@ -40,6 +40,10 @@ addTransform transform tree =
             Node [ transform ] [ objectToTree object ]
 
 
+
+{- -}
+
+
 allTransformsAsFunctions : List Transform3D -> (Vector3D -> Vector3D)
 allTransformsAsFunctions transforms =
     transforms
@@ -73,11 +77,15 @@ applyTransformsToTrees transforms trees =
         |> List.concat
 
 
-toObjects : ObjectTree -> List ModelGeometry.Object
-toObjects tree =
-    case tree of
-        Node transforms childTrees ->
-            applyTransformsToTrees transforms childTrees
+toObject : ObjectTree -> ModelGeometry.Object
+toObject tree =
+    let
+        objectList =
+            case tree of
+                Node transforms childTrees ->
+                    applyTransformsToTrees transforms childTrees
 
-        Leaf object ->
-            [ object ]
+                Leaf object ->
+                    [ object ]
+    in
+        List.concat objectList

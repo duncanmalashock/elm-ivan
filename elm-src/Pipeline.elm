@@ -3,12 +3,16 @@ module Pipeline exposing (..)
 import ModelGeometry
 import SceneGeometry
 import ImageGeometry
+import DeviceGeometry
+import ObjectTree exposing (ObjectTree)
 import Vector exposing (Vector3D, Vector2D)
 
 
-toSceneObject : ModelGeometry.Object -> SceneGeometry.Object
-toSceneObject modelObject =
-    List.map toSceneLineSegment modelObject
+toSceneObject : ObjectTree -> SceneGeometry.Object
+toSceneObject objectTree =
+    objectTree
+        |> ObjectTree.toObject
+        |> List.map toSceneLineSegment
 
 
 toSceneLineSegment : ModelGeometry.LineSegment -> SceneGeometry.LineSegment
@@ -53,10 +57,6 @@ toImagePoint projection (SceneGeometry.Point vector) =
     ImageGeometry.Point (projection vector)
 
 
-
-{- -}
-
-
 perspectiveProjection : Vector3D -> Vector2D
 perspectiveProjection ( x, y, z ) =
     let
@@ -66,3 +66,24 @@ perspectiveProjection ( x, y, z ) =
         ( (povZ * (x - povX) / (z + povZ) + povX)
         , (povZ * (y - povY) / (z + povZ) + povY)
         )
+
+
+
+{- -}
+
+
+toDeviceObject : ImageGeometry.Object -> DeviceGeometry.Object
+toDeviceObject imageObject =
+    List.map toDeviceLineSegment imageObject
+
+
+toDeviceLineSegment : ImageGeometry.LineSegment -> DeviceGeometry.LineSegment
+toDeviceLineSegment ( start, end ) =
+    ( toDevicePoint start
+    , toDevicePoint end
+    )
+
+
+toDevicePoint : ImageGeometry.Point -> DeviceGeometry.Point
+toDevicePoint (ImageGeometry.Point vector) =
+    DeviceGeometry.Point vector

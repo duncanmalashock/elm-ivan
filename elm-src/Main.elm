@@ -5,6 +5,7 @@ import Rect2D exposing (Rect2D)
 import ModelGeometry
 import SceneGeometry
 import ImageGeometry
+import DeviceGeometry
 import ObjectTree exposing (ObjectTree(..), emptyObjectTree)
 import Transform exposing (Transform3D(..))
 import WebVectorDisplay
@@ -87,8 +88,6 @@ renderObjects model =
     let
         newRenderedLines =
             model.objects3D
-                |> ObjectTree.toObjects
-                |> List.concat
                 |> Pipeline.toSceneObject
                 |> Pipeline.toImageObject Pipeline.perspectiveProjection
     in
@@ -98,7 +97,8 @@ renderObjects model =
           }
         , newRenderedLines
             |> Rect2D.normalize model.sceneBounds model.displayBounds
-            |> List.map ImageGeometry.lineSegmentToInts
+            |> Pipeline.toDeviceObject
+            |> List.map DeviceGeometry.lineSegmentToInts
             |> List.concat
             |> sendDrawingInstructions
         )
