@@ -1,4 +1,4 @@
-module Pipeline exposing (..)
+port module Pipeline exposing (..)
 
 import ModelGeometry
 import SceneGeometry
@@ -6,6 +6,9 @@ import ImageGeometry
 import DeviceGeometry
 import ObjectTree exposing (ObjectTree)
 import Vector exposing (Vector3D, Vector2D)
+
+
+port sendDrawingInstructions : DeviceGeometry.Object -> Cmd msg
 
 
 toSceneObject : ObjectTree -> SceneGeometry.Object
@@ -72,20 +75,36 @@ perspectiveProjection ( x, y, z ) =
 {- -}
 
 
-toDeviceObject : ImageGeometry.Bounds -> ImageGeometry.Bounds -> ImageGeometry.Object -> DeviceGeometry.Object
+toDeviceObject :
+    ImageGeometry.Bounds
+    -> ImageGeometry.Bounds
+    -> ImageGeometry.Object
+    -> DeviceGeometry.Object
 toDeviceObject imageBounds deviceBounds imageObject =
     imageObject
         |> ImageGeometry.normalize imageBounds deviceBounds
         |> List.map toDeviceLineSegment
+        |> List.concat
 
 
 toDeviceLineSegment : ImageGeometry.LineSegment -> DeviceGeometry.LineSegment
 toDeviceLineSegment ( start, end ) =
-    ( toDevicePoint start
-    , toDevicePoint end
-    )
+    [ (toDevicePoint start) ++ [ 0 ]
+    , (toDevicePoint end) ++ [ 63 ]
+    ]
 
 
 toDevicePoint : ImageGeometry.Point -> DeviceGeometry.Point
-toDevicePoint (ImageGeometry.Point vector) =
-    DeviceGeometry.Point vector
+toDevicePoint (ImageGeometry.Point ( x, y )) =
+    [ truncate x, truncate y ]
+
+
+outputToDevice :
+    ImageGeometry.Bounds
+    -> ImageGeometry.Bounds
+    -> ImageGeometry.Object
+    -> Cmd msg
+outputToDevice imageBounds deviceBounds renderedImage =
+    renderedImage
+        |> toDeviceObject imageBounds deviceBounds
+        |> sendDrawingInstructions

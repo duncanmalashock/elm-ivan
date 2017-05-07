@@ -1,4 +1,4 @@
-port module Main exposing (..)
+module Main exposing (..)
 
 import Pipeline
 import ModelGeometry
@@ -11,7 +11,6 @@ import WebVectorDisplay
 import Html exposing (Html, text, div, input)
 import Html.Attributes exposing (class, min, max, value)
 import Html.Events exposing (on, onInput)
-import Mouse
 
 
 main : Program Never Model Msg
@@ -74,7 +73,7 @@ init =
             , scaleAmount = 1.0
             }
     in
-        renderObjects initialModel
+        render initialModel
 
 
 type Msg
@@ -82,27 +81,19 @@ type Msg
     | UpdateRotateSlider String
 
 
-renderObjects : Model -> ( Model, Cmd Msg )
-renderObjects model =
-    let
-        newRenderedLines =
+render : Model -> ( Model, Cmd Msg )
+render model =
+    ( { model
+        | renderedLines =
             model.objects3D
                 |> Pipeline.toSceneObject
                 |> Pipeline.toImageObject Pipeline.perspectiveProjection
-    in
-        ( { model
-            | renderedLines =
-                newRenderedLines
-          }
-        , newRenderedLines
-            |> Pipeline.toDeviceObject model.imageBounds model.deviceBounds
-            |> List.map DeviceGeometry.lineSegmentToInts
-            |> List.concat
-            |> sendDrawingInstructions
-        )
-
-
-port sendDrawingInstructions : List (List Int) -> Cmd msg
+      }
+    , Pipeline.outputToDevice
+        model.imageBounds
+        model.deviceBounds
+        model.renderedLines
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -116,7 +107,7 @@ update msg model =
                 objectTree =
                     exampleObjectTree ((s / 25.0) + 0.2) model.rotateAmount
             in
-                renderObjects
+                render
                     { model
                         | objects3D =
                             objectTree
@@ -131,7 +122,7 @@ update msg model =
                 objectTree =
                     exampleObjectTree ((model.scaleAmount / 25.0) + 0.2) r
             in
-                renderObjects
+                render
                     { model
                         | objects3D =
                             objectTree
