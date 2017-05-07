@@ -96,8 +96,7 @@ renderObjects model =
                 newRenderedLines
           }
         , newRenderedLines
-            |> Rect2D.normalize model.sceneBounds model.displayBounds
-            |> Pipeline.toDeviceObject
+            |> Pipeline.toDeviceObject model.sceneBounds model.displayBounds
             |> List.map DeviceGeometry.lineSegmentToInts
             |> List.concat
             |> sendDrawingInstructions
