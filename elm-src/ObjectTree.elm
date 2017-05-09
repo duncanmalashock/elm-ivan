@@ -1,10 +1,11 @@
 module ObjectTree
     exposing
-        ( ObjectTree(..)
+        ( ObjectTree
+        , Id(Id)
         , toObject
         , objectToTree
         , emptyObjectTree
-        , addSibling
+        , addToGroup
         , addTransform
         )
 
@@ -13,39 +14,52 @@ import Transform exposing (Transform3D)
 import ModelGeometry
 
 
+type Id
+    = Id Int
+
+
+type alias ObjectWithId =
+    { id : Id, object : ModelGeometry.Object }
+
+
+mapObjectWithId : (ModelGeometry.Object -> ModelGeometry.Object) -> ObjectWithId -> ObjectWithId
+mapObjectWithId fn objectWithId =
+    { objectWithId | object = fn objectWithId.object }
+
+
 type ObjectTree
-    = Node (List Transform3D) (List ObjectTree)
-    | Leaf ModelGeometry.Object
+    = Group (List Transform3D) (List ObjectTree)
+    | Object ObjectWithId
 
 
-objectToTree : ModelGeometry.Object -> ObjectTree
-objectToTree object =
-    Leaf object
+objectToTree : Id -> ModelGeometry.Object -> ObjectTree
+objectToTree id object =
+    Object { id = id, object = object }
 
 
 emptyObjectTree : ObjectTree
 emptyObjectTree =
-    Node [] []
+    Group [] []
 
 
-addSibling : ObjectTree -> ObjectTree -> ObjectTree
-addSibling toThis thisOne =
+addToGroup : ObjectTree -> ObjectTree -> ObjectTree
+addToGroup thisOne toThis =
     case toThis of
-        Node transforms childTrees ->
-            Node transforms (thisOne :: childTrees)
+        Group transforms childTrees ->
+            Group transforms (thisOne :: childTrees)
 
-        Leaf object ->
-            Node [] [ thisOne, objectToTree object ]
+        Object _ ->
+            Group [] [ thisOne, toThis ]
 
 
 addTransform : Transform3D -> ObjectTree -> ObjectTree
 addTransform transform tree =
     case tree of
-        Node transforms childTrees ->
-            Node (transform :: transforms) childTrees
+        Group transforms childTrees ->
+            Group (transform :: transforms) childTrees
 
-        Leaf object ->
-            Node [ transform ] [ objectToTree object ]
+        Object _ ->
+            Group [ transform ] [ tree ]
 
 
 
@@ -59,27 +73,27 @@ allTransformsAsFunctions transforms =
         |> List.foldl (>>) identity
 
 
-applyTransformsToObject : List Transform3D -> ModelGeometry.Object -> ModelGeometry.Object
-applyTransformsToObject transforms object =
+applyTransformsToObject : List Transform3D -> ObjectWithId -> ObjectWithId
+applyTransformsToObject transforms objectWithId =
     let
         mapObject =
             ModelGeometry.mapObject <| allTransformsAsFunctions transforms
     in
-        mapObject object
+        mapObjectWithId mapObject objectWithId
 
 
-applyTransformsToTree : List Transform3D -> ObjectTree -> List ModelGeometry.Object
+applyTransformsToTree : List Transform3D -> ObjectTree -> List ObjectWithId
 applyTransformsToTree transforms tree =
     case tree of
-        Node childTransforms childTrees ->
+        Group childTransforms childTrees ->
             applyTransformsToTrees childTransforms childTrees
                 |> List.map (applyTransformsToObject transforms)
 
-        Leaf object ->
+        Object object ->
             [ applyTransformsToObject transforms object ]
 
 
-applyTransformsToTrees : List Transform3D -> List ObjectTree -> List ModelGeometry.Object
+applyTransformsToTrees : List Transform3D -> List ObjectTree -> List ObjectWithId
 applyTransformsToTrees transforms trees =
     List.map (applyTransformsToTree transforms) trees
         |> List.concat
@@ -90,10 +104,12 @@ toObject tree =
     let
         objectList =
             case tree of
-                Node transforms childTrees ->
+                Group transforms childTrees ->
                     applyTransformsToTrees transforms childTrees
 
-                Leaf object ->
+                Object object ->
                     [ object ]
     in
-        List.concat objectList
+        objectList
+            |> List.map .object
+            |> List.concat

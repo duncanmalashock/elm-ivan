@@ -3,7 +3,7 @@ module Main exposing (..)
 import Pipeline
 import ModelGeometry
 import ImageGeometry
-import ObjectTree exposing (ObjectTree)
+import ObjectTree exposing (ObjectTree, Id(Id))
 import Transform exposing (Transform3D(..))
 import WebVectorDisplay
 import Html exposing (Html, text, div, input)
@@ -39,27 +39,44 @@ type alias Model =
 exampleObjectTree : Float -> Float -> ObjectTree
 exampleObjectTree scale rotate =
     let
+        addStandardTransforms =
+            ObjectTree.addTransform (Rotate3D ( 0, rotate, 0 ))
+                >> ObjectTree.addTransform (Scale3D ( scale, scale, scale ))
+
+        eyeball1 =
+            ModelGeometry.cube
+                |> ObjectTree.objectToTree (Id 3)
+                |> ObjectTree.addTransform (Translate3D ( 50, 50, 50 ))
+
         cube1 =
-            ObjectTree.objectToTree ModelGeometry.cube
-                |> ObjectTree.addTransform (Rotate3D ( 0, rotate, 0 ))
-                |> ObjectTree.addTransform (Scale3D ( scale, scale, scale ))
-                |> ObjectTree.addTransform (Translate3D ( 200, 200, 50 ))
+            ModelGeometry.cube
+                |> ObjectTree.objectToTree (Id 1)
+                |> addStandardTransforms
+                |> ObjectTree.addTransform (Translate3D ( 300, 200, -500 ))
+                |> ObjectTree.addToGroup eyeball1
+
+        eyeball2 =
+            ModelGeometry.cube
+                |> ObjectTree.objectToTree (Id 4)
+                |> ObjectTree.addTransform (Translate3D ( 50, 50, 50 ))
 
         cube2 =
-            ObjectTree.objectToTree ModelGeometry.cube
-                |> ObjectTree.addTransform (Scale3D ( 0.7, 0.7, 0.7 ))
-                |> ObjectTree.addTransform (Translate3D ( 10, 10, 10 ))
+            ModelGeometry.cube
+                |> ObjectTree.objectToTree (Id 2)
+                |> addStandardTransforms
+                |> ObjectTree.addTransform (Translate3D ( 100, 200, -500 ))
+                |> ObjectTree.addToGroup eyeball2
     in
-        ObjectTree.addSibling cube2 cube2
-            |> ObjectTree.addSibling cube2
-            |> ObjectTree.addSibling cube1
+        ObjectTree.emptyObjectTree
+            |> ObjectTree.addToGroup cube1
+            |> ObjectTree.addToGroup cube2
 
 
 init : ( Model, Cmd Msg )
 init =
     let
         objectTree =
-            exampleObjectTree 1.0 0
+            exampleObjectTree 1 0
 
         initialModel =
             { rendered = []
