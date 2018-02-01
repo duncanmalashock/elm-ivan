@@ -1,6 +1,8 @@
 # elm-ivan
 Vector graphics for oscilloscope in Elm
 
+<img src="https://cloud.githubusercontent.com/assets/3036676/25976738/d3d87652-3684-11e7-8bf8-ae71ae5faa58.png" />
+
 ## Usage
 Node:  
 Install [Node](https://nodejs.org/en/) and [NPM](https://www.npmjs.com/)  
